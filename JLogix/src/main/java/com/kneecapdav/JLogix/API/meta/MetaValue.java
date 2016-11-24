@@ -13,7 +13,7 @@ public class MetaValue<T> implements Cloneable {
 	public enum MetaType {
 		BOOLEAN, BYTE, SHORT, INTEGER, LONG, DOUBLE, STRING, ENUM;
 		
-		public static MetaType getMetaType(Object o) throws MetaDataTypeException {
+		public static MetaType getMetaType(Object o) throws MetaTypeException {
 			if(o instanceof Boolean) return BOOLEAN;
 			if(o instanceof Byte) return BYTE;
 			if(o instanceof Short) return SHORT;
@@ -22,7 +22,7 @@ public class MetaValue<T> implements Cloneable {
 			if(o instanceof Double) return DOUBLE;
 			if(o instanceof String) return STRING;
 			if(o instanceof Enum) return ENUM;
-			throw new MetaDataTypeException("Unkown MetaValue type! (" + o + ")");
+			throw new MetaTypeException("Unkown MetaValue type! (" + o + ")");
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class MetaValue<T> implements Cloneable {
 		this.access = MetaAccess.READ_WRITE;
 		try {
 			this.type = MetaType.getMetaType(value);
-		} catch (MetaDataTypeException e) {
+		} catch (MetaTypeException e) {
 			e.printStackTrace();
 		}
 	}
@@ -76,9 +76,19 @@ public class MetaValue<T> implements Cloneable {
 		this.access = access;
 		try {
 			this.type = MetaType.getMetaType(value);
-		} catch (MetaDataTypeException e) {
+		} catch (MetaTypeException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+     * Adds the MetaValue to a given Meta object	
+	 * 
+	 * @param Meta object
+	 */
+	public MetaValue<T> addTo(Meta meta) {
+		meta.add(this);
+		return this;
 	}
 	
 	/**
@@ -145,5 +155,7 @@ public class MetaValue<T> implements Cloneable {
 		if(!listeners.isEmpty()) listeners.forEach((listener) -> meta.addListener(listener));
 		return meta;
 	}
+	
+	
 	
 }

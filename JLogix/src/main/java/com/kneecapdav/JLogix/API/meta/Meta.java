@@ -1,6 +1,7 @@
 package com.kneecapdav.JLogix.API.meta;
 
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -9,19 +10,22 @@ import java.util.stream.Collectors;
  * @author Dominik
  *
  */
-public class MetaData implements Cloneable {
+public class Meta implements Cloneable {
 
+	public UUID uuid;
+	
 	public ArrayList<MetaValue<?>> metaValues;
 	
 	/**
-	 * Creates new MetaData object.
+	 * Creates new Meta object.
 	 */
-	public MetaData() {
+	public Meta() {
 		metaValues = new ArrayList<>();
+		uuid = UUID.randomUUID();
 	}
 	
 	/**
-	 * Gets all MetaValue objects of this MetaData object with the given id.
+	 * Gets all MetaValue objects of this Meta object with the given id.
 	 * 
 	 * @param Meta ID
 	 * @return List of all found MetaValues with the given ID.
@@ -47,7 +51,22 @@ public class MetaData implements Cloneable {
 	
 	/**
 	 * 
-	 * Gets all MetaValue object of this MetaData object which starts with the given ID.
+	 * Gets the first of all found MetaValue objects of this MetaData object with the given ID.
+	 * 
+	 * @param Data type
+	 * @param Meta ID
+	 * @return First found MetaValue object with the given ID.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> MetaValue<T> getFirst(String meta) {
+		ArrayList<MetaValue<?>> result = metaValues.stream().filter((m) -> m.id.equalsIgnoreCase(meta)).collect(Collectors.toCollection(ArrayList::new));
+		if(result.isEmpty()) return null;
+		else return (MetaValue<T>) result.get(0);
+	}
+	
+	/**
+	 * 
+	 * Gets all MetaValue object of this Meta object which starts with the given ID.
 	 * 
 	 * @param Meta ID to start with
 	 * @return List of all found MetaValues which starts with the given ID.
@@ -86,18 +105,18 @@ public class MetaData implements Cloneable {
 	/**
 	 * Adds all MetaValue objects of the given MetaData to this collection.
 	 * 
-	 * @param MetaData object
+	 * @param Meta object
 	 */
-	public void add(MetaData data) {
+	public void add(Meta data) {
 		metaValues.addAll(data.metaValues);
 	}
 	
 	/**
 	 * Adds all MetaValue objects of the given MetaData to this Collection.
 	 * 
-	 * @param MetaData objects
+	 * @param Meta objects
 	 */
-	public void add(MetaData... data) {
+	public void add(Meta... data) {
 		for(int i = 0; i < data.length; i++) this.add(data[i]);
 	}
 	
@@ -132,8 +151,8 @@ public class MetaData implements Cloneable {
 	 * Creates an exact copy of this MetaData object within its MetaValues.
 	 */
 	@Override
-	public MetaData clone() {
-		MetaData meta = new MetaData();
+	public Meta clone() {
+		Meta meta = new Meta();
 		for(MetaValue<?> value: this.metaValues) {
 			meta.add(value.clone());
 		}

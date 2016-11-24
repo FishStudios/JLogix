@@ -3,7 +3,7 @@ package com.kneecapdav.JLogix.API.meta;
 public interface MetaValueListener<T> {
 
 	/**
-	 * This method got automatically called when the value of an MetaValue object got changed.
+	 * This method gets automatically called when the value of an MetaValue object got changed.
 	 * 
 	 * @param Old value
 	 * @param New value
