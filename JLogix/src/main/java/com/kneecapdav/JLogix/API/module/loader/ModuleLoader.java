@@ -6,11 +6,16 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.kneecapdav.JLogix.JLogix;
+import com.kneecapdav.JLogix.API.element.Element;
+import com.kneecapdav.JLogix.API.element.ElementInfo;
+import com.kneecapdav.JLogix.API.element.ElementRegistry;
+import com.kneecapdav.JLogix.API.element.ElementRegistry.ElementRegistryRecord;
 import com.kneecapdav.JLogix.API.module.Module;
 import com.kneecapdav.JLogix.API.module.ModuleInfo;
 
@@ -59,6 +64,8 @@ public class ModuleLoader {
             Class<?> mainClass = null;
             ModuleInfo moduleInfo = null;
             
+            ArrayList<ElementRegistryRecord> elements = new ArrayList<>();
+            
             try {
 	            while(enumeration.hasMoreElements()) {
 	                JarEntry entry = enumeration.nextElement();
@@ -84,6 +91,15 @@ public class ModuleLoader {
 	                    	}
 	                    }
 	                    
+	                    if(Element.class.isAssignableFrom(clazz)) {
+	                    	ElementInfo[] info = clazz.getAnnotationsByType(ElementInfo.class);
+	                    	if(info.length != 0) {
+	                    		@SuppressWarnings("unchecked")
+								ElementRegistryRecord registryRecord = new ElementRegistryRecord((Class<? extends Element>) clazz, info[0]);
+	                    		elements.add(registryRecord);
+	                    	}
+	                    }
+	                    
 	                } catch (ClassNotFoundException e) {
 	                    throw new ModuleLoadException("Unable to load class " + entry.getName() + "!");
 	                }
@@ -99,6 +115,10 @@ public class ModuleLoader {
             
             module = (Module) mainClass.newInstance();
             setModuleInfo(module, moduleInfo);
+            
+            for(ElementRegistryRecord element: elements) {
+            	ElementRegistry.instance.register(module, element);
+            }
 		} finally {
 			cl.close();
 		}

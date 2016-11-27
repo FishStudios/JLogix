@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kneecapdav.JLogix.JLogixModule;
 import com.kneecapdav.JLogix.API.module.Module;
 
 public class ModuleManager {
@@ -18,6 +19,8 @@ public class ModuleManager {
 		this.enabledModules = new HashMap<>();
 		
 		moduleLoader = new ModuleLoader(new File(System.getenv("APPDATA") + "\\Logix\\modules"));
+		
+		this.register(new JLogixModule());
 	}
 	
 	public void enableAll() {
