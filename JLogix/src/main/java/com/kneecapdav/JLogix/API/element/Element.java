@@ -5,6 +5,8 @@ import com.kneecapdav.JLogix.API.meta.MetaValue;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
 
 public class Element {
+	
+	//main Meta object all MetaValues of this Element should be stored in there
 	public Meta meta;
 	
 	private MetaValue<Integer> id;
@@ -27,5 +29,6 @@ public class Element {
 	 * 
 	 * @param Meta Object
 	 */
-	public void readMeta(Meta meta) {};
+	public void readMeta(Meta meta) {
+	};
 }
