@@ -2,8 +2,6 @@ package com.kneecapdav.JLogix.API.module.loader;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -18,6 +16,7 @@ import com.kneecapdav.JLogix.API.element.ElementRegistry;
 import com.kneecapdav.JLogix.API.element.ElementRegistry.ElementRegistryRecord;
 import com.kneecapdav.JLogix.API.module.Module;
 import com.kneecapdav.JLogix.API.module.ModuleInfo;
+import com.kneecapdav.JLogix.utils.ReflectionUtils;
 
 public class ModuleLoader {
 
@@ -114,7 +113,7 @@ public class ModuleLoader {
             }
             
             module = (Module) mainClass.newInstance();
-            setModuleInfo(module, moduleInfo);
+            ReflectionUtils.setFinalField(ReflectionUtils.getField(Module.class, "moduleInfo"), module, moduleInfo);
             
             for(ElementRegistryRecord element: elements) {
             	ElementRegistry.instance.register(module, element);
@@ -128,26 +127,6 @@ public class ModuleLoader {
 	
 	private boolean isJarFile(File file) {
 		return file.getName().endsWith(".jar");
-	}
-	
-	private void setModuleInfo(Module module, ModuleInfo info) {
-		try {
-			Field field = module.getClass().getField("moduleInfo");
-			field.setAccessible(true);
-
-			Field modifiersField = Field.class.getDeclaredField("modifiers");
-			modifiersField.setAccessible(true);
-			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-
-			field.set(module, info);
-		} catch (NoSuchFieldException | SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		
 	}
 	
 }

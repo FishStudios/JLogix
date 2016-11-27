@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kneecapdav.JLogix.JLogixModule;
+import com.kneecapdav.JLogix.utils.ReflectionUtils;
 import com.kneecapdav.JLogix.API.module.Module;
+import com.kneecapdav.JLogix.API.module.ModuleInfo;
 
 public class ModuleManager {
 
@@ -20,7 +22,12 @@ public class ModuleManager {
 		
 		moduleLoader = new ModuleLoader(new File(System.getenv("APPDATA") + "\\Logix\\modules"));
 		
-		this.register(new JLogixModule());
+		JLogixModule mainModule = new JLogixModule();
+		
+		ModuleInfo[] info = JLogixModule.class.getAnnotationsByType(ModuleInfo.class);
+		ReflectionUtils.setFinalField(ReflectionUtils.getField(Module.class, "moduleInfo"), mainModule, info[0]);
+		
+		this.register(mainModule);
 	}
 	
 	public void enableAll() {
@@ -34,7 +41,7 @@ public class ModuleManager {
 	public void enable(Module module) {
 		if(!isEnabled(module)) {
 			module.onEnable();
-			System.out.println("Enabled module: " + module.moduleInfo.moduleID() + " version:" + module.moduleInfo.version() + "!");
+			System.out.println("Enabled module: " + module.moduleInfo.moduleID() + " version: " + module.moduleInfo.version());
 		}
 		enabledModules.put(module.moduleInfo.moduleID(), true);
 	}
@@ -46,7 +53,7 @@ public class ModuleManager {
 	public void disable(Module module) {
 		if(isEnabled(module)) {
 			module.onDisable();
-			System.out.println("Disabled module: " + module.moduleInfo.moduleID() + " version:" + module.moduleInfo.version() + "!");
+			System.out.println("Disabled module: " + module.moduleInfo.moduleID());
 		}
 		enabledModules.put(module.moduleInfo.moduleID(), false);
 	}
