@@ -27,7 +27,6 @@ public class MetaValue<T> implements Cloneable {
 	}
 	
 	/**
-	 * 
 	 * Access level for MetaValues
 	 */
 	public enum MetaAccess {
@@ -67,7 +66,7 @@ public class MetaValue<T> implements Cloneable {
 	 * 
 	 * @param Meta id
 	 * @param Meta value
-	 * @param User access level
+	 * @param Access level
 	 */	
 	public MetaValue(String id, T value, MetaAccess access) {
 		this.id = id;

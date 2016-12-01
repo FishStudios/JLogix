@@ -9,8 +9,17 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface ElementInfo {
 
+	/**
+	 * Module name
+	 */
 	String moduleID();
+	/**
+	 * Element name
+	 */
 	String elementID();
+	/**
+	 * Element description
+	 */
 	String description() default "";
 	
 }

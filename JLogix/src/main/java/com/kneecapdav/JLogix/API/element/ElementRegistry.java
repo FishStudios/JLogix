@@ -32,8 +32,19 @@ public class ElementRegistry {
 	}
 	
 	public boolean contains(Module module, Class<? extends Element> clazz) {
-		if(!elementRegistry.containsKey(module.moduleInfo.moduleID())) return false;
-		else return elementRegistry.get(module.moduleInfo.moduleID()).contains(clazz);
+		return get(module.moduleInfo.moduleID(), clazz) != null;
+	}
+	
+	public boolean contains(String moduleID, Class<? extends Element> clazz) {
+		return get(moduleID, clazz) != null;
+	}
+	
+	public boolean contains(Module module, String elementID) {
+		return get(module.moduleInfo.moduleID(), elementID) != null;
+	}
+	
+	public boolean contains(String moduleID, String elementID) {
+		return get(moduleID, elementID) != null;
 	}
 	
 	public ElementRegistryRecord get(String moduleID, String elementID) {
@@ -41,6 +52,16 @@ public class ElementRegistry {
 			ArrayList<ElementRegistryRecord> elements = elementRegistry.get(moduleID);
 			for(ElementRegistryRecord record: elements) {
 				if(record.getInfo().elementID().equalsIgnoreCase(elementID)) return record;
+			}
+			return null;
+		} else return null;
+	}
+	
+	public ElementRegistryRecord get(String moduleID, Class<? extends Element> clazz) {
+		if(elementRegistry.containsKey(moduleID)) {
+			ArrayList<ElementRegistryRecord> elements = elementRegistry.get(moduleID);
+			for(ElementRegistryRecord record: elements) {
+				if(record.clazz == clazz) return record;
 			}
 			return null;
 		} else return null;

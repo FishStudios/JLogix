@@ -36,12 +36,11 @@ public class LogixConfig {
 	
 	/** Sets the value for the Entry with the given key
 	 * @param key The key of the entry wanted to set
-	 * @param value value wanted to set for the entry, casted to a String
+	 * @param value Value wanted to set for the entry, casted to a String
 	 * 
 	 */
 	public void set(String key, Object value) {
 			this.props.setProperty(key.toUpperCase(), value.toString());
-			
 	}
 	
 }
