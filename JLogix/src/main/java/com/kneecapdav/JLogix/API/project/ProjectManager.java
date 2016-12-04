@@ -1,5 +1,9 @@
 package com.kneecapdav.JLogix.API.project;
 
-public class ProjectManager {
+import org.json.simple.parser.JSONParser;
 
+public class ProjectManager {
+	
+	public static JSONParser parser = new JSONParser();
+	
 }

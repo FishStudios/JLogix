@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.json.simple.JSONArray;
+
 /**
  * Stores and manage MetaValue objects.
  * 
@@ -145,6 +147,17 @@ public class Meta implements Cloneable {
 	 */
 	public boolean contains(MetaValue<?> meta) {
 		return this.metaValues.contains(meta);
+	}
+
+	@SuppressWarnings("unchecked")
+	public JSONArray saveToJSON() {
+		JSONArray array = new JSONArray();
+		
+		for(MetaValue<?> meta: this.metaValues) {
+			array.add(meta.saveToJSON());
+		}
+		
+		return array;
 	}
 	
 	/**

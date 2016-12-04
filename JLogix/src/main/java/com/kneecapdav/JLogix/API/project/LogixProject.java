@@ -63,7 +63,17 @@ public class LogixProject {
 	 * @param file Project path
 	 */
 	public void save(File file) {
-		
+		//Iterate all canvas objects and save it
+		for(LogixCanvas c: canvas.values()) {
+			c.save(new File(file, "\\" + c.getName() + ".canvas"));
+		}
+		/*TODO: Save all project data
+		 * 
+		 * name
+		 * settings
+		 * etc.
+		 * 
+		*/
 	}
 	
 	/**
@@ -71,7 +81,14 @@ public class LogixProject {
 	 * @param file Project path
 	 */
 	public void load(File file) {
-		
+		for(File f: file.listFiles()) {
+			if(f.isDirectory()) continue;
+			if(!f.getName().endsWith(".canvas")) continue;
+			LogixCanvas c = new LogixCanvas(this, f.getName().substring(0, f.getName().length() - 7));
+			c.load(f);
+			
+			canvas.put(c.getName().toLowerCase(), c);
+		}
 	}
 	
 }

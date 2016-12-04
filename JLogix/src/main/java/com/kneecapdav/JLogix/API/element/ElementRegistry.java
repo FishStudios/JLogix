@@ -67,6 +67,16 @@ public class ElementRegistry {
 		} else return null;
 	}
 	
+	public String getModule(Class<? extends Element> clazz) {
+		for(String module: this.elementRegistry.keySet()) {
+			ArrayList<ElementRegistryRecord> elements = this.elementRegistry.get(module);
+			for(ElementRegistryRecord record: elements) {
+				if(record.clazz == clazz) return module;
+			}
+		}
+		return null;
+	}
+	
 	public static class ElementRegistryRecord {
 		
 		private Class<? extends Element> clazz;

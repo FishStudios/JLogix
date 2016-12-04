@@ -2,6 +2,8 @@ package com.kneecapdav.JLogix.API.meta;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
 /**
  * 
  * @author Dominik
@@ -41,6 +43,14 @@ public class MetaValue<T> implements Cloneable {
 	private T value;
 	
 	public MetaAccess access;
+	
+	@SuppressWarnings("unchecked")
+	public MetaValue(JSONObject obj) {
+		this.type = MetaType.valueOf((String) obj.get("type"));
+		this.access = MetaAccess.valueOf((String) obj.get("access"));
+		this.id = (String) obj.get("id");
+		this.value = (T) obj.get("value");
+	}
 	
 	/**
 	 * Creates new MetaValue instance.
@@ -142,6 +152,16 @@ public class MetaValue<T> implements Cloneable {
 	 */
 	public void removeListener(MetaValueListener<T> listener) {
 		if(listeners.contains(listener)) listeners.remove(listener);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject saveToJSON() {
+		JSONObject metaJSON = new JSONObject();
+		metaJSON.put("type", this.type.toString());
+		metaJSON.put("access", this.access.toString());
+		metaJSON.put("id", this.id);
+		metaJSON.put("value", this.value);
+		return metaJSON;
 	}
 	
 	/**
