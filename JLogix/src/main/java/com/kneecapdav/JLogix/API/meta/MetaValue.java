@@ -96,8 +96,14 @@ public class MetaValue<T> implements Cloneable {
 	 * @param Meta object
 	 */
 	public MetaValue<T> addTo(Meta meta) {
-		meta.add(this);
-		return this;
+		if(meta.contains(this.id)) {
+			MetaValue<T> m = meta.getFirst(this.id);
+			m.setValue(this.value);
+			return m;
+		} else {
+			meta.add(this);
+			return this;
+		}
 	}
 	
 	/**

@@ -134,7 +134,9 @@ public class LogixCanvas {
 				try {
 					Element e = record.getElementClass().newInstance();
 					
+					e.onCreate();
 					e.readMeta(jObj);
+					e.onPlace();
 					
 					this.add(e);
 				} catch (InstantiationException | IllegalAccessException e) {

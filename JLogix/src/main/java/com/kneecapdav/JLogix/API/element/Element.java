@@ -33,6 +33,11 @@ public class Element {
 	}
 	
 	/**
+	 * This method got automatically called when the element got created in a canvas
+	 */
+	public void onCreate() {}
+	
+	/**
 	 * This method got automatically called when the element got placed in a canvas
 	 */
 	public void onPlace() {}
@@ -49,9 +54,9 @@ public class Element {
 	 */
 	@SuppressWarnings("unchecked")
 	public void readMeta(JSONObject jsonObj) {
-		JSONArray meta = (JSONArray) jsonObj.get("meta");
+		JSONArray jsonMeta = (JSONArray) jsonObj.get("meta");
 		
-		ArrayList<Object> content = (ArrayList<Object>) meta.stream().collect(Collectors.toCollection(ArrayList::new));
+		ArrayList<Object> content = (ArrayList<Object>) jsonMeta.stream().collect(Collectors.toCollection(ArrayList::new));
 		
 		for(Object obj: content) {
 			JSONObject jObj = (JSONObject) obj;
@@ -59,28 +64,28 @@ public class Element {
 			try {
 				switch(MetaType.getMetaType(jObj.get("value"))) {
 				case BOOLEAN:
-					meta.add(new MetaValue<Boolean>(jObj));
+					new MetaValue<Boolean>(jObj).addTo(meta);
 					break;
 				case BYTE:
-					meta.add(new MetaValue<Byte>(jObj));
+					new MetaValue<Byte>(jObj).addTo(meta);
 					break;
 				case DOUBLE:
-					meta.add(new MetaValue<Double>(jObj));
+					new MetaValue<Double>(jObj).addTo(meta);
 					break;
 				case ENUM:
-					meta.add(new MetaValue<Enum<?>>(jObj));
+					new MetaValue<Enum<?>>(jObj).addTo(meta);
 					break;
 				case INTEGER:
-					meta.add(new MetaValue<Integer>(jObj));
+					new MetaValue<Integer>(jObj).addTo(meta);
 					break;
 				case LONG:
-					meta.add(new MetaValue<Long>(jObj));
+					new MetaValue<Long>(jObj).addTo(meta);
 					break;
 				case SHORT:
-					meta.add(new MetaValue<Short>(jObj));
+					new MetaValue<Short>(jObj).addTo(meta);
 					break;
 				case STRING:
-					meta.add(new MetaValue<String>(jObj));
+					new MetaValue<String>(jObj).addTo(meta);
 					break;
 				}
 			} catch (MetaTypeException e) {
