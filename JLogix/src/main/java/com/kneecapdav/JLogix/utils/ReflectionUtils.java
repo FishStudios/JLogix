@@ -33,4 +33,14 @@ public class ReflectionUtils {
 		}
 	}
 	
+	public static void setField(Object obj, String field, Object value) {
+		try {
+			Field f = obj.getClass().getDeclaredField(field);
+			f.setAccessible(true);
+			f.set(obj, value);
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

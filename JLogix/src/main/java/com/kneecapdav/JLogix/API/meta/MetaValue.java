@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
+import com.kneecapdav.JLogix.utils.ReflectionUtils;
+
 /**
  * 
  * @author Dominik
@@ -13,7 +15,7 @@ import org.json.simple.JSONObject;
 public class MetaValue<T> implements Cloneable {
 
 	public enum MetaType {
-		BOOLEAN, BYTE, SHORT, INTEGER, LONG, DOUBLE, STRING, ENUM;
+		BOOLEAN, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, STRING;
 		
 		public static MetaType getMetaType(Object o) throws MetaTypeException {
 			if(o instanceof Boolean) return BOOLEAN;
@@ -21,9 +23,9 @@ public class MetaValue<T> implements Cloneable {
 			if(o instanceof Short) return SHORT;
 			if(o instanceof Integer) return INTEGER;
 			if(o instanceof Long) return LONG;
+			if(o instanceof Float) return FLOAT;
 			if(o instanceof Double) return DOUBLE;
 			if(o instanceof String) return STRING;
-			if(o instanceof Enum) return ENUM;
 			throw new MetaTypeException("Unkown MetaValue type! (" + o + ")");
 		}
 	}
@@ -44,12 +46,37 @@ public class MetaValue<T> implements Cloneable {
 	
 	public MetaAccess access;
 	
-	@SuppressWarnings("unchecked")
 	public MetaValue(JSONObject obj) {
 		this.type = MetaType.valueOf((String) obj.get("type"));
 		this.access = MetaAccess.valueOf((String) obj.get("access"));
 		this.id = (String) obj.get("id");
-		this.value = (T) obj.get("value");
+		switch(type) {
+			case BOOLEAN:
+				ReflectionUtils.setField(this, "value", (boolean)obj.get("value"));
+				break;
+			case BYTE:
+				ReflectionUtils.setField(this, "value", Byte.parseByte(Long.toString((Long)obj.get("value"))));
+				break;
+			case FLOAT:
+				ReflectionUtils.setField(this, "value", Float.parseFloat(Double.toString((Double)obj.get("value"))));
+				break;
+			case DOUBLE:
+				ReflectionUtils.setField(this, "value", (Double)obj.get("value"));
+				break;
+			case INTEGER:
+				ReflectionUtils.setField(this, "value", Math.toIntExact((long) obj.get("value")));
+				break;
+			case LONG:
+				ReflectionUtils.setField(this, "value", (long)obj.get("value"));
+				break;
+			case SHORT:
+				ReflectionUtils.setField(this, "value", Short.parseShort(Long.toString((Long) obj.get("value"))));
+				break;
+			case STRING:
+				ReflectionUtils.setField(this, "value",(String)obj.get("value"));
+				break;
+		}
+		
 	}
 	
 	/**
@@ -88,6 +115,20 @@ public class MetaValue<T> implements Cloneable {
 		} catch (MetaTypeException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Creates new empty MetaValue instance.
+	 * 
+	 * @param Data type
+	 * @param Meta id
+	 * @param Access level
+	 */	
+	public MetaValue(MetaType type, String id, MetaAccess access) {
+		this.id = id;
+		listeners = new ArrayList<>();
+		this.access = access;
+		this.type = type;
 	}
 	
 	/**

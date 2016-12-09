@@ -1,6 +1,7 @@
 package com.kneecapdav.JLogix.API.project;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -63,9 +64,18 @@ public class LogixProject {
 	 * @param file Project path
 	 */
 	public void save(File file) {
+		if(!file.exists()) file.mkdirs();
 		//Iterate all canvas objects and save it
 		for(LogixCanvas c: canvas.values()) {
-			c.save(new File(file, "\\" + c.getName() + ".canvas"));
+			File f = new File(file, "\\" + c.getName() + ".canvas");
+			if(!f.exists()) {
+				try {
+					f.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			c.save(f);
 		}
 		/*TODO: Save all project data
 		 * 

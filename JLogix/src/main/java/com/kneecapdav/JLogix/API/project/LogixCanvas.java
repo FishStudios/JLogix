@@ -101,7 +101,7 @@ public class LogixCanvas {
 		}
 		
 		try {
-
+			
 			FileWriter fw = new FileWriter(file);
 			fw.write(jsonArray.toJSONString());
 			fw.flush();
@@ -136,7 +136,6 @@ public class LogixCanvas {
 					
 					e.onCreate();
 					e.readMeta(jObj);
-					e.onPlace();
 					
 					this.add(e);
 				} catch (InstantiationException | IllegalAccessException e) {

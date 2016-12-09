@@ -12,7 +12,7 @@ import com.kneecapdav.JLogix.API.meta.MetaValue;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaType;
 
-public class Element {
+public abstract class Element {
 	
 	//main Meta object all MetaValues of this Element should be stored in there
 	public Meta meta;
@@ -22,8 +22,14 @@ public class Element {
 	public Element(int id) {
 		this.meta = new Meta();
 		this.id = new MetaValue<Integer>("ID", id, MetaAccess.HIDDEN).addTo(meta);
+		this.onCreate();
 	}
 	
+	public Element() {
+		this.meta = new Meta();
+		this.id = new MetaValue<Integer>("ID", 0, MetaAccess.HIDDEN).addTo(meta);
+	}
+
 	public Meta getMeta(){
 		return this.meta;
 	}
@@ -72,9 +78,6 @@ public class Element {
 				case DOUBLE:
 					new MetaValue<Double>(jObj).addTo(meta);
 					break;
-				case ENUM:
-					new MetaValue<Enum<?>>(jObj).addTo(meta);
-					break;
 				case INTEGER:
 					new MetaValue<Integer>(jObj).addTo(meta);
 					break;
@@ -86,6 +89,9 @@ public class Element {
 					break;
 				case STRING:
 					new MetaValue<String>(jObj).addTo(meta);
+					break;
+				case FLOAT:
+					new MetaValue<Float>(jObj).addTo(meta);
 					break;
 				}
 			} catch (MetaTypeException e) {

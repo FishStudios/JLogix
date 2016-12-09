@@ -13,6 +13,7 @@ public class JLogix {
     		moduleManager.enableAll();
     		
     	} catch(Exception e) { //Log exception if the program unfortunately crashed
+    		e.printStackTrace();
     	} finally { //Release all recourses
     		moduleManager.disableAll();
     	}

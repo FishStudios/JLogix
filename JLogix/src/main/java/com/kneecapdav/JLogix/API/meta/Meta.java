@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import org.json.simple.JSONArray;
 
+import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
+import com.kneecapdav.JLogix.API.meta.MetaValue.MetaType;
+
 /**
  * Stores and manage MetaValue objects.
  * 
@@ -123,6 +126,25 @@ public class Meta implements Cloneable {
 	}
 	
 	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param type MetValue data type
+	 * @param metaID MetaValue ID
+	 * @param access MetaValue access level
+	 */
+	public <T> MetaValue<T> addDefault(MetaType type, String metaID, MetaAccess access) {
+		return new MetaValue<T>(type, metaID, access).addTo(this);
+	}
+	
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param type MetValue data type
+	 * @param metaID MetaValue ID
+	 */
+	public <T> MetaValue<T> addDefault(MetaType type, String metaID) {
+		return this.addDefault(type, metaID, MetaAccess.READ_WRITE);
+	}
+	
+	/**
 	 * Removes MetaValue object from this collection.
 	 * 
 	 * @param MetaValue object
@@ -149,6 +171,14 @@ public class Meta implements Cloneable {
 		return this.metaValues.contains(meta);
 	}
 
+	public void print() {
+		System.out.println("~~~~~~~ Meta ~~~~~~~");
+		for(MetaValue<?> meta: this.metaValues) {
+			System.out.println("ID: " + meta.id + " Type: " + meta.type.toString() + " Value: " + meta.getValue());
+		}
+		System.out.println("~~~~~~~~~~~~~~~~~~~~");
+	}
+	
 	@SuppressWarnings("unchecked")
 	public JSONArray saveToJSON() {
 		JSONArray array = new JSONArray();
