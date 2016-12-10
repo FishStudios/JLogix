@@ -24,24 +24,19 @@ public class JLogixModule extends Module {
 		ElementRegistryRecord err = new ElementRegistryRecord(TestElement.class, info[0]);
 		ElementRegistry.instance.register(this, err);
 		
+		boolean save = false;
+		
 		LogixProject project  = new LogixProject("TestProject");
 		
-		/*LogixCanvas canvas = project.createNewCanvas("TestCanvas1");
-		
-		for(int i = 0; i < 1000; i++) {
-			canvas.add(new TestElement("element_" + i, i));
+		if(save) {
+			LogixCanvas canvas = project.createNewCanvas("TestCanvas1");
+			
+			canvas.add(new TestElement("element1" , 1));
+			
+			project.save(new File(System.getenv("APPDATA") + "\\Logix\\Projects\\TestProject\\"));
+		} else {
+			project.load(new File(System.getenv("APPDATA") + "\\Logix\\Projects\\TestProject\\"));
 		}
-		*/
-		long timestamp = System.currentTimeMillis();
-		
-		//project.save(new File(System.getenv("APPDATA") + "\\Logix\\Projects\\TestProject\\"));
-		project.load(new File(System.getenv("APPDATA") + "\\Logix\\Projects\\TestProject\\"));
-		
-		System.out.println("Took " + (System.currentTimeMillis() - timestamp) + "ms to load!");
-		
-		
-		
-		
 	}
 	
 	@Override

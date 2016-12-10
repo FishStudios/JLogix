@@ -2,6 +2,7 @@ package com.kneecapdav.JLogix.API.meta;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.kneecapdav.JLogix.utils.ReflectionUtils;
@@ -15,7 +16,7 @@ import com.kneecapdav.JLogix.utils.ReflectionUtils;
 public class MetaValue<T> implements Cloneable {
 
 	public enum MetaType {
-		BOOLEAN, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, STRING;
+		BOOLEAN, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, STRING, META;
 		
 		public static MetaType getMetaType(Object o) throws MetaTypeException {
 			if(o instanceof Boolean) return BOOLEAN;
@@ -26,6 +27,7 @@ public class MetaValue<T> implements Cloneable {
 			if(o instanceof Float) return FLOAT;
 			if(o instanceof Double) return DOUBLE;
 			if(o instanceof String) return STRING;
+			if(o instanceof JSONArray) return META;
 			throw new MetaTypeException("Unkown MetaValue type! (" + o + ")");
 		}
 	}
@@ -74,6 +76,11 @@ public class MetaValue<T> implements Cloneable {
 				break;
 			case STRING:
 				ReflectionUtils.setField(this, "value",(String)obj.get("value"));
+				break;
+			case META:
+				Meta meta = new Meta();
+				meta.loadFromJSON((JSONArray) obj.get("value"));
+				ReflectionUtils.setField(this, "value", meta);
 				break;
 		}
 		
@@ -206,8 +213,9 @@ public class MetaValue<T> implements Cloneable {
 		JSONObject metaJSON = new JSONObject();
 		metaJSON.put("type", this.type.toString());
 		metaJSON.put("access", this.access.toString());
-		metaJSON.put("id", this.id);
-		metaJSON.put("value", this.value);
+		metaJSON.put("id", this.id); 
+		if(this.type == MetaType.META) metaJSON.put("value", ((Meta)this.value).saveToJSON());
+		else metaJSON.put("value", this.value);
 		return metaJSON;
 	}
 	

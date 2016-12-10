@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaType;
@@ -94,7 +95,7 @@ public class Meta implements Cloneable {
 	 * 
 	 * @param MetaValue objects
 	 */
-	public void add(MetaValue<?>... meta) {
+	public void addAll(MetaValue<?>... meta) {
 		for(int i = 0; i < meta.length; i++) metaValues.add(meta[i]);
 	}
 	
@@ -103,46 +104,10 @@ public class Meta implements Cloneable {
 	 * 
 	 * @param MetaValue objects
 	 */
-	public void add(ArrayList<MetaValue<?>> meta) {
+	public void addAll(ArrayList<MetaValue<?>> meta) {
 		metaValues.addAll(meta);
 	}
 	
-	/**
-	 * Adds all MetaValue objects of the given MetaData to this collection.
-	 * 
-	 * @param Meta object
-	 */
-	public void add(Meta data) {
-		metaValues.addAll(data.metaValues);
-	}
-	
-	/**
-	 * Adds all MetaValue objects of the given MetaData to this Collection.
-	 * 
-	 * @param Meta objects
-	 */
-	public void add(Meta... data) {
-		for(int i = 0; i < data.length; i++) this.add(data[i]);
-	}
-	
-	/**
-	 * Creates a new empty MetaValue instance for this Meta
-	 * @param type MetValue data type
-	 * @param metaID MetaValue ID
-	 * @param access MetaValue access level
-	 */
-	public <T> MetaValue<T> addDefault(MetaType type, String metaID, MetaAccess access) {
-		return new MetaValue<T>(type, metaID, access).addTo(this);
-	}
-	
-	/**
-	 * Creates a new empty MetaValue instance for this Meta
-	 * @param type MetValue data type
-	 * @param metaID MetaValue ID
-	 */
-	public <T> MetaValue<T> addDefault(MetaType type, String metaID) {
-		return this.addDefault(type, metaID, MetaAccess.READ_WRITE);
-	}
 	
 	/**
 	 * Removes MetaValue object from this collection.
@@ -170,15 +135,128 @@ public class Meta implements Cloneable {
 	public boolean contains(MetaValue<?> meta) {
 		return this.metaValues.contains(meta);
 	}
+		
+	/**
+	 * Adds all MetaValue objects of the given MetaData to this collection.
+	 * 
+	 * @param Meta object
+	 */
+	public void copyFromMeta(Meta data) {
+		metaValues.addAll(data.metaValues);
+	}
+	
+	/**
+	 * Adds all MetaValue objects of the given MetaData to this Collection.
+	 * 
+	 * @param Meta objects
+	 */
+	public void copyFromMetaAll(Meta... data) {
+		for(int i = 0; i < data.length; i++) this.copyFromMeta(data[i]);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param type MetValue data type
+	 * @param metaID MetaValue ID
+	 * @param access MetaValue access level
+	 */
+	public <T> MetaValue<T> addDefault(MetaType type, String metaID, MetaAccess access) {
+		return new MetaValue<T>(type, metaID, access).addTo(this);
+	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param type MetValue data type
+	 * @param metaID MetaValue ID
+	 */
+	public <T> MetaValue<T> addDefault(MetaType type, String metaID) {
+		return this.addDefault(type, metaID, MetaAccess.READ_WRITE);
+	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param metaID MetaValue ID
+	 */
+	public MetaValue<Boolean> newBoolean(String metaID) {
+		return this.addDefault(MetaType.BOOLEAN, metaID);
+	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param metaID MetaValue ID
+	 */
+	public MetaValue<Byte> newByte(String metaID) {
+		return this.addDefault(MetaType.BYTE, metaID);	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param metaID MetaValue ID
+	 */
+	public MetaValue<Short> newShort(String metaID) {
+		return this.addDefault(MetaType.SHORT, metaID);
+	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param metaID MetaValue ID
+	 */
+	public MetaValue<Integer> newInteger(String metaID) {
+		return this.addDefault(MetaType.INTEGER, metaID);
+	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param metaID MetaValue ID
+	 */
+	public MetaValue<Long> newLong(String metaID) {
+		return this.addDefault(MetaType.LONG, metaID);
+	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param metaID MetaValue ID
+	 */
+	public MetaValue<Float> newFloat(String metaID) {
+		return this.addDefault(MetaType.FLOAT, metaID);
+	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param metaID MetaValue ID
+	 */
+	public MetaValue<Double> newDouble(String metaID) {
+		return this.addDefault(MetaType.DOUBLE, metaID);
+	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param metaID MetaValue ID
+	 */
+	public MetaValue<String> newString(String metaID) {
+		return this.addDefault(MetaType.STRING, metaID);
+	}
+	/**
+	 * Creates a new empty MetaValue instance for this Meta
+	 * @param metaID MetaValue ID
+	 */
+	public MetaValue<Meta> newMeta(String metaID) {
+		return this.addDefault(MetaType.META, metaID);
+	}
 
+	
+	
+	
+	/**
+	 * Prints the Meta content
+	 */
 	public void print() {
 		System.out.println("~~~~~~~ Meta ~~~~~~~");
 		for(MetaValue<?> meta: this.metaValues) {
-			System.out.println("ID: " + meta.id + " Type: " + meta.type.toString() + " Value: " + meta.getValue());
+			if(meta.type == MetaType.META) ((Meta)meta.getValue()).print();
+			else System.out.println("ID: " + meta.id + " Type: " + meta.type.toString() + " Value: " + meta.getValue());
 		}
 		System.out.println("~~~~~~~~~~~~~~~~~~~~");
 	}
 	
+	/**
+	 * Saves the Meta object to a JSONArray
+	 * @return JSONArray that includes all the MetaValues
+	 */
 	@SuppressWarnings("unchecked")
 	public JSONArray saveToJSON() {
 		JSONArray array = new JSONArray();
@@ -188,6 +266,54 @@ public class Meta implements Cloneable {
 		}
 		
 		return array;
+	}
+	
+	/**
+	 * Loads the Meta object from a JSONArray
+	 * @return Content
+	 */
+	@SuppressWarnings("unchecked")
+	public void loadFromJSON(JSONArray jsonMeta) {
+		ArrayList<Object> content = (ArrayList<Object>) jsonMeta.stream().collect(Collectors.toCollection(ArrayList::new));
+		
+		for(Object obj: content) {
+			JSONObject jObj = (JSONObject) obj;
+			
+			try {
+				switch(MetaType.getMetaType(jObj.get("value"))) {
+				case BOOLEAN:
+					new MetaValue<Boolean>(jObj).addTo(this);
+					break;
+				case BYTE:
+					new MetaValue<Byte>(jObj).addTo(this);
+					break;
+				case DOUBLE:
+					new MetaValue<Double>(jObj).addTo(this);
+					break;
+				case INTEGER:
+					new MetaValue<Integer>(jObj).addTo(this);
+					break;
+				case LONG:
+					new MetaValue<Long>(jObj).addTo(this);
+					break;
+				case SHORT:
+					new MetaValue<Short>(jObj).addTo(this);
+					break;
+				case STRING:
+					new MetaValue<String>(jObj).addTo(this);
+					break;
+				case FLOAT:
+					new MetaValue<Float>(jObj).addTo(this);
+					break;
+				case META:
+					new MetaValue<Meta>(jObj).addTo(this);
+					break;
+				}
+			} catch (MetaTypeException e) {
+				e.printStackTrace();
+			}
+			
+		}
 	}
 	
 	/**

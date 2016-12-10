@@ -1,16 +1,11 @@
 package com.kneecapdav.JLogix.API.element;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.kneecapdav.JLogix.API.meta.Meta;
-import com.kneecapdav.JLogix.API.meta.MetaTypeException;
 import com.kneecapdav.JLogix.API.meta.MetaValue;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
-import com.kneecapdav.JLogix.API.meta.MetaValue.MetaType;
 
 public abstract class Element {
 	
@@ -58,47 +53,10 @@ public abstract class Element {
 	 * 
 	 * @param Meta Object
 	 */
-	@SuppressWarnings("unchecked")
 	public void readMeta(JSONObject jsonObj) {
 		JSONArray jsonMeta = (JSONArray) jsonObj.get("meta");
 		
-		ArrayList<Object> content = (ArrayList<Object>) jsonMeta.stream().collect(Collectors.toCollection(ArrayList::new));
-		
-		for(Object obj: content) {
-			JSONObject jObj = (JSONObject) obj;
-			
-			try {
-				switch(MetaType.getMetaType(jObj.get("value"))) {
-				case BOOLEAN:
-					new MetaValue<Boolean>(jObj).addTo(meta);
-					break;
-				case BYTE:
-					new MetaValue<Byte>(jObj).addTo(meta);
-					break;
-				case DOUBLE:
-					new MetaValue<Double>(jObj).addTo(meta);
-					break;
-				case INTEGER:
-					new MetaValue<Integer>(jObj).addTo(meta);
-					break;
-				case LONG:
-					new MetaValue<Long>(jObj).addTo(meta);
-					break;
-				case SHORT:
-					new MetaValue<Short>(jObj).addTo(meta);
-					break;
-				case STRING:
-					new MetaValue<String>(jObj).addTo(meta);
-					break;
-				case FLOAT:
-					new MetaValue<Float>(jObj).addTo(meta);
-					break;
-				}
-			} catch (MetaTypeException e) {
-				e.printStackTrace();
-			}
-			
-		}
+		meta.loadFromJSON(jsonMeta);
 	};
 	
 	@SuppressWarnings("unchecked")
