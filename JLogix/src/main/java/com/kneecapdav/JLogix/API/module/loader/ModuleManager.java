@@ -11,12 +11,14 @@ import com.kneecapdav.JLogix.API.module.ModuleInfo;
 
 public class ModuleManager {
 
+	private static ModuleManager instance;
+	
 	public ArrayList<Module> modules;
 	public HashMap<String, Boolean> enabledModules;
 	
 	public ModuleLoader moduleLoader;
 	
-	public ModuleManager() {
+	private ModuleManager() {
 		this.modules = new ArrayList<>();
 		this.enabledModules = new HashMap<>();
 		
@@ -85,6 +87,12 @@ public class ModuleManager {
 		if(modules.isEmpty()) return null;
 		for(Module m: modules) if(m.moduleInfo.moduleID().equalsIgnoreCase(moduleID)) return m;
 		return null;
+	}
+	
+	public static ModuleManager getInstance() {
+		if(instance == null) instance = new ModuleManager();
+		
+		return instance;
 	}
 	
 }

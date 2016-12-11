@@ -52,7 +52,7 @@ public class LogixCanvas {
 	}
 	
 	public boolean isUsingElement(String module, Class<? extends Element> clazz) {
-		return ElementRegistry.instance.get(module, clazz) != null;
+		return ElementRegistry.getInstance().get(module, clazz) != null;
 	}
 	
 	public boolean isUsingElements(String module) {
@@ -125,7 +125,7 @@ public class LogixCanvas {
 				String moduleID = (String) jObj.get("moduleID");
 				String elementID = (String) jObj.get("elementID");
 				
-				ElementRegistryRecord record = ElementRegistry.instance.get(moduleID, elementID);
+				ElementRegistryRecord record = ElementRegistry.getInstance().get(moduleID, elementID);
 				if(record == null) {
 					System.out.println("Skipped element! No ElementRegistryRecord found!");
 					continue;

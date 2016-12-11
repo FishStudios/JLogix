@@ -3,7 +3,9 @@ package com.kneecapdav.JLogix.API.config;
 import java.io.File;
 import java.util.Properties;
 
+@SuppressWarnings("unused")
 public class LogixConfig {
+	
 	private int id;
 	
 	private File path;

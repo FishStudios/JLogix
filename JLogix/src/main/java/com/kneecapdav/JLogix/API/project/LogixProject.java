@@ -8,9 +8,17 @@ import java.util.HashMap;
 public class LogixProject {
 
 	public HashMap<String, LogixCanvas> canvas;
+
+	private String projectName;
 	
 	public LogixProject(String name) {
 		canvas = new HashMap<>();
+		
+		this.projectName = name;
+	}
+	
+	public String getName() {
+		return this.projectName;
 	}
 	
 	/**

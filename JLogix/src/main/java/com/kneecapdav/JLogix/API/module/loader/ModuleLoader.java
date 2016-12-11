@@ -9,7 +9,6 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.kneecapdav.JLogix.JLogix;
 import com.kneecapdav.JLogix.API.element.Element;
 import com.kneecapdav.JLogix.API.element.ElementInfo;
 import com.kneecapdav.JLogix.API.element.ElementRegistry;
@@ -42,7 +41,7 @@ public class ModuleLoader {
 			}
 			
 			if(module != null) {
-				JLogix.moduleManager.register(module);
+				ModuleManager.getInstance().register(module);
 				module.onInit();
 			}
 		}
@@ -91,6 +90,7 @@ public class ModuleLoader {
 	                    }
 	                    
 	                    if(Element.class.isAssignableFrom(clazz)) {
+	                    	
 	                    	ElementInfo[] info = clazz.getAnnotationsByType(ElementInfo.class);
 	                    	if(info.length != 0) {
 	                    		@SuppressWarnings("unchecked")
@@ -116,7 +116,7 @@ public class ModuleLoader {
             ReflectionUtils.setFinalField(ReflectionUtils.getField(Module.class, "moduleInfo"), module, moduleInfo);
             
             for(ElementRegistryRecord element: elements) {
-            	ElementRegistry.instance.register(module, element);
+            	ElementRegistry.getInstance().register(module, element);
             }
 		} finally {
 			cl.close();

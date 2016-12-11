@@ -4,19 +4,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kneecapdav.JLogix.API.module.Module;
+import com.kneecapdav.JLogix.API.module.loader.ModuleManager;
 
 public class ElementRegistry {
 
-	public static ElementRegistry instance;
-	
-	static {
-		instance = new ElementRegistry();
-	}
+	private static ElementRegistry instance;
 	
 	public HashMap<String, ArrayList<ElementRegistryRecord>> elementRegistry;
 	
-	public ElementRegistry() {
+	private ElementRegistry() {
 		elementRegistry = new HashMap<>();
+	}
+	
+	public void register(Class<? extends Element> clazz) {
+		ElementInfo[] info = clazz.getAnnotationsByType(ElementInfo.class);
+		if(info.length > 0) {
+			ElementRegistryRecord err = new ElementRegistryRecord(clazz, info[0]);
+		
+			Module module = ModuleManager.getInstance().getModule(err.info.moduleID());
+			if(module == null) {
+				//TODO: Replace with logger
+				System.out.println("Unable to register Element " + clazz.getSimpleName() + " module " + err.info.moduleID() + " not found!");
+				return;
+			}
+			
+			this.register(module, err);
+		} else {
+			//TODO: Replace with logger
+			System.out.println("Unable to register Element " + clazz.getSimpleName() + " no ElementInfo annotation found!");
+		}
 	}
 	
 	public void register(Module module, ElementRegistryRecord element) {
@@ -28,6 +44,7 @@ public class ElementRegistry {
 		} else {
 			elementRegistry.get(module.moduleInfo.moduleID()).add(element);
 		}
+		//TODO: Replace with logger
 		System.out.println("Registered element " + element.getInfo().elementID() + " from " + module.moduleInfo.moduleID());
 	}
 	
@@ -75,6 +92,12 @@ public class ElementRegistry {
 			}
 		}
 		return null;
+	}
+	
+	public static ElementRegistry getInstance() {
+		if(instance == null) instance = new ElementRegistry();
+		
+		return instance;
 	}
 	
 	public static class ElementRegistryRecord {
