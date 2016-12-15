@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.kneecapdav.JLogix.JLogixModule;
 import com.kneecapdav.JLogix.utils.ReflectionUtils;
+import com.kneecapdav.JLogix.API.log.LogixLogger;
 import com.kneecapdav.JLogix.API.module.Module;
 import com.kneecapdav.JLogix.API.module.ModuleInfo;
 
@@ -43,7 +44,7 @@ public class ModuleManager {
 	public void enable(Module module) {
 		if(!isEnabled(module)) {
 			module.onEnable();
-			System.out.println("Enabled module: " + module.moduleInfo.moduleID() + " version: " + module.moduleInfo.version());
+			LogixLogger.info(this, "Enabled module: " + module.moduleInfo.moduleID() + " version: " + module.moduleInfo.version());
 		}
 		enabledModules.put(module.moduleInfo.moduleID(), true);
 	}
@@ -55,14 +56,14 @@ public class ModuleManager {
 	public void disable(Module module) {
 		if(isEnabled(module)) {
 			module.onDisable();
-			System.out.println("Disabled module: " + module.moduleInfo.moduleID());
+			LogixLogger.info(this, "Disabled module: " + module.moduleInfo.moduleID());
 		}
 		enabledModules.put(module.moduleInfo.moduleID(), false);
 	}
 	
 	protected void register(Module module) {
 		if(getModule(module.moduleInfo.moduleID()) != null) {
-			System.err.println("Unable to register new module! Theres already a registered module with this ID! (" + module.moduleInfo.moduleID() + ")");
+			LogixLogger.warn(this, "Unable to register new module! Theres already a registered module with this ID! (" + module.moduleInfo.moduleID() + ")");
 			return;
 		}
 		modules.add(module);

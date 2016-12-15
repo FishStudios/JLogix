@@ -13,6 +13,7 @@ import com.kneecapdav.JLogix.API.element.Element;
 import com.kneecapdav.JLogix.API.element.ElementInfo;
 import com.kneecapdav.JLogix.API.element.ElementRegistry;
 import com.kneecapdav.JLogix.API.element.ElementRegistry.ElementRegistryRecord;
+import com.kneecapdav.JLogix.API.log.LogixLogger;
 import com.kneecapdav.JLogix.API.module.Module;
 import com.kneecapdav.JLogix.API.module.ModuleInfo;
 import com.kneecapdav.JLogix.utils.ReflectionUtils;
@@ -34,10 +35,9 @@ public class ModuleLoader {
 			Module module = null;
 			try {
 				module = load(f);
-				//TODO: Replace with logger
-				System.out.println("Module " + f.getName() + " loaded!");
+				LogixLogger.info(this, "Module " + f.getName() + " loaded!");
 			} catch (Exception e) {
-				System.err.println("An error occured while loading module " + f.getName());
+				LogixLogger.getLogger(this).error("An error occured while loading module " + f.getName(),e);
 				e.printStackTrace();
 			}
 			

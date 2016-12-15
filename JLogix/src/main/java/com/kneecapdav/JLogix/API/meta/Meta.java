@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.kneecapdav.JLogix.API.log.LogixLogger;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaType;
 
@@ -245,12 +246,15 @@ public class Meta implements Cloneable {
 	 * Prints the Meta content
 	 */
 	public void print() {
-		System.out.println("~~~~~~~ Meta ~~~~~~~");
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("\n~~~~~~~ Meta ~~~~~~~");
 		for(MetaValue<?> meta: this.metaValues) {
 			if(meta.type == MetaType.META) ((Meta)meta.getValue()).print();
-			else System.out.println("ID: " + meta.id + " Type: " + meta.type.toString() + " Value: " + meta.getValue());
+			else sb.append("\nID: " + meta.id + " Type: " + meta.type.toString() + " Value: " + meta.getValue());
 		}
-		System.out.println("~~~~~~~~~~~~~~~~~~~~");
+		sb.append("\n~~~~~~~~~~~~~~~~~~~~");
+		LogixLogger.info(this, sb.toString());
 	}
 	
 	/**

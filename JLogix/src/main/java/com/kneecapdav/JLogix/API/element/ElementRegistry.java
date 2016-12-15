@@ -3,6 +3,7 @@ package com.kneecapdav.JLogix.API.element;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kneecapdav.JLogix.API.log.LogixLogger;
 import com.kneecapdav.JLogix.API.module.Module;
 import com.kneecapdav.JLogix.API.module.loader.ModuleManager;
 
@@ -23,15 +24,14 @@ public class ElementRegistry {
 		
 			Module module = ModuleManager.getInstance().getModule(err.info.moduleID());
 			if(module == null) {
-				//TODO: Replace with logger
-				System.out.println("Unable to register Element " + clazz.getSimpleName() + " module " + err.info.moduleID() + " not found!");
+				LogixLogger.error(this,"Unable to register Element " + clazz.getSimpleName() + " module " + err.info.moduleID() + " not found!");
 				return;
 			}
 			
 			this.register(module, err);
 		} else {
-			//TODO: Replace with logger
-			System.out.println("Unable to register Element " + clazz.getSimpleName() + " no ElementInfo annotation found!");
+			LogixLogger.error(this,"Unable to register Element " + clazz.getSimpleName() + " no ElementInfo annotation found!");
+			
 		}
 	}
 	
@@ -44,8 +44,7 @@ public class ElementRegistry {
 		} else {
 			elementRegistry.get(module.moduleInfo.moduleID()).add(element);
 		}
-		//TODO: Replace with logger
-		System.out.println("Registered element " + element.getInfo().elementID() + " from " + module.moduleInfo.moduleID());
+		LogixLogger.info(this,"Registered element " + element.getInfo().elementID() + " from " + module.moduleInfo.moduleID());
 	}
 	
 	public boolean contains(Module module, Class<? extends Element> clazz) {
