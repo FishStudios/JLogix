@@ -34,6 +34,7 @@ public class ModuleLoader {
 			Module module = null;
 			try {
 				module = load(f);
+				//TODO: Replace with logger
 				System.out.println("Module " + f.getName() + " loaded!");
 			} catch (Exception e) {
 				System.err.println("An error occured while loading module " + f.getName());
