@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.kneecapdav.JLogix.JLogixModule;
 import com.kneecapdav.JLogix.utils.ReflectionUtils;
+import com.kneecapdav.JLogix.API.events.EventManager;
 import com.kneecapdav.JLogix.API.log.LogixLogger;
 import com.kneecapdav.JLogix.API.module.Module;
 import com.kneecapdav.JLogix.API.module.ModuleInfo;
@@ -22,7 +23,7 @@ public class ModuleManager {
 	private ModuleManager() {
 		this.modules = new ArrayList<>();
 		this.enabledModules = new HashMap<>();
-		
+
 		moduleLoader = new ModuleLoader(new File(System.getenv("APPDATA") + "\\Logix\\modules"));
 		
 		JLogixModule mainModule = new JLogixModule();
@@ -56,6 +57,7 @@ public class ModuleManager {
 	public void disable(Module module) {
 		if(isEnabled(module)) {
 			module.onDisable();
+			module.getRegisteredListeners().forEach((listener) -> EventManager.getInstance().unregisterListener(listener));
 			LogixLogger.info(this, "Disabled module: " + module.moduleInfo.moduleID());
 		}
 		enabledModules.put(module.moduleInfo.moduleID(), false);

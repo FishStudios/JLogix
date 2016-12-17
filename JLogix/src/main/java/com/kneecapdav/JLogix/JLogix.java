@@ -10,6 +10,7 @@ import com.kneecapdav.JLogix.API.project.LogixProject;
 import com.kneecapdav.JLogix.API.project.ProjectManager;
 
 public class JLogix {
+	
 	public static void main(String[] args) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		try { //Run program in this try block
 			ModuleManager.getInstance().moduleLoader.loadAll();
@@ -22,18 +23,13 @@ public class JLogix {
     		
     		
     		// ~~~~~~~~ Test ~~~~~~~~~
-    		LogixLogger.fatal(JLogix.class, "testfatal");
-    		LogixLogger.info(JLogix.class, "testinfo");
-    		LogixLogger.debug(JLogix.class, "testdebug1");
-    		
-    		LogixLogger.setDebug(true);
-    		LogixLogger.debug(JLogix.class, "testdebug2");
-    		
     		boolean save = false;
     		
-    		if(save && !ProjectManager.getInstance().projects.contains("TestProject")) ProjectManager.getInstance().createNewProject("TestProject");
+    		LogixProject project = ProjectManager.getInstance().getProject("TestProject");
     		
-    		LogixProject project = ProjectManager.getInstance().switchProject("TestProject", false);
+    		if(save && project == null) project = ProjectManager.getInstance().createNewProject("TestProject");
+    		
+    		ProjectManager.getInstance().switchProject(project, false);
     		
     		if(save) {
     			

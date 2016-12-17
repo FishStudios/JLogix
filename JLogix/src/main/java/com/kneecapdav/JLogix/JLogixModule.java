@@ -12,6 +12,7 @@ public class JLogixModule extends Module {
 	@Override
 	public void onEnable() {
 		instance = this;
+		this.registerListener(new TestListener());
 	}
 	
 	@Override

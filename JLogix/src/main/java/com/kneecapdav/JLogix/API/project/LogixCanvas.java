@@ -14,6 +14,9 @@ import org.json.simple.parser.ParseException;
 import com.kneecapdav.JLogix.API.element.Element;
 import com.kneecapdav.JLogix.API.element.ElementRegistry;
 import com.kneecapdav.JLogix.API.element.ElementRegistry.ElementRegistryRecord;
+import com.kneecapdav.JLogix.API.events.EventManager;
+import com.kneecapdav.JLogix.API.events.element.ElementDeleteEvent;
+import com.kneecapdav.JLogix.API.events.element.ElementPlaceEvent;
 
 public class LogixCanvas {
 
@@ -76,6 +79,10 @@ public class LogixCanvas {
 	 * @param element Element object to add
 	 */
 	public void add(Element element) {
+		ElementPlaceEvent e = new ElementPlaceEvent(this, element);
+		EventManager.getInstance().fire(e);
+		if(e.isCanceled()) return;
+		
 		elements.add(element);
 		element.onPlace();
 	}
@@ -86,6 +93,10 @@ public class LogixCanvas {
 	 * @param element Element object to remove
 	 */
 	public void remove(Element element) {
+		ElementDeleteEvent e = new ElementDeleteEvent(this, element);
+		EventManager.getInstance().fire(e);
+		if(e.isCanceled()) return;
+		
 		elements.remove(element);
 		element.onDelete();
 	}

@@ -5,11 +5,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kneecapdav.JLogix.API.events.EventManager;
+import com.kneecapdav.JLogix.API.events.project.LogixCanvasCreateEvent;
+import com.kneecapdav.JLogix.API.events.project.LogixCanvasDeleteEvent;
+import com.kneecapdav.JLogix.API.events.project.LogixCanvasSwitchEvent;
+
 public class LogixProject {
 
 	public HashMap<String, LogixCanvas> canvas;
 
 	private String projectName;
+	
+	public LogixCanvas currentCanvas;
 	
 	public LogixProject(String name) {
 		canvas = new HashMap<>();
@@ -22,14 +29,44 @@ public class LogixProject {
 	}
 	
 	/**
+	 * Switch canvas view to the given canvas.
+	 * @param canvas
+	 */
+	public void switchCanvas(LogixCanvas canvas) {
+		LogixCanvasSwitchEvent e = new LogixCanvasSwitchEvent(this, currentCanvas, canvas);
+		EventManager.getInstance().fire(e);
+		if(e.isCanceled()) return;
+		
+		this.currentCanvas = canvas;
+	}
+	
+	/**
 	 * Creates and registers new LogixCanvas instance for this project.
 	 * @param name of the new canvas
-	 * @return New LogixCanvas instance
+	 * @return New LogixCanvas instance. Returns null if the LogixCanvasCreateEvent got canceled.
 	 */
 	public LogixCanvas createNewCanvas(String name) {
 		LogixCanvas c = new LogixCanvas(this, name);
+		
+		LogixCanvasCreateEvent e = new LogixCanvasCreateEvent(this, c);
+		EventManager.getInstance().fire(e);
+		if(e.isCanceled()) return null;
+		
 		canvas.put(name.toLowerCase(), c);
 		return c;
+	}
+	
+	public void deleteCanvas(String name) {
+		if(name.equalsIgnoreCase(currentCanvas.getName())) switchCanvas(null);
+		
+		LogixCanvas c = this.getCanvas(name);
+		if(c == null) return;
+		
+		LogixCanvasDeleteEvent e = new LogixCanvasDeleteEvent(this, c);
+		EventManager.getInstance().fire(e);
+		if(e.isCanceled()) return;
+		
+		this.canvas.remove(name.toLowerCase());
 	}
 	
 	/**
@@ -107,6 +144,12 @@ public class LogixProject {
 			
 			canvas.put(c.getName().toLowerCase(), c);
 		}
+	}
+	
+	public void unload() {
+		switchCanvas(null);
+		this.canvas.clear();
+		this.currentCanvas = null;
 	}
 	
 }
