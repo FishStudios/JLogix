@@ -1,23 +1,17 @@
 package com.kneecapdav.JLogix.API.events;
 
-import com.google.common.eventbus.EventBus;
+import com.kneecapdav.JLogix.API.module.Module;
 
 public class EventManager {
 
 	private static EventManager eventManager;
 
-	private EventBus eventBus;
-	
-	private EventManager() {
-		this.eventBus = new EventBus();
-	}
-	
 	/**
 	 * Registers new listener in the EventBus
 	 * @param listener
 	 */
-	public void registerListener(EventListener listener) {
-		eventBus.register(listener);
+	public void registerListener(Module module, EventListener listener) {
+		EventListenerRegistry.getInstance().register(module, listener);
 	}
 	
 	/**
@@ -25,7 +19,7 @@ public class EventManager {
 	 * @param listener
 	 */
 	public void unregisterListener(EventListener listener) {
-		eventBus.unregister(listener);
+		EventListenerRegistry.getInstance().unregister(listener);
 	}
 	
 	/**
@@ -33,7 +27,7 @@ public class EventManager {
 	 * @param event
 	 */
 	public void fire(LogixEvent event) {
-		eventBus.post(event);
+		EventListenerRegistry.getInstance().fireEvent(event);
 	}
 	
 	public static EventManager getInstance() {

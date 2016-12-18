@@ -38,7 +38,7 @@ public class Module {
 	 */
 	public void registerListener(EventListener listener) {
 		this.listeners.add(listener);
-		EventManager.getInstance().registerListener(listener);
+		EventManager.getInstance().registerListener(this, listener);
 	}
 	
 	/**
