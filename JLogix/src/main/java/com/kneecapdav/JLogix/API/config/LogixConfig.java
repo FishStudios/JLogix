@@ -3,7 +3,6 @@ package com.kneecapdav.JLogix.API.config;
 import java.io.File;
 import java.util.Properties;
 
-@SuppressWarnings("unused")
 public class LogixConfig {
 	
 	private int id;
@@ -14,7 +13,7 @@ public class LogixConfig {
 	
 	private String name;
 	private String title;
-	
+
 	private Properties props;
 
 	public LogixConfig(int id, File path, boolean xml, String name, String title, Properties props) {

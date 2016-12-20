@@ -8,6 +8,11 @@ import com.kneecapdav.JLogix.API.meta.MetaValue;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
 
 public abstract class Element {
+	/*
+	 * Elements are all Things that can and/or are on the Canvas, but don´t have to be placeable such as Gates, I/O-Devices, Text-Fields, Wires, Drawings etc.
+	 * 
+	 * 
+	 */
 	
 	//main Meta object all MetaValues of this Element should be stored in there
 	public Meta meta;

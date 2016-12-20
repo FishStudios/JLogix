@@ -1,4 +1,4 @@
-package com.kneecapdav.JLogix.API.data;
+package com.kneecapdav.JLogix.API.element.data;
 
 public class Position {
 
