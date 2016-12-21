@@ -9,14 +9,19 @@ import com.kneecapdav.JLogix.API.meta.Meta;
 import com.kneecapdav.JLogix.API.meta.MetaValue;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
 
+/**
+ * Elements are all Things that can and/or are on the Canvas, but don´t have to be placeable such as Gates, I/O-Devices, Text-Fields, Wires, Drawings etc.
+ * 
+ * It's important that you call have an empty constructor with the super constructor in your element class.
+ * Also always call the super constructor in your constructors.
+ * 
+ * @author Dominik
+ *
+ */
 public abstract class Element {
-	/*
-	 * Elements are all Things that can and/or are on the Canvas, but don´t have to be placeable such as Gates, I/O-Devices, Text-Fields, Wires, Drawings etc.
-	 * 
-	 * 
-	 */
 	
-	//main Meta object all MetaValues of this Element should be stored in there
+	
+	//Main Meta object all MetaValues of this Element should be stored in there
 	public Meta meta;
 	
 	private MetaValue<String> uuid;

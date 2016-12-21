@@ -1,11 +1,9 @@
 package com.kneecapdav.JLogix.API.element.data;
 
-public class Position {
-
-/*
- *x 
- *y
- *orientation
+/**
+ * This class represents the X and Y coordinates and the orientation of an Element. 
+ * 
  */
+public class Position {
 	
 }
