@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.json.simple.JSONArray;
@@ -84,6 +85,10 @@ public class LogixCanvas {
 		if(e.isCanceled()) return;
 		
 		elements.add(element);
+		
+		//Give the element an UUID if its not already have one
+		element.generateUUID();
+		
 		element.onPlace();
 	}
 	
@@ -99,6 +104,28 @@ public class LogixCanvas {
 		
 		elements.remove(element);
 		element.onDelete();
+	}
+	
+	/**
+	 * Returns the Element with the given UUID
+	 * 
+	 * @param uuid UUID of the element
+	 * @return Element object
+	 */
+	public Element getElement(String uuid) {
+		ArrayList<Element> result = elements.stream().filter((e) -> e.getUUID().toString().equals(uuid)).collect(Collectors.toCollection(ArrayList::new));
+		if(result.isEmpty()) return null;
+		else return result.get(0);
+	}
+	
+	/**
+	 * Returns the Element with the given UUID
+	 * 
+	 * @param uuid UUID of the element
+	 * @return Element object
+	 */
+	public Element getElement(UUID uuid) {
+		return this.getElement(uuid.toString());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -144,8 +171,6 @@ public class LogixCanvas {
 				
 				try {
 					Element e = record.getElementClass().newInstance();
-					
-					e.onCreate();
 					e.readMeta(jObj);
 					
 					this.add(e);

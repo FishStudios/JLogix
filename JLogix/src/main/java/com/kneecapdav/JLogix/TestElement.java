@@ -17,8 +17,8 @@ public class TestElement extends Element {
 	public MetaValue<Meta> testMeta1;
 	public MetaValue<Meta> testMeta2;
 	
-	public TestElement(String name, int id) {
-		super(id);
+	public TestElement(String name) {
+		super();
 		
 		this.name.setValue(name);
 		

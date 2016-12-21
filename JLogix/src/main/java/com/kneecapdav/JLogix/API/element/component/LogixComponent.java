@@ -9,8 +9,8 @@ public class LogixComponent extends Element implements Placeable {
 	 * 
 	 */
 	
-	public LogixComponent(int id) {
-		super(id);
+	public LogixComponent() {
+		super();
 		
 	}
 }

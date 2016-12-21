@@ -35,7 +35,7 @@ public class JLogix {
     			
     			LogixCanvas canvas = project.createNewCanvas("TestCanvas1");
     			
-    			canvas.add(new TestElement("element1" , 1));
+    			canvas.add(new TestElement("element1"));
     			
     			project.save(new File(System.getenv("APPDATA") + "\\Logix\\projects\\TestProject\\"));
     		}

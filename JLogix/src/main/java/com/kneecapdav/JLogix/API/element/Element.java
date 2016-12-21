@@ -1,5 +1,7 @@
 package com.kneecapdav.JLogix.API.element;
 
+import java.util.UUID;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -17,25 +19,29 @@ public abstract class Element {
 	//main Meta object all MetaValues of this Element should be stored in there
 	public Meta meta;
 	
-	private MetaValue<Integer> id;
-	
-	public Element(int id) {
-		this.meta = new Meta();
-		this.id = new MetaValue<Integer>("ID", id, MetaAccess.HIDDEN).addTo(meta);
-		this.onCreate();
-	}
+	private MetaValue<String> uuid;
 	
 	public Element() {
 		this.meta = new Meta();
-		this.id = new MetaValue<Integer>("ID", 0, MetaAccess.HIDDEN).addTo(meta);
+		this.uuid = new MetaValue<String>("UUID", "", MetaAccess.READ_WRITE).addTo(meta);
+		this.onCreate();
 	}
 
 	public Meta getMeta(){
 		return this.meta;
 	}
 	
-	public Integer getID() {
-		return this.id.getValue();
+	public UUID getUUID() {
+		return UUID.fromString(this.uuid.getValue());
+	}
+	
+	public boolean hasUUID() {
+		return (this.uuid.getValue() != null && !this.uuid.getValue().equalsIgnoreCase(""));
+	}
+	
+	public void generateUUID() {
+		if(hasUUID()) return;
+		this.uuid.setValue(UUID.randomUUID().toString());
 	}
 	
 	/**
