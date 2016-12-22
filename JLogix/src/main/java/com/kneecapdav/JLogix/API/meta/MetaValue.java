@@ -36,7 +36,7 @@ public class MetaValue<T> implements Cloneable {
 	 * Access level for MetaValues
 	 */
 	public enum MetaAccess {
-		READ_WRITE, READ, HIDDEN;
+		READ_WRITE, READ_ONLY, HIDDEN;
 	}
 	
 	private ArrayList<MetaValueListener<T>> listeners;
@@ -161,6 +161,7 @@ public class MetaValue<T> implements Cloneable {
 	 * @param New value
 	 */
 	public void setValue(T value) {
+		if(access == MetaAccess.READ_ONLY) return;
 		if(!listeners.isEmpty()) {
 			listeners.forEach((listener) -> listener.change(this.value, value));
 		}
@@ -176,6 +177,7 @@ public class MetaValue<T> implements Cloneable {
 	 * @param New value
 	 */
 	public void setValueSilent(T value) {
+		if(access == MetaAccess.READ_ONLY) return;
 		this.value = value;
 	}
 	

@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import com.kneecapdav.JLogix.API.meta.Meta;
 import com.kneecapdav.JLogix.API.meta.MetaValue;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
+import com.kneecapdav.JLogix.utils.ReflectionUtils;
 
 /**
  * Elements are all Things that can and/or are on the Canvas, but don´t have to be placeable such as Gates, I/O-Devices, Text-Fields, Wires, Drawings etc.
@@ -28,7 +29,7 @@ public abstract class Element {
 	
 	public Element() {
 		this.meta = new Meta();
-		this.uuid = new MetaValue<String>("UUID", "", MetaAccess.READ_WRITE).addTo(meta);
+		this.uuid = new MetaValue<String>("UUID", "", MetaAccess.READ_ONLY).addTo(meta);
 		this.onCreate();
 	}
 
@@ -46,7 +47,7 @@ public abstract class Element {
 	
 	public void generateUUID() {
 		if(hasUUID()) return;
-		this.uuid.setValue(UUID.randomUUID().toString());
+		ReflectionUtils.setField(this.uuid, "value", UUID.randomUUID().toString());
 	}
 	
 	/**
