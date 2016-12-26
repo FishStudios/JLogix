@@ -14,7 +14,7 @@ public class Module {
 	/**
 	 * This method got automatically called from the ModuleLoader immediately after it's been loaded.
 	 */
-	public void onInit(){};
+	public void onLoad(){};
 	/**
 	 * This method got automatically called from the ModuleLoader immediately before it's got enabled.
 	 */

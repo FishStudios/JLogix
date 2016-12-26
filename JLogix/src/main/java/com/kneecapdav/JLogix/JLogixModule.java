@@ -2,6 +2,7 @@ package com.kneecapdav.JLogix;
 
 import com.kneecapdav.JLogix.API.module.Module;
 import com.kneecapdav.JLogix.API.module.ModuleInfo;
+import com.kneecapdav.JLogix.listener.LogixGUIListener;
 
 @ModuleInfo(moduleID = "JLogix", author = "KneecapDev", version = "InDev.0.1", description = "Main JLogix module")
 public class JLogixModule extends Module {
@@ -12,7 +13,8 @@ public class JLogixModule extends Module {
 	@Override
 	public void onEnable() {
 		instance = this;
-		this.registerListener(new TestListener());
+		
+		this.registerListener(new LogixGUIListener());
 	}
 	
 	@Override

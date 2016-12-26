@@ -43,7 +43,7 @@ public class ModuleLoader {
 			
 			if(module != null) {
 				ModuleManager.getInstance().register(module);
-				module.onInit();
+				module.onLoad();
 			}
 		}
 	}
