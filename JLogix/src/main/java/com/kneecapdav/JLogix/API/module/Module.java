@@ -14,19 +14,21 @@ public class Module {
 	/**
 	 * This method got automatically called from the ModuleLoader immediately after it's been loaded.
 	 */
-	public void onLoad(){};
+	public void onLoad(){}
+
 	/**
 	 * This method got automatically called from the ModuleLoader immediately before it's got enabled.
 	 */
-	public void onEnable(){};
+	public void onEnable(){}
+
 	/**
 	 * This method got automatically called from the ModuleLoader immediately before it's got disabled.
 	 */
-	public void onDisable(){};
-	
+	public void onDisable(){}
+
 	/**
 	 * Returns an ArrayList of all registered EventListener objects of this module
-	 * @return
+	 * @return registered EventListener of the module
 	 */
 	public ArrayList<EventListener> getRegisteredListeners() {
 		return this.listeners;
@@ -34,7 +36,7 @@ public class Module {
 	
 	/**
 	 * Registers a new EventListener from this module
-	 * @param listener
+	 * @param listener listener to be registered
 	 */
 	public void registerListener(EventListener listener) {
 		this.listeners.add(listener);
@@ -43,7 +45,7 @@ public class Module {
 	
 	/**
 	 * Unregisters an existing EventListener from this module
-	 * @param listener
+	 * @param listener listener to be unregistered
 	 */
 	public void unregisterListener(EventListener listener) {
 		this.listeners.remove(listener);

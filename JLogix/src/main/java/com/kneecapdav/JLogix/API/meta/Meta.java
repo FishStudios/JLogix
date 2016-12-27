@@ -1,6 +1,7 @@
 package com.kneecapdav.JLogix.API.meta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public class Meta implements Cloneable {
 	/**
 	 * Gets all MetaValue objects of this Meta object with the given id.
 	 * 
-	 * @param Meta ID
+	 * @param meta ID
 	 * @return List of all found MetaValues with the given ID.
 	 */
 	public ArrayList<MetaValue<?>> get(String meta) {
@@ -45,8 +46,8 @@ public class Meta implements Cloneable {
 	 * 
 	 * Gets the first of all found MetaValue objects of this MetaData object with the given ID.
 	 * 
-	 * @param Data type
-	 * @param Meta ID
+	 * @param t type
+	 * @param meta ID
 	 * @return First found MetaValue object with the given ID.
 	 */
 	@SuppressWarnings("unchecked")
@@ -60,8 +61,7 @@ public class Meta implements Cloneable {
 	 * 
 	 * Gets the first of all found MetaValue objects of this MetaData object with the given ID.
 	 * 
-	 * @param Data type
-	 * @param Meta ID
+	 * @param meta ID
 	 * @return First found MetaValue object with the given ID.
 	 */
 	@SuppressWarnings("unchecked")
@@ -75,7 +75,7 @@ public class Meta implements Cloneable {
 	 * 
 	 * Gets all MetaValue object of this Meta object which starts with the given ID.
 	 * 
-	 * @param Meta ID to start with
+	 * @param meta ID to start with
 	 * @return List of all found MetaValues which starts with the given ID.
 	 */
 	public ArrayList<MetaValue<?>> startsWith(String meta) {
@@ -85,7 +85,7 @@ public class Meta implements Cloneable {
 	/**
 	 * Adds new MetaValue object to this collection.
 	 * 
-	 * @param MetaValue object
+	 * @param meta object
 	 */
 	public void add(MetaValue<?> meta) {
 		metaValues.add(meta);
@@ -94,16 +94,16 @@ public class Meta implements Cloneable {
 	/**
 	 * Adds multiple MetaValue objects to this collection.
 	 * 
-	 * @param MetaValue objects
+	 * @param meta objects
 	 */
 	public void addAll(MetaValue<?>... meta) {
-		for(int i = 0; i < meta.length; i++) metaValues.add(meta[i]);
+		Collections.addAll(metaValues, meta);
 	}
 	
 	/**
 	 * Adds multiple MetaValue objects to this collection.
 	 * 
-	 * @param MetaValue objects
+	 * @param meta objects
 	 */
 	public void addAll(ArrayList<MetaValue<?>> meta) {
 		metaValues.addAll(meta);
@@ -113,7 +113,7 @@ public class Meta implements Cloneable {
 	/**
 	 * Removes MetaValue object from this collection.
 	 * 
-	 * @param MetaValue object
+	 * @param meta object
 	 */
 	public void remove(MetaValue<?> meta) {
 		metaValues.add(meta);
@@ -121,7 +121,7 @@ public class Meta implements Cloneable {
 
 	/**
 	 * 
-	 * @param Meta ID
+	 * @param id ID
 	 * @return Returns true if the given MetaValue is added in this collection.
 	 */
 	public boolean contains(String id) {
@@ -130,7 +130,7 @@ public class Meta implements Cloneable {
 	
 	/**
 	 * 
-	 * @param MetaValue object
+	 * @param meta object
 	 * @return Returns true if the given MetaValue is added in this collection.
 	 */
 	public boolean contains(MetaValue<?> meta) {
@@ -140,7 +140,7 @@ public class Meta implements Cloneable {
 	/**
 	 * Adds all MetaValue objects of the given MetaData to this collection.
 	 * 
-	 * @param Meta object
+	 * @param data object
 	 */
 	public void copyFromMeta(Meta data) {
 		metaValues.addAll(data.metaValues);
@@ -149,10 +149,10 @@ public class Meta implements Cloneable {
 	/**
 	 * Adds all MetaValue objects of the given MetaData to this Collection.
 	 * 
-	 * @param Meta objects
+	 * @param data objects
 	 */
 	public void copyFromMetaAll(Meta... data) {
-		for(int i = 0; i < data.length; i++) this.copyFromMeta(data[i]);
+		for (Meta aData : data) this.copyFromMeta(aData);
 	}
 	
 	
@@ -251,7 +251,7 @@ public class Meta implements Cloneable {
 		sb.append("\n~~~~~~~ Meta ~~~~~~~");
 		for(MetaValue<?> meta: this.metaValues) {
 			if(meta.type == MetaType.META) ((Meta)meta.getValue()).print();
-			else sb.append("\nID: " + meta.id + " Type: " + meta.type.toString() + " Value: " + meta.getValue());
+			else sb.append("\nID: ").append(meta.id).append(" Type: ").append(meta.type.toString()).append(" Value: ").append(meta.getValue());
 		}
 		sb.append("\n~~~~~~~~~~~~~~~~~~~~");
 		LogixLogger.info(this, sb.toString());
@@ -274,7 +274,6 @@ public class Meta implements Cloneable {
 	
 	/**
 	 * Loads the Meta object from a JSONArray
-	 * @return Content
 	 */
 	@SuppressWarnings("unchecked")
 	public void loadFromJSON(JSONArray jsonMeta) {

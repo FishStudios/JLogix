@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface EventHook {
 
-	public enum Priority {
+	enum Priority {
 		LOWEST(0), VERY_LOW(1), LOW(2), NORMAL(3), HIGH(4), VERY_HIGH(5), HIGHEST(5);
 		
 		public int weight;

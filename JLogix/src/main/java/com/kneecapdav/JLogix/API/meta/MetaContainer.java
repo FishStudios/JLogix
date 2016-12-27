@@ -11,7 +11,7 @@ public class MetaContainer {
 	/**
 	 * Adds a Meta object to this container
 	 * 
-	 * @param Meta object
+	 * @param data object
 	 */
 	public void add(Meta data) {
 		metaData.add(data);
@@ -20,7 +20,7 @@ public class MetaContainer {
 	/**
 	 * Removes a Meta object from this container
 	 * 
-	 * @param String UUID of the represented MetaData object
+	 * @param uuid UUID of the represented MetaData object
 	 */
 	public void remove(String uuid) {
 		remove(UUID.fromString(uuid));
@@ -29,7 +29,7 @@ public class MetaContainer {
 	/**
 	 * Removes a Meta object from this container
 	 * 
-	 * @param UUID of the represented MetaData object
+	 * @param uuid of the represented MetaData object
 	 */
 	public void remove(UUID uuid) {
 		Meta data = get(uuid);
@@ -39,7 +39,7 @@ public class MetaContainer {
 	/**
 	 * Removes a Meta object from this container
 	 * 
-	 * @param Meta object
+	 * @param meta object
 	 */
 	public void remove(Meta meta) {
 		metaData.remove(meta);
@@ -48,8 +48,8 @@ public class MetaContainer {
 	/**
 	 * Checks if the given Meta object is added in this container
 	 * 
-	 * @param Meta object
-	 * @return 
+	 * @param meta object
+	 * @return boolean describing if this container contains the given Meta object
 	 */
 	public boolean contains(Meta meta) {
 		return metaData.contains(meta);
@@ -58,8 +58,8 @@ public class MetaContainer {
 	/**
 	 * Checks if the given Meta object is added in this container
 	 * 
-	 * @param String UUID of the represented Meta object
-	 * @return 
+	 * @param uuid UUID of the represented Meta object
+	 * @return boolean describing if this container contains the given Meta object
 	 */
 	public boolean contains(String uuid) {
 		return contains(UUID.fromString(uuid));
@@ -68,7 +68,7 @@ public class MetaContainer {
 	/**
 	 * Checks if the given Meta object is added in this container
 	 * 
-	 * @param UUID of the represented Meta object
+	 * @param uuid of the represented Meta object
 	 * @return boolean
 	 */
 	public boolean contains(UUID uuid) {
@@ -79,7 +79,7 @@ public class MetaContainer {
 	/**
 	 * Gets the Meta with the given UUID of this container
 	 * 
-	 * @param String UUID of the represented Meta object
+	 * @param uuid UUID of the represented Meta object
 	 * @return Meta object
 	 */
 	public Meta get(String uuid) {
@@ -89,7 +89,7 @@ public class MetaContainer {
 	/**
 	 * Gets the Meta with the given UUID of this container
 	 * 
-	 * @param UUID of the represented Meta object
+	 * @param uuid of the represented Meta object
 	 * @return Meta object
 	 */	
 	public Meta get(UUID uuid) {

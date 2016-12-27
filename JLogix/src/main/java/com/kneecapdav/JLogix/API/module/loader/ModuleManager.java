@@ -35,7 +35,7 @@ public class ModuleManager {
 	}
 	
 	public void enableAll() {
-		modules.forEach((m) -> enable(m));
+		modules.forEach(this::enable);
 	}
 
 	public boolean isEnabled(Module module) {
@@ -51,7 +51,7 @@ public class ModuleManager {
 	}
 	
 	public void disableAll() {
-		modules.forEach((m) -> disable(m));
+		modules.forEach(this::disable);
 	}
 	
 	public void disable(Module module) {
@@ -65,7 +65,7 @@ public class ModuleManager {
 	
 	protected void register(Module module) {
 		if(getModule(module.moduleInfo.moduleID()) != null) {
-			LogixLogger.warn(this, "Unable to register new module! Theres already a registered module with this ID! (" + module.moduleInfo.moduleID() + ")");
+			LogixLogger.warn(this, "Unable to register new module! There is already a registered module with this ID! (" + module.moduleInfo.moduleID() + ")");
 			return;
 		}
 		modules.add(module);

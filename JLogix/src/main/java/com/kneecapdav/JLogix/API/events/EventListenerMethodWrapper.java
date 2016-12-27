@@ -26,7 +26,7 @@ public class EventListenerMethodWrapper {
 		try {
 			method.invoke(listener, eventObj);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			LogixLogger.getLogger(this).error("An error occured while invoking " + eventObj.getClass().getSimpleName() + " of module " + module.moduleInfo.moduleID() + " in listener " + listener.getClass().getSimpleName() + " in method " + method.getName(), e);
+			LogixLogger.getLogger(this).error("An error occurred while invoking " + eventObj.getClass().getSimpleName() + " of module " + module.moduleInfo.moduleID() + " in listener " + listener.getClass().getSimpleName() + " in method " + method.getName(), e);
 		}
 	}
 	

@@ -1,7 +1,6 @@
 package com.kneecapdav.JLogix.API.log;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Properties;
 import org.apache.log4j.Level;
@@ -66,18 +65,17 @@ public class LogixLogger {
 	
 	public static void setDebug(boolean b) {
 		debug = b;
-		
-		Iterator<?> entries = loggers.entrySet().iterator();
-		while (entries.hasNext()) {
-			Entry<?, ?> thisEntry = (Entry<?, ?>) entries.next();
+
+		for (Object o : loggers.entrySet()) {
+			Entry<?, ?> thisEntry = (Entry<?, ?>) o;
 			Logger logger = (Logger) thisEntry.getValue();
-			  
-			if(b) {
+
+			if (b) {
 				logger.setLevel(Level.DEBUG);
 
 			} else {
 				logger.setLevel(standard);
-				
+
 			}
 		}
 	}

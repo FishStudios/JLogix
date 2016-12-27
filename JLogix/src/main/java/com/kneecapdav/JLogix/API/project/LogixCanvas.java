@@ -49,7 +49,7 @@ public class LogixCanvas {
 	
 	/**
 	 * Renames the canvas
-	 * @param New canvas name
+	 * @param newName canvas name
 	 */
 	public void rename(String newName) {
 		this.name = newName;

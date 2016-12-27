@@ -37,7 +37,7 @@ public class ModuleLoader {
 				module = load(f);
 				LogixLogger.info(this, "Module " + f.getName() + " loaded!");
 			} catch (Exception e) {
-				LogixLogger.getLogger(this).error("An error occured while loading module " + f.getName(),e);
+				LogixLogger.getLogger(this).error("An error occurred while loading module " + f.getName(),e);
 				e.printStackTrace();
 			}
 			
@@ -50,77 +50,71 @@ public class ModuleLoader {
 	
 	public Module load(File file) throws IOException, InstantiationException, IllegalAccessException {
 		
-		Module module = null;
-		
-		URLClassLoader cl = null;
+		Module module;
 
-		try {
-			cl = new URLClassLoader(new URL[]{file.toURI().toURL()}, ModuleLoader.class.getClassLoader());
-			
+		try (URLClassLoader cl = new URLClassLoader(new URL[]{file.toURI().toURL()}, ModuleLoader.class.getClassLoader())) {
 			JarFile jar = new JarFile(file);
-            Enumeration<JarEntry> enumeration = jar.entries();
+			Enumeration<JarEntry> enumeration = jar.entries();
 
-            Class<?> mainClass = null;
-            ModuleInfo moduleInfo = null;
-            
-            ArrayList<ElementRegistryRecord> elements = new ArrayList<>();
-            
-            try {
-	            while(enumeration.hasMoreElements()) {
-	                JarEntry entry = enumeration.nextElement();
-	
-	                //If the entry is not a class file we skip it.
-	                if(entry.isDirectory() || !entry.getName().endsWith(".class")) continue;
-	
-	                //Split the raw class name from the file to load it.
-	                String className = entry.getName().substring(0,entry.getName().length()-6);
-	                className = className.replace('/', '.');
-	
-	                //Finally load our class.
-	                try {
-	                    Class<?> clazz = cl.loadClass(className);
-	                    if(Module.class.isAssignableFrom(clazz)) {
-	                    	if(mainClass != null) {
-	                    		throw new ModuleLoadException("Theres more than one classes in this module wich extends Module!");
-	                    	}
-	                    	ModuleInfo[] info = clazz.getAnnotationsByType(ModuleInfo.class);
-	                    	if(info.length != 0) {
-	                    		mainClass = clazz;
-	                    		moduleInfo = info[0];
-	                    	}
-	                    }
-	                    
-	                    if(Element.class.isAssignableFrom(clazz)) {
-	                    	
-	                    	ElementInfo[] info = clazz.getAnnotationsByType(ElementInfo.class);
-	                    	if(info.length != 0) {
-	                    		@SuppressWarnings("unchecked")
+			Class<?> mainClass = null;
+			ModuleInfo moduleInfo = null;
+
+			ArrayList<ElementRegistryRecord> elements = new ArrayList<>();
+
+			try {
+				while (enumeration.hasMoreElements()) {
+					JarEntry entry = enumeration.nextElement();
+
+					//If the entry is not a class file we skip it.
+					if (entry.isDirectory() || !entry.getName().endsWith(".class")) continue;
+
+					//Split the raw class name from the file to load it.
+					String className = entry.getName().substring(0, entry.getName().length() - 6);
+					className = className.replace('/', '.');
+
+					//Finally load our class.
+					try {
+						Class<?> clazz = cl.loadClass(className);
+						if (Module.class.isAssignableFrom(clazz)) {
+							if (mainClass != null) {
+								throw new ModuleLoadException("There is more than one classes in this module which extends Module!");
+							}
+							ModuleInfo[] info = clazz.getAnnotationsByType(ModuleInfo.class);
+							if (info.length != 0) {
+								mainClass = clazz;
+								moduleInfo = info[0];
+							}
+						}
+
+						if (Element.class.isAssignableFrom(clazz)) {
+
+							ElementInfo[] info = clazz.getAnnotationsByType(ElementInfo.class);
+							if (info.length != 0) {
+								@SuppressWarnings("unchecked")
 								ElementRegistryRecord registryRecord = new ElementRegistryRecord((Class<? extends Element>) clazz, info[0]);
-	                    		elements.add(registryRecord);
-	                    	}
-	                    }
-	                    
-	                } catch (ClassNotFoundException e) {
-	                    throw new ModuleLoadException("Unable to load class " + entry.getName() + "!");
-	                }
-	            }
-            } finally {
-            	jar.close();
-            }
-            
-            //Check if theres a class wich extends Module
-            if(mainClass == null) {
-            	throw new ModuleLoadException("Theres no valid main class in this Module!");
-            }
-            
-            module = (Module) mainClass.newInstance();
-            ReflectionUtils.setFinalField(ReflectionUtils.getField(Module.class, "moduleInfo"), module, moduleInfo);
-            
-            for(ElementRegistryRecord element: elements) {
-            	ElementRegistry.getInstance().register(module, element);
-            }
-		} finally {
-			cl.close();
+								elements.add(registryRecord);
+							}
+						}
+
+					} catch (ClassNotFoundException e) {
+						throw new ModuleLoadException("Unable to load class " + entry.getName() + "!");
+					}
+				}
+			} finally {
+				jar.close();
+			}
+
+			//Check if there is a class which extends Module
+			if (mainClass == null) {
+				throw new ModuleLoadException("There is no valid main class in this Module!");
+			}
+
+			module = (Module) mainClass.newInstance();
+			ReflectionUtils.setFinalField(ReflectionUtils.getField(Module.class, "moduleInfo"), module, moduleInfo);
+
+			for (ElementRegistryRecord element : elements) {
+				ElementRegistry.getInstance().register(module, element);
+			}
 		}
 		
 		return module;

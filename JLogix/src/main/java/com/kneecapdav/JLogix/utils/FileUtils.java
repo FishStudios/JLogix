@@ -5,8 +5,8 @@ import java.io.File;
 public class FileUtils {
 
 	/**
-	 * Deletes a directory within all his content.
-	 * @param directory
+	 * Deletes a directory all his content recursively.
+	 * @param directory directory to be deleted
 	 */
 	public static void deleteDirectory(File directory) {
 		if(directory.isDirectory()) {

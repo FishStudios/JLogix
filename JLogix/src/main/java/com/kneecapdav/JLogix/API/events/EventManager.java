@@ -8,7 +8,8 @@ public class EventManager {
 
 	/**
 	 * Registers new listener in the EventBus
-	 * @param listener
+	 * @param module module which the listener belongs to
+	 * @param listener listener to be registered
 	 */
 	public void registerListener(Module module, EventListener listener) {
 		EventListenerRegistry.getInstance().register(module, listener);
@@ -16,7 +17,7 @@ public class EventManager {
 	
 	/**
 	 * Unregisters existent listener from the EventBus
-	 * @param listener
+	 * @param listener listener to be unregistered
 	 */
 	public void unregisterListener(EventListener listener) {
 		EventListenerRegistry.getInstance().unregister(listener);
@@ -24,7 +25,7 @@ public class EventManager {
 	
 	/**
 	 * Fires an event to all registered listeners
-	 * @param event
+	 * @param event event to be fired
 	 */
 	public void fire(LogixEvent event) {
 		EventListenerRegistry.getInstance().fireEvent(event);

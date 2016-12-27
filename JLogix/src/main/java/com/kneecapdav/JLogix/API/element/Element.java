@@ -29,7 +29,7 @@ public abstract class Element {
 	
 	public Element() {
 		this.meta = new Meta();
-		this.uuid = new MetaValue<String>("UUID", "", MetaAccess.READ_ONLY).addTo(meta);
+		this.uuid = new MetaValue<>("UUID", "", MetaAccess.READ_ONLY).addTo(meta);
 		this.onCreate();
 	}
 
@@ -68,14 +68,14 @@ public abstract class Element {
 	/**
 	 * Builds the Element when the object got loaded from an existing project.
 	 * 
-	 * @param Meta Object
+	 * @param jsonObj Object
 	 */
 	public void readMeta(JSONObject jsonObj) {
 		JSONArray jsonMeta = (JSONArray) jsonObj.get("meta");
 		
 		meta.loadFromJSON(jsonMeta);
-	};
-	
+	}
+
 	@SuppressWarnings("unchecked")
 	public JSONObject writeMeta() {
 		JSONObject result = new JSONObject();

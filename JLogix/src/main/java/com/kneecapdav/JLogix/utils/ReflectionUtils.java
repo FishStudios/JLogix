@@ -24,11 +24,7 @@ public class ReflectionUtils {
 			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
 			field.set(obj, value);
-		} catch (NoSuchFieldException | SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
 	}

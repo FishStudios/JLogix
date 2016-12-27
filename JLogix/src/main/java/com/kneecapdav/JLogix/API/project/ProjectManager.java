@@ -35,7 +35,7 @@ public class ProjectManager {
 	
 	/**
 	 * Returns current opened project
-	 * @return
+	 * @return current opened project
 	 */
 	public LogixProject getCurrentProject() {
 		return this.currentProject;
@@ -43,8 +43,8 @@ public class ProjectManager {
 	
 	/**
 	 * Creates new project with the given name
-	 * @param projectName
-	 * @return
+	 * @param projectName name of the new project
+	 * @return newly created LogixProject
 	 */
 	public LogixProject createNewProject(String projectName) {
 		if(projects.contains(projectName)) {
@@ -68,7 +68,7 @@ public class ProjectManager {
 	
 	/**
 	 * Deletes the given project
-	 * @param project
+	 * @param project LogixProject to be deleted
 	 */
 	public void deleteProject(LogixProject project) {
 		if(!projects.contains(project)) return;
@@ -86,8 +86,8 @@ public class ProjectManager {
 	
 	/**
 	 * Unloads the current project and loads the given new project
-	 * @param project
-	 * @param saveCurrent
+	 * @param project new project to be loaded
+	 * @param saveCurrent boolean determining if the current project should be saved
 	 */
 	public void switchProject(LogixProject project, boolean saveCurrent) {
 		if(!projects.contains(project)) {
@@ -107,8 +107,8 @@ public class ProjectManager {
 	/**
 	 * Gets the LogixProject instance with the given name.
 	 * Returns null if the projects don't exist
-	 * @param name
-	 * @return
+	 * @param name name of the project
+	 * @return LogixProject with the given name, null if not found
 	 */
 	public LogixProject getProject(String name) {
 		for(LogixProject p: projects) {

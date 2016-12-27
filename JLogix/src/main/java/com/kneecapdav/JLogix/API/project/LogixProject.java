@@ -30,7 +30,7 @@ public class LogixProject {
 	
 	/**
 	 * Switch canvas view to the given canvas.
-	 * @param canvas
+	 * @param canvas canvas to be displayed
 	 */
 	public void switchCanvas(LogixCanvas canvas) {
 		LogixCanvasSwitchEvent e = new LogixCanvasSwitchEvent(this, currentCanvas, canvas);
@@ -71,7 +71,7 @@ public class LogixProject {
 	
 	/**
 	 * Returns existing LogixCanvas instance from this project.
-	 * If theres no registered canvas with this name it will return null.
+	 * If there is no registered canvas with this name it will return null.
 	 * @param name of the canvas
 	 * @return Canvas object
 	 */
@@ -92,9 +92,9 @@ public class LogixProject {
 	}
 	
 	/**
-	 * Returns an ArrayList<LogixCanvas> of all canvas instances which using an element of the given module
-	 * @param moduleID
-	 * @return
+	 * Returns an ArrayList<LogixCanvas> of all canvas instances which are using an element of the given module
+	 * @param moduleID id of the module
+	 * @return ArrayList<LogixCanvas> of all canvas instances which are using an element of the given module
 	 */
 	public ArrayList<LogixCanvas> getCanvasWithElementsOfModule(String moduleID) {
 		ArrayList<LogixCanvas> result = new ArrayList<>();

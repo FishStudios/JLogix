@@ -28,7 +28,7 @@ public class MetaValue<T> implements Cloneable {
 			if(o instanceof Double) return DOUBLE;
 			if(o instanceof String) return STRING;
 			if(o instanceof JSONArray) return META;
-			throw new MetaTypeException("Unkown MetaValue type! (" + o + ")");
+			throw new MetaTypeException("Unknown MetaValue type! (" + o + ")");
 		}
 	}
 	
@@ -36,7 +36,7 @@ public class MetaValue<T> implements Cloneable {
 	 * Access level for MetaValues
 	 */
 	public enum MetaAccess {
-		READ_WRITE, READ_ONLY, HIDDEN;
+		READ_WRITE, READ_ONLY, HIDDEN
 	}
 	
 	private ArrayList<MetaValueListener<T>> listeners;
@@ -54,7 +54,7 @@ public class MetaValue<T> implements Cloneable {
 		this.id = (String) obj.get("id");
 		switch(type) {
 			case BOOLEAN:
-				ReflectionUtils.setField(this, "value", (boolean)obj.get("value"));
+				ReflectionUtils.setField(this, "value", obj.get("value"));
 				break;
 			case BYTE:
 				ReflectionUtils.setField(this, "value", Byte.parseByte(Long.toString((Long)obj.get("value"))));
@@ -63,19 +63,19 @@ public class MetaValue<T> implements Cloneable {
 				ReflectionUtils.setField(this, "value", Float.parseFloat(Double.toString((Double)obj.get("value"))));
 				break;
 			case DOUBLE:
-				ReflectionUtils.setField(this, "value", (Double)obj.get("value"));
+				ReflectionUtils.setField(this, "value", obj.get("value"));
 				break;
 			case INTEGER:
 				ReflectionUtils.setField(this, "value", Math.toIntExact((long) obj.get("value")));
 				break;
 			case LONG:
-				ReflectionUtils.setField(this, "value", (long)obj.get("value"));
+				ReflectionUtils.setField(this, "value", obj.get("value"));
 				break;
 			case SHORT:
 				ReflectionUtils.setField(this, "value", Short.parseShort(Long.toString((Long) obj.get("value"))));
 				break;
 			case STRING:
-				ReflectionUtils.setField(this, "value",(String)obj.get("value"));
+				ReflectionUtils.setField(this, "value", obj.get("value"));
 				break;
 			case META:
 				Meta meta = new Meta();
@@ -90,8 +90,8 @@ public class MetaValue<T> implements Cloneable {
 	 * Creates new MetaValue instance.
 	 * MetaAccess will be set to READ_WRITE by default.
 	 * 
-	 * @param Meta id
-	 * @param Meta value
+	 * @param id id
+	 * @param value value
 	 */
 	public MetaValue(String id, T value) {
 		this.id = id;
@@ -108,9 +108,9 @@ public class MetaValue<T> implements Cloneable {
 	/**
 	 * Creates new MetaValue instance.
 	 * 
-	 * @param Meta id
-	 * @param Meta value
-	 * @param Access level
+	 * @param id id
+	 * @param value value
+	 * @param access level
 	 */	
 	public MetaValue(String id, T value, MetaAccess access) {
 		this.id = id;
@@ -127,9 +127,9 @@ public class MetaValue<T> implements Cloneable {
 	/**
 	 * Creates new empty MetaValue instance.
 	 * 
-	 * @param Data type
-	 * @param Meta id
-	 * @param Access level
+	 * @param type type
+	 * @param id id
+	 * @param access level
 	 */	
 	public MetaValue(MetaType type, String id, MetaAccess access) {
 		this.id = id;
@@ -141,7 +141,7 @@ public class MetaValue<T> implements Cloneable {
 	/**
      * Adds the MetaValue to a given Meta object	
 	 * 
-	 * @param Meta object
+	 * @param meta object
 	 */
 	public MetaValue<T> addTo(Meta meta) {
 		if(meta.contains(this.id)) {
@@ -158,7 +158,7 @@ public class MetaValue<T> implements Cloneable {
 	 * Sets the value for this meta object.
 	 * Automatically calls all registered change listeners.
 	 * 
-	 * @param New value
+	 * @param value value
 	 */
 	public void setValue(T value) {
 		if(access == MetaAccess.READ_ONLY) return;
@@ -174,7 +174,7 @@ public class MetaValue<T> implements Cloneable {
 	 * 
 	 * This method should only be used for actions not caused by the user.
 	 * 
-	 * @param New value
+	 * @param value value
 	 */
 	public void setValueSilent(T value) {
 		if(access == MetaAccess.READ_ONLY) return;
@@ -193,9 +193,9 @@ public class MetaValue<T> implements Cloneable {
 	
 	/**
 	 * 
-	 * Register new change listener which one get called when the value changes.
+	 * Register new change listener which gets called when the value changes.
 	 * 
-	 * @param listener
+	 * @param listener listener to be registered
 	 */
 	public void addListener(MetaValueListener<T> listener) {
 		if(!listeners.contains(listener)) listeners.add(listener);
@@ -204,7 +204,7 @@ public class MetaValue<T> implements Cloneable {
 	/**
 	 * Unregister change listener.
 	 * 
-	 * @param listener
+	 * @param listener listener to be unregistered
 	 */
 	public void removeListener(MetaValueListener<T> listener) {
 		if(listeners.contains(listener)) listeners.remove(listener);
@@ -227,8 +227,8 @@ public class MetaValue<T> implements Cloneable {
 	 */
 	@Override
 	public MetaValue<T> clone() {
-		MetaValue<T> meta = new MetaValue<T>(this.id, this.value);
-		if(!listeners.isEmpty()) listeners.forEach((listener) -> meta.addListener(listener));
+		MetaValue<T> meta = new MetaValue<>(this.id, this.value);
+		if(!listeners.isEmpty()) listeners.forEach(meta::addListener);
 		return meta;
 	}
 	
