@@ -1,8 +1,12 @@
 package com.kneecapdav.JLogix.API.element.component.gate;
 
-import com.kneecapdav.JLogix.API.element.Element;
-import com.kneecapdav.JLogix.API.element.Placeable;
+import com.kneecapdav.JLogix.API.element.component.LogixComponent;
+import com.kneecapdav.JLogix.API.sim.Processable;
 
-public class LogixGate extends Element implements Placeable {
+public abstract class LogixGate extends LogixComponent implements Processable{
 
+	public LogixGate(){
+		super();
+		
+	}	
 }

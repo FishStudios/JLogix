@@ -13,7 +13,7 @@ import com.kneecapdav.JLogix.utils.ReflectionUtils;
 /**
  * Elements are all Things that can and/or are on the Canvas, but don´t have to be placeable such as Gates, I/O-Devices, Text-Fields, Wires, Drawings etc.
  * 
- * It's important that you call have an empty constructor with the super constructor in your element class.
+ * It's important that you have an empty constructor with the super constructor in your element class.
  * Also always call the super constructor in your constructors.
  * 
  * @author Dominik
