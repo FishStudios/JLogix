@@ -114,7 +114,7 @@ public class Wire extends Element implements Processable{
 			
 			}
 			for(int i=0; i<this.outputCons.size(); i++) {
-				this.outputCons.get(i).setState(this.states);
+				this.outputCons.get(i).setStates(this.states);
 				
 			}
 		}

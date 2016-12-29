@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kneecapdav.JLogix.API.element.Element;
 import com.kneecapdav.JLogix.API.element.Placeable;
+import com.kneecapdav.JLogix.API.element.data.BitWidth;
 import com.kneecapdav.JLogix.API.element.data.Location;
 import com.kneecapdav.JLogix.API.meta.Meta;
 import com.kneecapdav.JLogix.API.meta.MetaValue;
@@ -17,8 +18,10 @@ public class LogixComponent extends Element implements Placeable {
 
 	public Location location; 
 	
+	public BitWidth bitWidth;
+	
 	//private MetaValue<Integer> connectorCount; //Not sure if even needed
-	private ArrayList<LogixConnector> allCons, inputCons, outputCons;
+	protected ArrayList<LogixConnector> allCons, inputCons, outputCons;
 	
 	private MetaValue<Meta> connectorMeta;
 
@@ -34,6 +37,9 @@ public class LogixComponent extends Element implements Placeable {
 	public void onCreate() {
 		location = new Location();
 		this.meta.add(location.dataValue);
+		
+		bitWidth = new BitWidth();
+		this.meta.add(bitWidth.dataValue);
 		
 		connectorMeta = new MetaValue<Meta>("connectors", new Meta()).addTo(meta);
 		//connectorCount = this.meta.newInteger("connectorCount");

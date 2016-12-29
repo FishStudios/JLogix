@@ -50,13 +50,25 @@ public class LogixConnector extends Data{
 		return this.typeIO == Type.OUTPUT;
 	}
 	
-	public void setState(LogixState[] newStates) {
+	public void setStates(LogixState[] newStates) {
 		this.states = newStates;
 	}
 	
 	public LogixState[] getStates(){
 		return states;
 		
+	}
+	
+	public LogixState[] getNegatedStates(){
+		LogixState[] newStates = states;
+		for(int i=0; i<states.length;i++){
+			newStates[i] = states[i].negate();
+		}
+		return states;
+	}
+	
+	public void setAllState(LogixState newState) {
+		for(int i = 0; i < states.length; i++) states[i] = newState;
 	}
 	
 	protected void setUnknown() {
