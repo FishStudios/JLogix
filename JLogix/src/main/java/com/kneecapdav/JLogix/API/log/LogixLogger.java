@@ -15,7 +15,7 @@ public class LogixLogger {
 	static {
 		Properties props = System.getProperties();
 		props.setProperty("app.data", System.getenv("APPDATA"));
-		PropertyConfigurator.configureAndWatch( "resources/log4j.properties", 60*1000 );
+		PropertyConfigurator.configureAndWatch( "resources/configs/Logger.cfg", 60*1000 );
 		standard = Logger.getRootLogger().getLevel();
 	}
 	

@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import com.kneecapdav.JLogix.API.log.LogixLogger;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaAccess;
 import com.kneecapdav.JLogix.API.meta.MetaValue.MetaType;
+import com.kneecapdav.JLogix.utils.ReflectionUtils;
 
 /**
  * Stores and manage MetaValue objects.
@@ -40,6 +41,16 @@ public class Meta implements Cloneable {
 	 */
 	public ArrayList<MetaValue<?>> get(String meta) {
 		return metaValues.stream().filter((m) -> m.id.equalsIgnoreCase(meta)).collect(Collectors.toCollection(ArrayList::new));
+	}
+	
+	/**
+	 * Gets all MetaValue objects of this Meta object with the given type.
+	 * 
+	 * @param type Type of the MetaValue
+	 * @return List of all found MetaValues with the given type.
+	 */
+	public ArrayList<MetaValue<?>> get(MetaType type) {
+		return metaValues.stream().filter((m) -> m.type == type).collect(Collectors.toCollection(ArrayList::new));
 	}
 	
 	/**
@@ -154,10 +165,20 @@ public class Meta implements Cloneable {
 	public void copyFromMetaAll(Meta... data) {
 		for (Meta aData : data) this.copyFromMeta(aData);
 	}
-	
-	
-	
-	
+
+	/**
+	 * Sets the values from the MetaValues of this objekt to the values of the given Meta.
+	 * @param meta
+	 */
+	public void moveMeta(Meta meta) {
+		for(MetaValue<?> entry: meta.metaValues) {
+			ArrayList<MetaValue<?>> values = this.get(entry.id);
+			
+			values.forEach((m) -> {
+				if(m.type == entry.type) ReflectionUtils.setField(m, "value", entry.getValue());
+			});
+		}
+	}
 	
 	/**
 	 * Creates a new empty MetaValue instance for this Meta

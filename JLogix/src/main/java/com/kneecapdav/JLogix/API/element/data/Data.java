@@ -5,14 +5,10 @@ import com.kneecapdav.JLogix.API.meta.MetaValue;
 
 public class Data {
 
-	public Meta dataMeta;
-	
 	public MetaValue<Meta> dataValue;
 	
 	public Data(String ID) {
-		dataMeta = new Meta();
-		
-		dataValue = new MetaValue<Meta>(ID, dataMeta);
+		dataValue = new MetaValue<Meta>(ID, new Meta());
 	}
 	
 }

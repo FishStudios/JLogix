@@ -1,9 +1,17 @@
 package com.kneecapdav.JLogix.API.element.data;
 
-public enum LogixState {
-	TRUE, FALSE, NULL, UNKNOWN, ERROR, INVISIBLE, INCOMPATIBLE;
+import java.awt.Color;
 
-	//TODO add color values for different states
+import com.kneecapdav.JLogix.API.config.ConfigManager;
+
+public enum LogixState {
+	TRUE, FALSE, UNKNOWN, ERROR, INVISIBLE, INCOMPATIBLE, MUTLIPLE;
+
+	public Color getColor() {
+		    return new Color(
+		            Integer.valueOf( ConfigManager.config.getString(this.name() + "_COLOR").substring( 1, 3 ), 16 ));
+		    
+	}
 	
 	public boolean isTrue() {
 		return this == LogixState.TRUE;

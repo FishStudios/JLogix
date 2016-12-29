@@ -56,6 +56,11 @@ public abstract class Element {
 	public void onCreate() {}
 	
 	/**
+	 * This method got automatically called when the element got load
+	 */
+	public void onLoad() {}
+	
+	/**
 	 * This method got automatically called when the element got placed in a canvas
 	 */
 	public void onPlace() {}

@@ -1,5 +1,7 @@
 package com.kneecapdav.JLogix.API.element.data;
 
+import com.kneecapdav.JLogix.API.config.ConfigManager;
+
 public class BitWidth extends Data{
 	
 	public static final BitWidth UNKNOWN = new BitWidth(0);
@@ -11,7 +13,9 @@ public class BitWidth extends Data{
 	public BitWidth(int width) {
 		super("bitwidth");
 		this.width = width;
-	this.maxWidth = 6; //TODO config
+
+		this.maxWidth = ConfigManager.config.getInt("bitwidth.max");
+
 	}
 	
 	public BitWidth() {

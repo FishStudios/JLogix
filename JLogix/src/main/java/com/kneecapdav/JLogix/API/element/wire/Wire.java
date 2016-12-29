@@ -5,15 +5,13 @@ import java.util.ArrayList;
 import com.kneecapdav.JLogix.API.element.Element;
 import com.kneecapdav.JLogix.API.element.component.LogixConnector;
 import com.kneecapdav.JLogix.API.element.data.LogixState;
-import com.kneecapdav.JLogix.API.meta.MetaValue;
+import com.kneecapdav.JLogix.API.sim.Processable;
 
-public class Wire extends Element{
+public class Wire extends Element implements Processable{
 	
-	//private ArrayList<Location> cornerPoints;
-	
-	private MetaValue<Integer> connectorCount; //Not sure if even needed
 	private ArrayList<LogixConnector> allCons, inputCons, outputCons;
-	private LogixState state;
+	private LogixState wireState;
+	private LogixState[] states;
 	
 	public Wire() {
 		super();
@@ -22,12 +20,12 @@ public class Wire extends Element{
 		inputCons = new ArrayList<>();
 		outputCons = new ArrayList<>();
 		
-		state = LogixState.UNKNOWN;
+		wireState = LogixState.UNKNOWN;
+		
 	}
 	
 	@Override
 	public void onCreate() {		
-		connectorCount = this.meta.newInteger("connectorCount");
 		
 	}
 	
@@ -80,20 +78,45 @@ public class Wire extends Element{
 		return this.outputCons.size();
 	}
 	
+	protected void setUnknown() {
+		for(int i = 0; i < states.length; i++) states[i] = LogixState.UNKNOWN;
+	
+	}
+	
+	@Override
 	public boolean checkError(){
 		if(getInputCount() > 1) {
-			this.state = LogixState.ERROR;
+			this.wireState = LogixState.ERROR;
 			return true;
-		
+			
 		} else if(!inputCons.isEmpty()){
 			for (LogixConnector out: outputCons) {
 			    if(out.bitWidth.getWidth() != inputCons.get(0).bitWidth.getWidth());
-				this.state = LogixState.INCOMPATIBLE;
+				this.wireState = LogixState.INCOMPATIBLE;
 				return true;
-			}
+			}			
 		}
-		if(this.state == LogixState.ERROR) this.state = LogixState.UNKNOWN;
+		if(this.wireState == LogixState.ERROR) this.wireState = LogixState.UNKNOWN;
 		return false;
 		
+	}
+
+	@Override
+	public void process() {
+		if(!checkError()) {
+			if(inputCons.isEmpty()){
+				this.wireState = LogixState.UNKNOWN;
+				setUnknown();
+			
+			} else {
+				LogixState[] inputStates = inputCons.get(0).getStates();
+				this.states = inputStates;
+			
+			}
+			for(int i=0; i<this.outputCons.size(); i++) {
+				this.outputCons.get(i).setState(this.states);
+				
+			}
+		}
 	}
 }

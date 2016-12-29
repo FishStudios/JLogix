@@ -13,9 +13,9 @@ public class Location extends Data{
 	
 	public Location() {
 		super("location");
-		x = dataMeta.newDouble("x");
-		y = dataMeta.newDouble("y");
-		orientation = dataMeta.newInteger("orientation");
+		x = dataValue.getValue().newDouble("x");
+		y = dataValue.getValue().newDouble("y");
+		orientation = dataValue.getValue().newInteger("orientation");
 	}
 	
 	public double getX() {

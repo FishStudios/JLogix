@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.kneecapdav.JLogix.API.element.Element;
 import com.kneecapdav.JLogix.API.element.Placeable;
 import com.kneecapdav.JLogix.API.element.data.Location;
+import com.kneecapdav.JLogix.API.meta.Meta;
 import com.kneecapdav.JLogix.API.meta.MetaValue;
+import com.kneecapdav.JLogix.API.meta.MetaValue.MetaType;
 
 
 /**
@@ -15,8 +17,10 @@ public class LogixComponent extends Element implements Placeable {
 
 	public Location location; 
 	
-	private MetaValue<Integer> connectorCount; //Not sure if even needed
+	//private MetaValue<Integer> connectorCount; //Not sure if even needed
 	private ArrayList<LogixConnector> allCons, inputCons, outputCons;
+	
+	private MetaValue<Meta> connectorMeta;
 
 	public LogixComponent() {
 		super();
@@ -31,7 +35,19 @@ public class LogixComponent extends Element implements Placeable {
 		location = new Location();
 		this.meta.add(location.dataValue);
 		
-		connectorCount = this.meta.newInteger("connectorCount");
+		connectorMeta = new MetaValue<Meta>("connectors", new Meta()).addTo(meta);
+		//connectorCount = this.meta.newInteger("connectorCount");
+	}
+	
+	@Override
+	public void onLoad() {
+		Meta conMeta = connectorMeta.getValue();
+		ArrayList<MetaValue<?>> metas = conMeta.get(MetaType.META);
+		
+		metas.forEach((m) -> {
+			Meta meta = (Meta) m.getValue();
+			LogixComponent.this.addConnector(LogixConnector.loadConnector(meta));
+		});
 	}
 	
 	public void addConnector(LogixConnector c){
@@ -82,4 +98,9 @@ public class LogixComponent extends Element implements Placeable {
 	public int getOutputCount(){
 		return this.outputCons.size();
 	}
+	
+	public void setConnectorsUnkown() {
+		allCons.forEach(LogixConnector::setUnknown);
+	}
+	
 }
