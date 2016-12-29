@@ -109,13 +109,12 @@ public class Wire extends Element implements Processable{
 				setUnknown();
 			
 			} else {
-				LogixState[] inputStates = inputCons.get(0).getStates();
-				this.states = inputStates;
+				this.states = inputCons.get(0).getStates();
 			
 			}
-			for(int i=0; i<this.outputCons.size(); i++) {
-				this.outputCons.get(i).setStates(this.states);
-				
+			for (LogixConnector outputCon : this.outputCons) {
+				outputCon.setStates(this.states);
+
 			}
 		}
 	}

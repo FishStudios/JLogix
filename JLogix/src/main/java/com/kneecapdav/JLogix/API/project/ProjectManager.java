@@ -76,7 +76,7 @@ public class ProjectManager {
 		LogixProjectDeleteEvent e = new LogixProjectDeleteEvent(project);
 		EventManager.getInstance().fire(e);
 		if(e.isCanceled()) return;
-		
+
 		if(currentProject == project) switchProject(null, false);
 		
 		this.projects.remove(project);

@@ -13,6 +13,7 @@ public class FileUtils {
 			for(File f: directory.listFiles()) {
 				deleteDirectory(f);
 			}
+			directory.delete();
 		} else directory.delete();
 	}
 	

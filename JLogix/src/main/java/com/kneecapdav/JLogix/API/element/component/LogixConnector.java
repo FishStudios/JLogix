@@ -38,8 +38,8 @@ public class LogixConnector extends Data{
 	public LogixConnector(String ID){
 		super(ID);
 		
-		id = new MetaValue<String>("id", ID, MetaAccess.READ_ONLY).addTo(dataValue.getValue());
-		isNegated = new MetaValue<Boolean>("negated", false, MetaAccess.READ_WRITE).addTo(dataValue.getValue());
+		id = new MetaValue<>("id", ID, MetaAccess.READ_ONLY).addTo(dataValue.getValue());
+		isNegated = new MetaValue<>("negated", false, MetaAccess.READ_WRITE).addTo(dataValue.getValue());
 	}
 	
 	public boolean isInput(){

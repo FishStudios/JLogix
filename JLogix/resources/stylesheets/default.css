@@ -1,0 +1,25 @@
+.box-padding {
+    -fx-padding: 1em;
+}
+
+.align-center {
+    -fx-alignment: center;
+}
+
+.align-center-left {
+    -fx-alignment: center-left;
+}
+
+.align-top-center {
+    -fx-alignment: top-center;
+}
+
+.button-bar-project-selector {
+    -fx-padding: 1em 0em 1em 0em;
+}
+
+/* Removes blue glow */
+.project-list-view:focused {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+}

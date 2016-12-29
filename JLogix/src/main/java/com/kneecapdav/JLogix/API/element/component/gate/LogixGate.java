@@ -18,18 +18,18 @@ public abstract class LogixGate extends LogixComponent implements Processable{
 		for(LogixConnector in_con:inputCons) {
 			for(LogixState input:in_con.getStates()){
 				if(input==LogixState.ERROR){
-					for(int i=0;i<outputCons.size();i++){
-						outputCons.get(i).setAllState(LogixState.ERROR);
+					for (LogixConnector outputCon : outputCons) {
+						outputCon.setAllState(LogixState.ERROR);
 					}
 					return true;
 				} else if(input==LogixState.UNKNOWN){
-					for(int i=0;i<outputCons.size();i++){
-						outputCons.get(i).setAllState(LogixState.UNKNOWN);
+					for (LogixConnector outputCon : outputCons) {
+						outputCon.setAllState(LogixState.UNKNOWN);
 					}
 					return true;
 				} else if(input==LogixState.INCOMPATIBLE){
-					for(int i=0;i<outputCons.size();i++){
-						outputCons.get(i).setAllState(LogixState.ERROR);
+					for (LogixConnector outputCon : outputCons) {
+						outputCon.setAllState(LogixState.ERROR);
 					}
 					return true;
 				}

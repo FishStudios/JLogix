@@ -8,7 +8,7 @@ public class Data {
 	public MetaValue<Meta> dataValue;
 	
 	public Data(String ID) {
-		dataValue = new MetaValue<Meta>(ID, new Meta());
+		dataValue = new MetaValue<>(ID, new Meta());
 	}
 	
 }

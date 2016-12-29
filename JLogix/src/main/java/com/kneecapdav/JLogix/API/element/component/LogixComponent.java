@@ -41,7 +41,7 @@ public class LogixComponent extends Element implements Placeable {
 		bitWidth = new BitWidth();
 		this.meta.add(bitWidth.dataValue);
 		
-		connectorMeta = new MetaValue<Meta>("connectors", new Meta()).addTo(meta);
+		connectorMeta = new MetaValue<>("connectors", new Meta()).addTo(meta);
 		//connectorCount = this.meta.newInteger("connectorCount");
 	}
 	
