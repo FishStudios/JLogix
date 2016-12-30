@@ -91,10 +91,11 @@ public class Wire extends Element implements Processable{
 			
 		} else if(!inputCons.isEmpty()){
 			for (LogixConnector out: outputCons) {
-			    if(out.bitWidth.getWidth() != inputCons.get(0).bitWidth.getWidth());
-				this.wireState = LogixState.INCOMPATIBLE;
-				return true;
-			}			
+			    if(out.bitWidth.getWidth() != inputCons.get(0).bitWidth.getWidth()){
+			    	this.wireState = LogixState.INCOMPATIBLE;
+			    	return true;
+			    }
+		    }			
 		}
 		if(this.wireState == LogixState.ERROR) this.wireState = LogixState.UNKNOWN;
 		return false;
