@@ -80,7 +80,6 @@ public class Wire extends Element implements Processable{
 	
 	protected void setUnknown() {
 		for(int i = 0; i < states.length; i++) states[i] = LogixState.UNKNOWN;
-	
 	}
 	
 	@Override
