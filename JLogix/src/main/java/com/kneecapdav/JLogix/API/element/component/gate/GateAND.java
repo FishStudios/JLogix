@@ -12,18 +12,17 @@ public class GateAND extends LogixGate{
 	
 	@Override
 	public void process() {
-		if(!checkError()){
-			LogixState[] output = new LogixState[bitWidth.getWidth()];
-			for(int i=0; i<bitWidth.getWidth(); i++) {
-				output[i] = LogixState.TRUE;
-				for(LogixConnector in_con:inputCons) {
-					if(in_con.getStates()[i]==LogixState.FALSE){
-						output[i] = LogixState.FALSE;
-						break;
-					}
+		if(checkError()) return;
+		LogixState[] output = new LogixState[bitWidth.getWidth()];
+		for(int i=0; i<bitWidth.getWidth(); i++) {
+			output[i] = LogixState.TRUE;
+			for(LogixConnector in_con:inputCons) {
+				if(in_con.getStates()[i]==LogixState.FALSE){
+					output[i] = LogixState.FALSE;
+					break;
 				}
 			}
-			outputCons.get(0).setStates(output);
 		}
+		outputCons.get(0).setStates(output);
 	}
 }

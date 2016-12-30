@@ -9,9 +9,7 @@ public class GateNOT extends LogixGate{
 	
 	@Override
 	public void process() {
-		if(!checkError()){
-			outputCons.get(0).setStates(inputCons.get(0).getNegatedStates());
-			
-		}
+		if(checkError()) return;
+		outputCons.get(0).setStates(inputCons.get(0).getNegatedStates());
 	}
 }
