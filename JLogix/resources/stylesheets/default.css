@@ -15,7 +15,7 @@
 }
 
 .button-bar-project-selector {
-    -fx-padding: 1em 0em 1em 0em;
+    -fx-padding: 0em 0em 1em 0em;
 }
 
 /* Removes blue glow */

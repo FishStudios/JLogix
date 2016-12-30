@@ -2,6 +2,9 @@ package com.kneecapdev.JLogix.gui.project.selector;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
 
 import java.util.List;
@@ -59,7 +62,15 @@ public class ProjectSelectorViewController extends AbstractViewController<Projec
             if(plw.getSelectionModel().getSelectedItems().size() > 0) {
                 List<LogixProject> projects = plw.getSelectionModel().getSelectedItems();
                 for(LogixProject p : projects) {
-                    ProjectManager.getInstance().deleteProject(p);
+                    Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirm.setTitle("Delete Project");
+                    confirm.setHeaderText("Confirm Deletion of \"" + p.getName() + "\"");
+                    confirm.setContentText("Do you really want to delete the project and its files from the hard drive?");
+
+                    Optional<ButtonType> result = confirm.showAndWait();
+                    if(result.isPresent()) {
+                        if(result.get() == ButtonType.OK) ProjectManager.getInstance().deleteProject(p);
+                    }
                 }
                 plw.update();
             }

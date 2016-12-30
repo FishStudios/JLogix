@@ -31,6 +31,7 @@ public class ProjectSelectorView extends GUIView {
 	public void onInit() {
 		VBox root = new VBox();
 		scene = new Scene(root);
+		root.setPrefSize(1000, 600);
 
 		StyleManager.instance.applyCss(scene);
 
@@ -42,24 +43,25 @@ public class ProjectSelectorView extends GUIView {
 		root.getChildren().add(mainContent);
 
 		VBox leftWrapper = new VBox();
+		leftWrapper.getStyleClass().add("box-padding");
 		leftWrapper.prefWidthProperty().bind(root.widthProperty().multiply(.5D));
 		mainContent.getChildren().add(leftWrapper);
 
 		HBox buttonContainer = new HBox();
 		buttonContainer.getStyleClass().add("button-bar-project-selector");
-		buttonContainer.spacingProperty().bind(leftWrapper.widthProperty().multiply(.25).divide(2));
+		buttonContainer.spacingProperty().bind(buttonContainer.widthProperty().multiply(.25).divide(2));
 		leftWrapper.getChildren().add(buttonContainer);
 
 		Button create = new Button("Create");
-		create.prefWidthProperty().bind(leftWrapper.widthProperty().multiply(.25));
+		create.prefWidthProperty().bind(buttonContainer.widthProperty().multiply(.25));
 		create.setOnAction(controller.onCreateClick);
 
 		Button open = new Button("Open");
-		open.prefWidthProperty().bind(leftWrapper.widthProperty().multiply(.25));
+		open.prefWidthProperty().bind(buttonContainer.widthProperty().multiply(.25));
 		open.setOnAction(controller.onOpenClick);
 
 		Button delete = new Button("Delete");
-		delete.prefWidthProperty().bind(leftWrapper.widthProperty().multiply(.25));
+		delete.prefWidthProperty().bind(buttonContainer.widthProperty().multiply(.25));
 		delete.setOnAction(controller.onDeleteClick);
 
 		buttonContainer.getChildren().addAll(create, open, delete);
