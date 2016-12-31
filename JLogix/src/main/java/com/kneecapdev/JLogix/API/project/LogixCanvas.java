@@ -142,7 +142,8 @@ public class LogixCanvas {
 		try {
 			
 			FileWriter fw = new FileWriter(file);
-			fw.write(jsonArray.toJSONString());
+			
+			fw.write(JsonFormatter.format(jsonArray));
 			fw.flush();
 			fw.close();
 

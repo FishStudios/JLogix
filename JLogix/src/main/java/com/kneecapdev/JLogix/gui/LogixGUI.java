@@ -56,7 +56,7 @@ public class LogixGUI extends Application {
 		LogixLogger.debug(this, "[GUI] POST load");
 		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.POST));
 		
-		boolean save = true;
+		boolean save = false;
 
 		if(save) {
 
