@@ -27,7 +27,7 @@ public class MetaValue<T> implements Cloneable {
 			if(o instanceof Float) return FLOAT;
 			if(o instanceof Double) return DOUBLE;
 			if(o instanceof String) return STRING;
-			if(o instanceof JSONArray) return META;
+			if(o instanceof JSONArray || o instanceof Meta) return META;
 			throw new MetaTypeException("Unknown MetaValue type! (" + o + ")");
 		}
 	}
@@ -52,6 +52,11 @@ public class MetaValue<T> implements Cloneable {
 		this.type = MetaType.valueOf((String) obj.get("type"));
 		this.access = MetaAccess.valueOf((String) obj.get("access"));
 		this.id = (String) obj.get("id");
+		
+		Object value = obj.get("value");
+		
+		if(value == null) return;
+		
 		switch(type) {
 			case BOOLEAN:
 				ReflectionUtils.setField(this, "value", obj.get("value"));

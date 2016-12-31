@@ -1,13 +1,14 @@
 package com.kneecapdev.JLogix.API.element.component.gate;
 
+import com.kneecapdev.JLogix.API.element.ElementInfo;
 import com.kneecapdev.JLogix.API.element.component.LogixConnector;
 import com.kneecapdev.JLogix.API.element.data.LogixState;
 
+@ElementInfo(moduleID = "JLogix", elementID = "AND")
 public class GateAND extends LogixGate{
 
 	public GateAND(){
 		super();
-		
 	}
 	
 	@Override

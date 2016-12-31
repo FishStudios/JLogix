@@ -4,8 +4,11 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class ConfigManager {
+	
 	private static String basePath = System.getenv("APPDATA") + "//Logix//configs";
 	public static PropertiesConfiguration config = new PropertiesConfiguration();
+	
+	
 	
 	public static void init(){			
 		config.setBasePath(basePath);

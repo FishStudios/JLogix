@@ -303,38 +303,34 @@ public class Meta implements Cloneable {
 		for(Object obj: content) {
 			JSONObject jObj = (JSONObject) obj;
 			
-			try {
-				switch(MetaType.getMetaType(jObj.get("value"))) {
-				case BOOLEAN:
-					new MetaValue<Boolean>(jObj).addTo(this);
-					break;
-				case BYTE:
-					new MetaValue<Byte>(jObj).addTo(this);
-					break;
-				case DOUBLE:
-					new MetaValue<Double>(jObj).addTo(this);
-					break;
-				case INTEGER:
-					new MetaValue<Integer>(jObj).addTo(this);
-					break;
-				case LONG:
-					new MetaValue<Long>(jObj).addTo(this);
-					break;
-				case SHORT:
-					new MetaValue<Short>(jObj).addTo(this);
-					break;
-				case STRING:
-					new MetaValue<String>(jObj).addTo(this);
-					break;
-				case FLOAT:
-					new MetaValue<Float>(jObj).addTo(this);
-					break;
-				case META:
-					new MetaValue<Meta>(jObj).addTo(this);
-					break;
-				}
-			} catch (MetaTypeException e) {
-				e.printStackTrace();
+			switch(MetaType.valueOf((String) jObj.get("type"))) {
+			case BOOLEAN:
+				new MetaValue<Boolean>(jObj).addTo(this);
+				break;
+			case BYTE:
+				new MetaValue<Byte>(jObj).addTo(this);
+				break;
+			case DOUBLE:
+				new MetaValue<Double>(jObj).addTo(this);
+				break;
+			case INTEGER:
+				new MetaValue<Integer>(jObj).addTo(this);
+				break;
+			case LONG:
+				new MetaValue<Long>(jObj).addTo(this);
+				break;
+			case SHORT:
+				new MetaValue<Short>(jObj).addTo(this);
+				break;
+			case STRING:
+				new MetaValue<String>(jObj).addTo(this);
+				break;
+			case FLOAT:
+				new MetaValue<Float>(jObj).addTo(this);
+				break;
+			case META:
+				new MetaValue<Meta>(jObj).addTo(this);
+				break;
 			}
 			
 		}

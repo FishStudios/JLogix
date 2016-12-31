@@ -108,7 +108,8 @@ public class LogixProject {
 	 * Saves and writes the project to the given file.
 	 * @param file Project path
 	 */
-	public void save(File file) {
+	public void save() {
+		File file = new File(ProjectManager.getInstance().projectDir, "\\" + this.getName());
 		if(!file.exists()) file.mkdirs();
 		//Iterate all canvas objects and save it
 		for(LogixCanvas c: canvas.values()) {
@@ -135,7 +136,8 @@ public class LogixProject {
 	 * Loads the project from the given path.
 	 * @param file Project path
 	 */
-	public void load(File file) {
+	public void load() {
+		File file = new File(ProjectManager.getInstance().projectDir, "\\" + this.getName());
 		for(File f: file.listFiles()) {
 			if(f.isDirectory()) continue;
 			if(!f.getName().endsWith(".canvas")) continue;

@@ -9,10 +9,9 @@ import com.kneecapdev.JLogix.API.meta.MetaValue.MetaAccess;
 
 public class LogixConnector extends Data{
 	
-	public Type typeIO;
-	
 	public MetaValue<String> id;
 	public MetaValue<Boolean> isNegated;
+	public MetaValue<Boolean> typeMeta;
 	
 	public BitWidth bitWidth;
 	private LogixState[] states;
@@ -35,19 +34,28 @@ public class LogixConnector extends Data{
 	 * Use this constructor if you need to create a new LogixConnector instance
 	 * @param ID
 	 */
-	public LogixConnector(String ID){
+	public LogixConnector(String ID, Type typeIO){
 		super(ID);
 		
 		id = new MetaValue<>("id", ID, MetaAccess.READ_ONLY).addTo(dataValue.getValue());
 		isNegated = new MetaValue<>("negated", false, MetaAccess.READ_WRITE).addTo(dataValue.getValue());
+		typeMeta = new MetaValue<>("type", typeIO.getBooleanValue(), MetaAccess.READ_WRITE).addTo(dataValue.getValue());
+	}
+
+	public Type getIOType() {
+		return Type.typeFromBoolean(typeMeta.getValue());
+	}
+	
+	public void setIOType(Type type) {
+		typeMeta.setValue(type.getBooleanValue());
 	}
 	
 	public boolean isInput(){
-		return this.typeIO == Type.INPUT;
+		return this.typeMeta.getValue();
 	}
 	
 	public boolean isOutput(){
-		return this.typeIO == Type.OUTPUT;
+		return !this.typeMeta.getValue();
 	}
 	
 	public void setStates(LogixState[] newStates) {
@@ -77,8 +85,9 @@ public class LogixConnector extends Data{
 	
 	protected static LogixConnector loadConnector(Meta meta) {
 		String id = (String) meta.getFirst("id").getValue();
+		boolean type = (Boolean) meta.getFirst("type").getValue();
 		
-		LogixConnector connector = new LogixConnector(id);
+		LogixConnector connector = new LogixConnector(id, Type.typeFromBoolean(type));
 		connector.dataValue.getValue().moveMeta(meta);
 		
 		return connector;

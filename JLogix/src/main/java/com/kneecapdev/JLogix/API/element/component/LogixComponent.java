@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kneecapdev.JLogix.API.element.Element;
 import com.kneecapdev.JLogix.API.element.Placeable;
+import com.kneecapdev.JLogix.API.element.component.LogixConnector.Type;
 import com.kneecapdev.JLogix.API.element.data.BitWidth;
 import com.kneecapdev.JLogix.API.element.data.Location;
 import com.kneecapdev.JLogix.API.meta.Meta;
@@ -17,10 +18,8 @@ import com.kneecapdev.JLogix.API.meta.MetaValue.MetaType;
 public class LogixComponent extends Element implements Placeable {
 
 	public Location location; 
-	
 	public BitWidth bitWidth;
 	
-	//private MetaValue<Integer> connectorCount; //Not sure if even needed
 	protected ArrayList<LogixConnector> allCons, inputCons, outputCons;
 	
 	private MetaValue<Meta> connectorMeta;
@@ -42,7 +41,6 @@ public class LogixComponent extends Element implements Placeable {
 		this.meta.add(bitWidth.dataValue);
 		
 		connectorMeta = new MetaValue<>("connectors", new Meta()).addTo(meta);
-		//connectorCount = this.meta.newInteger("connectorCount");
 	}
 	
 	@Override
@@ -62,6 +60,8 @@ public class LogixComponent extends Element implements Placeable {
 		allCons.add(c);
 		if(c.isInput()) inputCons.add(c);
 		else outputCons.add(c);
+		
+		connectorMeta.getValue().add(c.dataValue);
 	}
 	
 	public void removeConnector(LogixConnector c){
@@ -70,15 +70,18 @@ public class LogixComponent extends Element implements Placeable {
 		allCons.remove(c);
 		if(c.isInput()) inputCons.remove(c);
 		else outputCons.remove(c);
+		
+		connectorMeta.getValue().remove(c.dataValue);
 	}
 	
 	public void changeConnectorType(LogixConnector c, LogixConnector.Type io) {
 		if(allCons.contains(c)) {
-			if(c.isInput()){
+			if(c.isInput()) {
+				c.setIOType(Type.OUTPUT);
 				inputCons.remove(c);
 				outputCons.add(c);
-				
-			}else{
+			} else {
+				c.setIOType(Type.INPUT);
 				outputCons.remove(c);
 				inputCons.add(c);
 			}

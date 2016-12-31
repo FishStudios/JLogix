@@ -18,6 +18,7 @@ import com.kneecapdev.JLogix.API.element.ElementRegistry.ElementRegistryRecord;
 import com.kneecapdev.JLogix.API.events.EventManager;
 import com.kneecapdev.JLogix.API.events.element.ElementDeleteEvent;
 import com.kneecapdev.JLogix.API.events.element.ElementPlaceEvent;
+import com.kneecapdev.JLogix.utils.JsonFormatter;
 
 public class LogixCanvas {
 
@@ -172,6 +173,7 @@ public class LogixCanvas {
 				try {
 					Element e = record.getElementClass().newInstance();
 					e.readMeta(jObj);
+					e.onLoad();
 					
 					this.add(e);
 				} catch (InstantiationException | IllegalAccessException e) {

@@ -24,7 +24,7 @@ public class ProjectManager {
 	
 	private LogixProject currentProject;
 	
-	private File projectDir;
+	public File projectDir;
 	
 	private ProjectManager() {
 		projects = new ArrayList<>();
@@ -122,7 +122,7 @@ public class ProjectManager {
 		EventManager.getInstance().fire(e);
 		
 		LogixLogger.info(this, "Loading project " + project.getName());
-		project.load(new File(projectDir, "\\" + project.getName()));
+		project.load();
 		
 		currentProject = project;
 	}
@@ -132,7 +132,7 @@ public class ProjectManager {
 		EventManager.getInstance().fire(e);
 		
 		LogixLogger.info(this, "Unloading project " + currentProject.getName());
-		if(save) currentProject.save(new File(projectDir, "\\" + currentProject.getName()));
+		if(save) currentProject.save();
 		currentProject.unload();
 	}
 	
