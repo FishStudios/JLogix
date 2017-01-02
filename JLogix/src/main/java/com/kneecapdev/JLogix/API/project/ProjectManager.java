@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.json.simple.parser.JSONParser;
 
+import com.kneecapdev.JLogix.API.config.ConfigManager;
 import com.kneecapdev.JLogix.API.events.EventManager;
 import com.kneecapdev.JLogix.API.events.project.LogixProjectCreateEvent;
 import com.kneecapdev.JLogix.API.events.project.LogixProjectDeleteEvent;
@@ -58,6 +59,8 @@ public class ProjectManager {
 		LogixProjectCreateEvent e = new LogixProjectCreateEvent(project);
 		EventManager.getInstance().fire(e);
 		if(e.isCanceled()) return null;
+		
+		project.config = ConfigManager.getInstance().loadConfig(projectName, projectDir + "\\" + projectName);
 		
 		this.projects.add(project);
 		File projectFile = new File(projectDir, "\\" + projectName);
@@ -123,7 +126,7 @@ public class ProjectManager {
 		
 		LogixLogger.info(this, "Loading project " + project.getName());
 		project.load();
-		
+			
 		currentProject = project;
 	}
 	
@@ -144,15 +147,11 @@ public class ProjectManager {
 				//Temporär
 				projects.add(new LogixProject(f.getName()));
 				
-				
-				
-				
 				for(File projectFile: f.listFiles()) {
-					if(projectFile.getName().equalsIgnoreCase("project.properties")) {
-						
-							//TODO Validate project.properties !!!
-						
-						projects.add(new LogixProject(f.getName()));
+					if(projectFile.getName().equalsIgnoreCase(f.getName() + ".config")) {
+						LogixProject project = new LogixProject(f.getName());
+						project.config = ConfigManager.getInstance().loadConfig(project.getName(), projectDir + "\\" + project.getName());
+						projects.add(project);
 						break;
 					}
 				}

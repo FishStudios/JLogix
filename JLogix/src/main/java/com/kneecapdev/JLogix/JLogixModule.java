@@ -1,6 +1,5 @@
 package com.kneecapdev.JLogix;
 
-import com.kneecapdev.JLogix.API.config.ConfigManager;
 import com.kneecapdev.JLogix.API.element.ElementRegistry;
 import com.kneecapdev.JLogix.API.element.component.gate.GateAND;
 import com.kneecapdev.JLogix.API.element.component.gate.GateNOT;
@@ -24,7 +23,6 @@ public class JLogixModule extends Module {
 		ElementRegistry.getInstance().register(GateOR.class);
 		
 		this.registerListener(new LogixGUIListener());
-		ConfigManager.init();
 		
 	}
 	

@@ -9,7 +9,7 @@ public enum LogixState {
 
 	public Color getColor() {
 		    return new Color(
-		            Integer.valueOf( ConfigManager.config.getString(this.name() + "_COLOR").substring( 1, 3 ), 16 ));
+		            Integer.valueOf(ConfigManager.getInstance().getString(this.name() + "_COLOR", "main").substring( 1, 3 ), 16 ));
 		    
 	}
 	

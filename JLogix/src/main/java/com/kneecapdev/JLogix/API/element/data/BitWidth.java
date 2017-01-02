@@ -14,7 +14,7 @@ public class BitWidth extends Data{
 		super("bitwidth");
 		this.width = width;
 
-		this.maxWidth = ConfigManager.config.getInt("bitwidth.max");
+		this.maxWidth = ConfigManager.getInstance().getInt("bitwidth.max", "main");
 
 	}
 	

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
+
 import com.kneecapdev.JLogix.API.events.EventManager;
 import com.kneecapdev.JLogix.API.events.project.LogixCanvasCreateEvent;
 import com.kneecapdev.JLogix.API.events.project.LogixCanvasDeleteEvent;
@@ -17,6 +19,8 @@ public class LogixProject {
 	private String projectName;
 	
 	public LogixCanvas currentCanvas;
+	
+	protected PropertiesConfiguration config;
 	
 	public LogixProject(String name) {
 		canvas = new HashMap<>();

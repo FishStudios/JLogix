@@ -1,5 +1,6 @@
 package com.kneecapdev.JLogix.gui;
 
+import com.kneecapdev.JLogix.API.config.ConfigManager;
 import com.kneecapdev.JLogix.API.element.Element;
 import com.kneecapdev.JLogix.API.element.component.LogixComponent;
 import com.kneecapdev.JLogix.API.element.component.LogixConnector;
@@ -44,6 +45,7 @@ public class LogixGUI extends Application {
 		
 		LogixLogger.debug(this, "[GUI] PRE load");
 		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.PRE));
+		ConfigManager.getInstance();
 		
 		primaryStage.setTitle(TITLE + "-" + VERSION + "-" + COPYRIGHT_YEAR);
 		
@@ -56,7 +58,7 @@ public class LogixGUI extends Application {
 		LogixLogger.debug(this, "[GUI] POST load");
 		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.POST));
 		
-		boolean save = false;
+		boolean save = true;
 
 		if(save) {
 
