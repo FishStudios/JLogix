@@ -2,6 +2,7 @@ package com.kneecapdev.JLogix.API.project;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.parser.JSONParser;
 
@@ -13,6 +14,7 @@ import com.kneecapdev.JLogix.API.events.project.LogixProjectLoadEvent;
 import com.kneecapdev.JLogix.API.events.project.LogixProjectSwitchEvent;
 import com.kneecapdev.JLogix.API.events.project.LogixProjectUnloadEvent;
 import com.kneecapdev.JLogix.API.log.LogixLogger;
+import com.kneecapdev.JLogix.API.module.loader.ModuleManager;
 import com.kneecapdev.JLogix.utils.FileUtils;
 
 public class ProjectManager {
@@ -62,6 +64,10 @@ public class ProjectManager {
 		
 		project.config = ConfigManager.getInstance().loadConfig(projectName, projectDir + "\\" + projectName);
 		
+		project.config.addProperty("projectName", projectName);
+		project.config.addProperty("creationDate", System.currentTimeMillis());
+		project.config.addProperty("modules", new ArrayList<String>());
+		
 		this.projects.add(project);
 		File projectFile = new File(projectDir, "\\" + projectName);
 		if(!projectFile.exists()) projectFile.mkdir();
@@ -104,8 +110,20 @@ public class ProjectManager {
 		if(e.isCanceled()) return;
 		
 		if(currentProject != null) unload(saveCurrent);
-		load(project);
+		if(!load(project)) {
+			//TODO: Replace with Alert/Something similar 
+			System.out.println("Unable to load project " + project.getName() + "! Project depends on a module that isn't loaded!");
+		}
 	}
+	
+	/**
+	 * Returns true or false if there's a project loaded
+	 * @return true or false if there's a project loaded
+	 */
+	public boolean hasOpenProject() {
+		return (currentProject != null);
+	}
+	
 	
 	/**
 	 * Gets the LogixProject instance with the given name.
@@ -120,7 +138,17 @@ public class ProjectManager {
 		return null;
 	}
 	
-	private void load(LogixProject project) {
+	private boolean load(LogixProject project) {
+		//Check if all modules used in this project are currently loaded.
+		if(project.config.containsKey("modules")) {
+			List<Object> modules = project.config.getList("modules");
+			for(Object m: modules) {
+				String moduleID = (String) m;
+				
+				if(ModuleManager.getInstance().getModule(moduleID) == null) return false;
+			}
+		}
+		
 		LogixProjectLoadEvent e = new LogixProjectLoadEvent(project);
 		EventManager.getInstance().fire(e);
 		
@@ -128,6 +156,8 @@ public class ProjectManager {
 		project.load();
 			
 		currentProject = project;
+		
+		return true;
 	}
 	
 	private void unload(boolean save) {
@@ -142,13 +172,8 @@ public class ProjectManager {
 	public void resolveProjects() {
 		for(File f: projectDir.listFiles()) {
 			if(f.isDirectory()) {
-				
-				
-				//Temporär
-				projects.add(new LogixProject(f.getName()));
-				
 				for(File projectFile: f.listFiles()) {
-					if(projectFile.getName().equalsIgnoreCase(f.getName() + ".config")) {
+					if(projectFile.getName().equalsIgnoreCase(f.getName() + ".cfg")) {
 						LogixProject project = new LogixProject(f.getName());
 						project.config = ConfigManager.getInstance().loadConfig(project.getName(), projectDir + "\\" + project.getName());
 						projects.add(project);

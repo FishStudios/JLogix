@@ -1,12 +1,5 @@
 package com.kneecapdev.JLogix.gui.project.selector;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextInputDialog;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +7,12 @@ import com.kneecapdev.JLogix.API.project.LogixProject;
 import com.kneecapdev.JLogix.API.project.ProjectManager;
 import com.kneecapdev.JLogix.gui.controller.AbstractViewController;
 import com.kneecapdev.JLogix.gui.controls.projecttreeview.ProjectListView;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 
 public class ProjectSelectorViewController extends AbstractViewController<ProjectSelectorView> {
 
@@ -48,8 +47,9 @@ public class ProjectSelectorViewController extends AbstractViewController<Projec
             ProjectListView plw = view.getProjectListView();
             if(plw.getSelectionModel().getSelectedItems().size() == 1) {
                 LogixProject project = view.getProjectListView().getSelectionModel().getSelectedItem();
+                ProjectManager.getInstance().switchProject(project, ProjectManager.getInstance().hasOpenProject());
             }
-            // TODO load project & switch view
+            // TODO  switch view
         }
 
     }

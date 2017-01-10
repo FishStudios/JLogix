@@ -83,6 +83,10 @@ public class ElementRegistry {
 		} else return null;
 	}
 	
+	public ArrayList<ElementRegistryRecord> getAll(String moduleID) {
+		return this.elementRegistry.get(moduleID);
+	}
+	
 	public String getModule(Class<? extends Element> clazz) {
 		for(String module: this.elementRegistry.keySet()) {
 			ArrayList<ElementRegistryRecord> elements = this.elementRegistry.get(module);

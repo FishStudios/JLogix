@@ -1,18 +1,12 @@
 package com.kneecapdev.JLogix.gui;
 
+import java.util.ArrayList;
+
 import com.kneecapdev.JLogix.API.config.ConfigManager;
-import com.kneecapdev.JLogix.API.element.Element;
-import com.kneecapdev.JLogix.API.element.component.LogixComponent;
-import com.kneecapdev.JLogix.API.element.component.LogixConnector;
-import com.kneecapdev.JLogix.API.element.component.LogixConnector.Type;
-import com.kneecapdev.JLogix.API.element.component.gate.GateAND;
 import com.kneecapdev.JLogix.API.events.EventManager;
 import com.kneecapdev.JLogix.API.events.EventState;
 import com.kneecapdev.JLogix.API.log.LogixLogger;
 import com.kneecapdev.JLogix.API.module.loader.ModuleManager;
-import com.kneecapdev.JLogix.API.project.LogixCanvas;
-import com.kneecapdev.JLogix.API.project.LogixProject;
-import com.kneecapdev.JLogix.API.project.ProjectManager;
 import com.kneecapdev.JLogix.gui.events.GUICloseEvent;
 import com.kneecapdev.JLogix.gui.events.GUICreateEvent;
 import com.kneecapdev.JLogix.gui.project.selector.ProjectSelectorView;
@@ -58,7 +52,7 @@ public class LogixGUI extends Application {
 		LogixLogger.debug(this, "[GUI] POST load");
 		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.POST));
 		
-		boolean save = true;
+		/*boolean save = true;
 
 		if(save) {
 
@@ -88,7 +82,7 @@ public class LogixGUI extends Application {
 				System.out.println(c.getInputCount() + ", " + c.getOutputCount());
 			}
 
-		}
+		}*/
 	}
 	
 	private void loadViews() {

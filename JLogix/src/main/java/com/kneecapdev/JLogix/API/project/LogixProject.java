@@ -18,6 +18,8 @@ public class LogixProject {
 
 	private String projectName;
 	
+	public ProjectElementLibrary elementLibrary;
+	
 	public LogixCanvas currentCanvas;
 	
 	protected PropertiesConfiguration config;
@@ -150,12 +152,15 @@ public class LogixProject {
 			
 			canvas.put(c.getName().toLowerCase(), c);
 		}
+		
+		this.elementLibrary = new ProjectElementLibrary(this);
 	}
 	
 	public void unload() {
 		switchCanvas(null);
 		this.canvas.clear();
 		this.currentCanvas = null;
+		this.elementLibrary = null;
 	}
 	
 }

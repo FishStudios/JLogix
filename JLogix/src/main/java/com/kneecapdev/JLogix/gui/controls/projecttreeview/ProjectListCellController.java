@@ -1,6 +1,7 @@
 package com.kneecapdev.JLogix.gui.controls.projecttreeview;
 
 import com.kneecapdev.JLogix.API.project.LogixProject;
+import com.kneecapdev.JLogix.API.project.ProjectManager;
 import com.kneecapdev.JLogix.gui.controller.AbstractController;
 
 import javafx.event.EventHandler;
@@ -22,7 +23,8 @@ public class ProjectListCellController extends AbstractController<ListCell<Logix
         public void handle(MouseEvent event) {
             if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
                 LogixProject project = node.getItem();
-                // TODO load project & switch view
+                ProjectManager.getInstance().switchProject(project, ProjectManager.getInstance().hasOpenProject());
+                // TODO switch view
             }
         }
 
