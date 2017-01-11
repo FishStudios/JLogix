@@ -1,7 +1,5 @@
 package com.kneecapdev.JLogix.gui;
 
-import java.util.ArrayList;
-
 import com.kneecapdev.JLogix.API.config.ConfigManager;
 import com.kneecapdev.JLogix.API.events.EventManager;
 import com.kneecapdev.JLogix.API.events.EventState;

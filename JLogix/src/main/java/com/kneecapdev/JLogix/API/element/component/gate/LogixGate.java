@@ -7,7 +7,6 @@ import com.kneecapdev.JLogix.API.sim.Processable;
 
 public abstract class LogixGate extends LogixComponent implements Processable{	
 	
-	
 	public LogixGate(){
 		super();
 		
