@@ -40,7 +40,7 @@ public class Meta implements Cloneable {
 	 * @return List of all found MetaValues with the given ID.
 	 */
 	public ArrayList<MetaValue<?>> get(String meta) {
-		return metaValues.stream().filter((m) -> m.id.equalsIgnoreCase(meta)).collect(Collectors.toCollection(ArrayList::new));
+		return metaValues.stream().filter((m) -> m.getID().equalsIgnoreCase(meta)).collect(Collectors.toCollection(ArrayList::new));
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class Meta implements Cloneable {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> MetaValue<T> getFirst(Class<T> t, String meta) {
-		ArrayList<MetaValue<?>> result = metaValues.stream().filter((m) -> m.id.equalsIgnoreCase(meta)).collect(Collectors.toCollection(ArrayList::new));
+		ArrayList<MetaValue<?>> result = metaValues.stream().filter((m) -> m.getID().equalsIgnoreCase(meta)).collect(Collectors.toCollection(ArrayList::new));
 		if(result.isEmpty()) return null;
 		else return (MetaValue<T>) result.get(0);
 	}
@@ -77,7 +77,7 @@ public class Meta implements Cloneable {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> MetaValue<T> getFirst(String meta) {
-		ArrayList<MetaValue<?>> result = metaValues.stream().filter((m) -> m.id.equalsIgnoreCase(meta)).collect(Collectors.toCollection(ArrayList::new));
+		ArrayList<MetaValue<?>> result = metaValues.stream().filter((m) -> m.getID().equalsIgnoreCase(meta)).collect(Collectors.toCollection(ArrayList::new));
 		if(result.isEmpty()) return null;
 		else return (MetaValue<T>) result.get(0);
 	}
@@ -90,7 +90,7 @@ public class Meta implements Cloneable {
 	 * @return List of all found MetaValues which starts with the given ID.
 	 */
 	public ArrayList<MetaValue<?>> startsWith(String meta) {
-		return metaValues.stream().filter((m) -> m.id.startsWith(meta)).collect(Collectors.toCollection(ArrayList::new));
+		return metaValues.stream().filter((m) -> m.getID().startsWith(meta)).collect(Collectors.toCollection(ArrayList::new));
 	}
 	
 	/**
@@ -172,7 +172,7 @@ public class Meta implements Cloneable {
 	 */
 	public void moveMeta(Meta meta) {
 		for(MetaValue<?> entry: meta.metaValues) {
-			ArrayList<MetaValue<?>> values = this.get(entry.id);
+			ArrayList<MetaValue<?>> values = this.get(entry.getID());
 			
 			values.forEach((m) -> {
 				if(m.type == entry.type) ReflectionUtils.setField(m, "value", entry.getValue());
@@ -272,7 +272,7 @@ public class Meta implements Cloneable {
 		sb.append("\n~~~~~~~ Meta ~~~~~~~");
 		for(MetaValue<?> meta: this.metaValues) {
 			if(meta.type == MetaType.META) ((Meta)meta.getValue()).print();
-			else sb.append("\nID: ").append(meta.id).append(" Type: ").append(meta.type.toString()).append(" Value: ").append(meta.getValue());
+			else sb.append("\nID: ").append(meta.getID()).append(" Type: ").append(meta.type.toString()).append(" Value: ").append(meta.getValue());
 		}
 		sb.append("\n~~~~~~~~~~~~~~~~~~~~");
 		LogixLogger.info(this, sb.toString());

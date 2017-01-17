@@ -41,7 +41,7 @@ public class MetaValue<T> implements Cloneable {
 	
 	private ArrayList<MetaValueListener<T>> listeners;
 	
-	public String id;
+	private String id;
 	
 	public MetaType type;
 	private T value;
@@ -141,6 +141,14 @@ public class MetaValue<T> implements Cloneable {
 		listeners = new ArrayList<>();
 		this.access = access;
 		this.type = type;
+	}
+	
+	/**
+	 * Returns the id of the MetaValue
+	 * @return id of the MetaValue
+	 */
+	public String getID() {
+		return this.id;
 	}
 	
 	/**
