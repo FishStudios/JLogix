@@ -17,6 +17,8 @@ public class EditorView extends GUIView {
     private VBox rightContainer;
     private ListView nodes;
 
+    private EditorViewController controller;
+
     @Override
     public void onShow() {
 
