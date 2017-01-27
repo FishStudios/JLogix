@@ -88,7 +88,7 @@ public class LogixGUI extends Application {
 		GUIManager.getInstance().register(new ProjectSelectorView());
 		GUIManager.getInstance().register(new EditorView());
 		
-		GUIManager.getInstance().changeView("projectSelector");
+		GUIManager.getInstance().changeView("editor");
 	}
 	
 }
