@@ -5,6 +5,7 @@ import com.kneecapdev.jlogix.api.events.EventManager;
 import com.kneecapdev.jlogix.api.events.EventState;
 import com.kneecapdev.jlogix.api.log.LogixLogger;
 import com.kneecapdev.jlogix.api.module.loader.ModuleManager;
+import com.kneecapdev.jlogix.gui.editor.EditorView;
 import com.kneecapdev.jlogix.gui.events.GUICloseEvent;
 import com.kneecapdev.jlogix.gui.events.GUICreateEvent;
 import com.kneecapdev.jlogix.gui.project.selector.ProjectSelectorView;
@@ -85,6 +86,7 @@ public class LogixGUI extends Application {
 	
 	private void loadViews() {
 		GUIManager.getInstance().register(new ProjectSelectorView());
+		GUIManager.getInstance().register(new EditorView());
 		
 		GUIManager.getInstance().changeView("projectSelector");
 	}
