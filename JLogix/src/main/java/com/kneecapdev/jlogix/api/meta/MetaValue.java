@@ -7,13 +7,17 @@ import org.json.simple.JSONObject;
 
 import com.kneecapdev.jlogix.utils.ReflectionUtils;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 /**
  * 
  * @author Dominik
  *
  * @param <T> Type of this meta object.
  */
-public class MetaValue<T> implements Cloneable {
+public class MetaValue<T> implements Cloneable, ObservableValue<T> {
 
 	public enum MetaType {
 		BOOLEAN, BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE, STRING, META;
@@ -36,7 +40,11 @@ public class MetaValue<T> implements Cloneable {
 	 * Access level for MetaValues
 	 */
 	public enum MetaAccess {
-		READ_WRITE, READ_ONLY, HIDDEN
+		READ_WRITE, READ_ONLY;
+	}
+	
+	public enum UserAccess {
+		HIDDEN, READ_ONLY, LIVE_WRITE, DEFAULT_WRITE;
 	}
 	
 	private ArrayList<MetaValueListener<T>> listeners;
@@ -47,10 +55,12 @@ public class MetaValue<T> implements Cloneable {
 	private T value;
 	
 	public MetaAccess access;
+	public UserAccess userAccess;
 	
 	public MetaValue(JSONObject obj) {
 		this.type = MetaType.valueOf((String) obj.get("type"));
 		this.access = MetaAccess.valueOf((String) obj.get("access"));
+		this.userAccess = UserAccess.valueOf((String) obj.get("userAccess"));
 		this.id = (String) obj.get("id");
 		
 		Object value = obj.get("value");
@@ -103,6 +113,7 @@ public class MetaValue<T> implements Cloneable {
 		listeners = new ArrayList<>();
 		this.value = value;
 		this.access = MetaAccess.READ_WRITE;
+		this.userAccess = UserAccess.LIVE_WRITE;
 		try {
 			this.type = MetaType.getMetaType(value);
 		} catch (MetaTypeException e) {
@@ -115,13 +126,14 @@ public class MetaValue<T> implements Cloneable {
 	 * 
 	 * @param id id
 	 * @param value value
-	 * @param access level
+	 * @param access meta access level
 	 */	
 	public MetaValue(String id, T value, MetaAccess access) {
 		this.id = id;
 		listeners = new ArrayList<>();
 		this.value = value;
 		this.access = access;
+		this.userAccess = UserAccess.LIVE_WRITE;
 		try {
 			this.type = MetaType.getMetaType(value);
 		} catch (MetaTypeException e) {
@@ -130,16 +142,104 @@ public class MetaValue<T> implements Cloneable {
 	}
 	
 	/**
+	 * Creates new MetaValue instance.
+	 * 
+	 * @param id id
+	 * @param value value
+	 * @param access meta access level
+	 */	
+	public MetaValue(String id, T value, UserAccess userAccess) {
+		this.id = id;
+		listeners = new ArrayList<>();
+		this.value = value;
+		this.access = MetaAccess.READ_WRITE;
+		this.userAccess = userAccess;
+		try {
+			this.type = MetaType.getMetaType(value);
+		} catch (MetaTypeException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Creates new MetaValue instance.
+	 * 
+	 * @param id id
+	 * @param value value
+	 * @param access meta access level
+	 * @param userAccess user access level
+	 */	
+	public MetaValue(String id, T value, MetaAccess access, UserAccess userAccess) {
+		this.id = id;
+		listeners = new ArrayList<>();
+		this.value = value;
+		this.access = access;
+		this.userAccess = userAccess;
+		try {
+			this.type = MetaType.getMetaType(value);
+		} catch (MetaTypeException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/**
 	 * Creates new empty MetaValue instance.
 	 * 
 	 * @param type type
 	 * @param id id
-	 * @param access level
+	 */	
+	public MetaValue(MetaType type, String id) {
+		this.id = id;
+		listeners = new ArrayList<>();
+		this.access = MetaAccess.READ_WRITE;
+		this.userAccess = UserAccess.LIVE_WRITE;
+		this.type = type;
+	}
+	
+	/**
+	 * Creates new empty MetaValue instance.
+	 * 
+	 * @param type type
+	 * @param id id
+	 * @param access meta access level
 	 */	
 	public MetaValue(MetaType type, String id, MetaAccess access) {
 		this.id = id;
 		listeners = new ArrayList<>();
 		this.access = access;
+		this.userAccess = UserAccess.LIVE_WRITE;
+		this.type = type;
+	}
+	
+	/**
+	 * Creates new empty MetaValue instance.
+	 * 
+	 * @param type type
+	 * @param id id
+	 * @param userAccess user access level
+	 */	
+	public MetaValue(MetaType type, String id, UserAccess userAccess) {
+		this.id = id;
+		listeners = new ArrayList<>();
+		this.access = MetaAccess.READ_WRITE;
+		this.userAccess = userAccess;
+		this.type = type;
+	}
+	
+	/**
+	 * Creates new empty MetaValue instance.
+	 * 
+	 * @param type type
+	 * @param id id
+	 * @param access meta access level
+	 * @param userAccess user access level
+	 */	
+	public MetaValue(MetaType type, String id, MetaAccess access, UserAccess userAccess) {
+		this.id = id;
+		listeners = new ArrayList<>();
+		this.access = access;
+		this.userAccess = userAccess;
 		this.type = type;
 	}
 	
@@ -178,6 +278,7 @@ public class MetaValue<T> implements Cloneable {
 		if(!listeners.isEmpty()) {
 			listeners.forEach((listener) -> listener.change(this.value, value));
 		}
+		changeListeners.forEach((l) -> l.changed(this, this.value, value));
 		this.value = value;
 	}
 	
@@ -199,10 +300,10 @@ public class MetaValue<T> implements Cloneable {
 	 * 
 	 * @return Current value
 	 */
+	@Override
 	public T getValue() {
 		return value;
 	}
-	
 	
 	/**
 	 * 
@@ -228,6 +329,7 @@ public class MetaValue<T> implements Cloneable {
 		JSONObject metaJSON = new JSONObject();
 		metaJSON.put("type", this.type.toString());
 		metaJSON.put("access", this.access.toString());
+		metaJSON.put("userAccess", userAccess.toString());
 		metaJSON.put("id", this.id); 
 		if(this.type == MetaType.META) metaJSON.put("value", ((Meta)this.value).saveToJSON());
 		else metaJSON.put("value", this.value);
@@ -244,7 +346,28 @@ public class MetaValue<T> implements Cloneable {
 		if(!listeners.isEmpty()) listeners.forEach(meta::addListener);
 		return meta;
 	}
+
+	private ArrayList<InvalidationListener> invalidationListeners = new ArrayList<>();
+	private ArrayList<ChangeListener<? super T>> changeListeners = new ArrayList<>();
 	
-	
+	@Override
+	public void addListener(InvalidationListener arg0) {
+		invalidationListeners.add(arg0);
+	}
+
+	@Override
+	public void removeListener(InvalidationListener arg0) {
+		invalidationListeners.remove(arg0);
+	}
+
+	@Override
+	public void addListener(ChangeListener<? super T> arg0) {
+		changeListeners.add(arg0);
+	}
+
+	@Override
+	public void removeListener(ChangeListener<? super T> arg0) {
+		changeListeners.remove(arg0);
+	}
 	
 }
