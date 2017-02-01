@@ -52,13 +52,14 @@ public class MetaValue<T> implements Cloneable, ObservableValue<T> {
 	
 	private String id;
 	
-	public MetaType type;
+	private MetaType type;
 	protected T value;
 	
-	public MetaAccess access;
-	public UserAccess userAccess;
+	private MetaAccess access;
+	private UserAccess userAccess;
 	
-	public MetaChangeCache<T> changeCache;
+	private boolean changeCacheEnabled = true;
+	private MetaChangeCache<T> changeCache;
 	
 	protected MetaValue(JSONObject obj) {
 		this.type = MetaType.valueOf((String) obj.get("type"));
@@ -247,11 +248,51 @@ public class MetaValue<T> implements Cloneable, ObservableValue<T> {
 	}
 	
 	/**
-	 * Returns the id of the MetaValue
+	 * Returns the id of this MetaValue instance
 	 * @return id of the MetaValue
 	 */
 	public String getID() {
 		return this.id;
+	}
+	
+	/**
+	 * Returns the MetaType of this MetaValue instance
+	 * @return MetaType of this object
+	 */
+	public MetaType getMetaType() {
+		return this.type;
+	}
+	
+	/**
+	 * Returns the MetaAccess of this MetaValue instance
+	 * @return MetaAccess of this object
+	 */
+	public MetaAccess getMetaAccess() {
+		return this.access;
+	}
+	
+	/**
+	 * Returns the UserAccess of this MetaValue instance
+	 * @return UserAccess of this object
+	 */
+	public UserAccess getUserAccess() {
+		return this.userAccess;
+	}
+	
+	/**
+	 * Returns boolean if change caching is enabled or not
+	 * @return
+	 */
+	public boolean isChangeCacheEnabled() {
+		return this.changeCacheEnabled;
+	}
+	
+	/**
+	 * Enables/disables value change caching
+	 * @param value Boolean if it should either be enabled or disabled
+	 */
+	public void enableChangeCache(boolean value) {
+		this.changeCacheEnabled = value;
 	}
 	
 	/**
@@ -318,10 +359,13 @@ public class MetaValue<T> implements Cloneable, ObservableValue<T> {
 		}
 		//Call all JavaFx change listeners to alert bounded Properties that the value changed
 		notifyJavaFxListeners(newValue);
-		//Push the old value into the GlobalMetaChangeCache
-		GlobalMetaChangeCache.getInstance().push(new MetaChangeRecord<T>(this, this.value));
-		//Push the old value into the MetaChangeCache
-		if(this.hasChangeCache()) this.changeCache.push(this.value);
+		
+		if(isChangeCacheEnabled()) {
+			//Push the old value into the GlobalMetaChangeCache
+			GlobalMetaChangeCache.getInstance().push(new MetaChangeRecord<T>(this, this.value));
+			//Push the old value into the MetaChangeCache
+			if(this.hasChangeCache()) this.changeCache.push(this.value);
+		}
 		
 		this.value = newValue;
 	}

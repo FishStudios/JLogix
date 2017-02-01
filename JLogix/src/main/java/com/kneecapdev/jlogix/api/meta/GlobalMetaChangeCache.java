@@ -2,38 +2,18 @@ package com.kneecapdev.jlogix.api.meta;
 
 import com.kneecapdev.jlogix.utils.collections.LimitedArrayDeque;
 
-public class GlobalMetaChangeCache {
+public class GlobalMetaChangeCache<MetaChangeRecord> extends LimitedArrayDeque<MetaChangeRecord> {
 
-	private static GlobalMetaChangeCache instance;
-	
-	private LimitedArrayDeque<MetaChangeRecord<?>> changeCache;
+	private static final long serialVersionUID = -2596824322224744517L;
+
+	private static GlobalMetaChangeCache<MetaChangeRecord<?>> instance;
 	
 	private GlobalMetaChangeCache(int size) {
-		changeCache = new LimitedArrayDeque<>(size);
+		super(size);
 	}
 	
-	public void setCacheSize(int size) {
-		this.changeCache.setLimit(size);
-	}
-	
-	public int getCacheSize() {
-		return changeCache.getLimit();
-	}
-	
-	public int size() {
-		return changeCache.size();
-	}
-	
-	public void push(MetaChangeRecord<?> record) {
-		changeCache.push(record);
-	}
-	
-	public MetaChangeRecord<?> pop() {
-		return changeCache.pop();
-	}
-	
-	public static GlobalMetaChangeCache getInstance() {
-		if(instance == null) instance = new GlobalMetaChangeCache(16);
+	public static GlobalMetaChangeCache<MetaChangeRecord<?>> getInstance() {
+		if(instance == null) instance = new GlobalMetaChangeCache<MetaChangeRecord<?>>(16);
 		return instance;
 	}
 	

@@ -50,7 +50,7 @@ public class Meta implements Cloneable {
 	 * @return List of all found MetaValues with the given type.
 	 */
 	public ArrayList<MetaValue<?>> get(MetaType type) {
-		return metaValues.stream().filter((m) -> m.type == type).collect(Collectors.toCollection(ArrayList::new));
+		return metaValues.stream().filter((m) -> m.getMetaType() == type).collect(Collectors.toCollection(ArrayList::new));
 	}
 	
 	/**
@@ -175,7 +175,7 @@ public class Meta implements Cloneable {
 			ArrayList<MetaValue<?>> values = this.get(entry.getID());
 			
 			values.forEach((m) -> {
-				if(m.type == entry.type) ReflectionUtils.setField(m, "value", entry.getValue());
+				if(m.getMetaType() == entry.getMetaType()) ReflectionUtils.setField(m, "value", entry.getValue());
 			});
 		}
 	}
@@ -271,8 +271,8 @@ public class Meta implements Cloneable {
 		
 		sb.append("\n~~~~~~~ Meta ~~~~~~~");
 		for(MetaValue<?> meta: this.metaValues) {
-			if(meta.type == MetaType.META) ((Meta)meta.getValue()).print();
-			else sb.append("\nID: ").append(meta.getID()).append(" Type: ").append(meta.type.toString()).append(" Value: ").append(meta.getValue());
+			if(meta.getMetaType() == MetaType.META) ((Meta)meta.getValue()).print();
+			else sb.append("\nID: ").append(meta.getID()).append(" Type: ").append(meta.getMetaType().toString()).append(" Value: ").append(meta.getValue());
 		}
 		sb.append("\n~~~~~~~~~~~~~~~~~~~~");
 		LogixLogger.info(this, sb.toString());
