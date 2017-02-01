@@ -65,6 +65,7 @@ public class ProjectManager {
 		project.config = ConfigManager.getInstance().loadConfig(projectName, projectDir + "\\" + projectName);
 		
 		project.config.addProperty("projectName", projectName);
+		project.config.addProperty("description", "");
 		project.config.addProperty("creationDate", System.currentTimeMillis());
 		project.config.addProperty("modules", new ArrayList<String>());
 		

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.kneecapdev.jlogix.api.meta.GlobalMetaChangeCache.MetaChangeRecord;
 import com.kneecapdev.jlogix.utils.ReflectionUtils;
 
 import javafx.beans.InvalidationListener;
@@ -52,12 +53,14 @@ public class MetaValue<T> implements Cloneable, ObservableValue<T> {
 	private String id;
 	
 	public MetaType type;
-	private T value;
+	protected T value;
 	
 	public MetaAccess access;
 	public UserAccess userAccess;
 	
-	public MetaValue(JSONObject obj) {
+	public MetaChangeCache<T> changeCache;
+	
+	protected MetaValue(JSONObject obj) {
 		this.type = MetaType.valueOf((String) obj.get("type"));
 		this.access = MetaAccess.valueOf((String) obj.get("access"));
 		this.userAccess = UserAccess.valueOf((String) obj.get("userAccess"));
@@ -252,6 +255,40 @@ public class MetaValue<T> implements Cloneable, ObservableValue<T> {
 	}
 	
 	/**
+	 * Creates a new MetaChangeCache for this MetaValue instance
+	 * @param cacheSize Size of the cache
+	 * @return Current MetaValue instance
+	 */
+	public MetaValue<T> setupChangeCache(int cacheSize) {
+		this.changeCache = new MetaChangeCache<T>(this, cacheSize);
+		return this;
+	}
+	
+	/**
+	 * Returns if the MetaChangeCache is already created
+	 * @return Boolean if the MetaChangeCache is created or not
+	 */
+	public boolean hasChangeCache() {
+		return this.changeCache != null;
+	}
+	
+	/**
+	 * Returns null if setupChangeCache was not called at this point
+	 * @return MetaChangeCache instance of this MetaValue
+	 */
+	public MetaChangeCache<T> getChangeCache() {
+		return this.changeCache;
+	}
+	
+	/**
+	 * Undos the last change of this MetaValue object
+	 */
+	public void undo() {
+		if(!hasChangeCache()) return;
+		if(this.changeCache.size() > 0) this.value = this.changeCache.pop();
+	}
+	
+	/**
      * Adds the MetaValue to a given Meta object	
 	 * 
 	 * @param meta object
@@ -273,26 +310,20 @@ public class MetaValue<T> implements Cloneable, ObservableValue<T> {
 	 * 
 	 * @param value value
 	 */
-	public void setValue(T value) {
+	public void setValue(T newValue) {
 		if(access == MetaAccess.READ_ONLY) return;
+		//Call all internal MetaListeners
 		if(!listeners.isEmpty()) {
-			listeners.forEach((listener) -> listener.change(this.value, value));
+			listeners.forEach((listener) -> listener.change(this.value, newValue));
 		}
-		changeListeners.forEach((l) -> l.changed(this, this.value, value));
-		this.value = value;
-	}
-	
-	/**
-	 * Sets the value for this meta object.
-	 * Didn't calls change listeners.
-	 * 
-	 * This method should only be used for actions not caused by the user.
-	 * 
-	 * @param value value
-	 */
-	public void setValueSilent(T value) {
-		if(access == MetaAccess.READ_ONLY) return;
-		this.value = value;
+		//Call all JavaFx change listeners to alert bounded Properties that the value changed
+		changeListeners.forEach((l) -> l.changed(this, this.value, newValue));
+		//Push the old value into the GlobalMetaChangeCache
+		GlobalMetaChangeCache.getInstance().push(new MetaChangeRecord<T>(this, this.value));
+		//Push the old value into the MetaChangeCache
+		if(this.hasChangeCache()) this.changeCache.push(this.value);
+		
+		this.value = newValue;
 	}
 	
 	/**
