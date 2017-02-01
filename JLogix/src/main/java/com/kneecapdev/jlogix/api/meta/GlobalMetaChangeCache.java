@@ -56,7 +56,8 @@ public class GlobalMetaChangeCache {
 		}
 		
  		public void undo() {
- 			this.getMetaValue().value = this.getValue();
+ 			getMetaValue().notifyJavaFxListeners(getValue());
+ 			getMetaValue().value = getValue();
  		}
 		
 	}

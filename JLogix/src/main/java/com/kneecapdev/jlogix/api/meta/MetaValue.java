@@ -317,7 +317,7 @@ public class MetaValue<T> implements Cloneable, ObservableValue<T> {
 			listeners.forEach((listener) -> listener.change(this.value, newValue));
 		}
 		//Call all JavaFx change listeners to alert bounded Properties that the value changed
-		changeListeners.forEach((l) -> l.changed(this, this.value, newValue));
+		notifyJavaFxListeners(newValue);
 		//Push the old value into the GlobalMetaChangeCache
 		GlobalMetaChangeCache.getInstance().push(new MetaChangeRecord<T>(this, this.value));
 		//Push the old value into the MetaChangeCache
@@ -380,6 +380,10 @@ public class MetaValue<T> implements Cloneable, ObservableValue<T> {
 
 	private ArrayList<InvalidationListener> invalidationListeners = new ArrayList<>();
 	private ArrayList<ChangeListener<? super T>> changeListeners = new ArrayList<>();
+	
+	protected void notifyJavaFxListeners(T newValue) {
+		changeListeners.forEach((l) -> l.changed(this, this.value, newValue));
+	}
 	
 	@Override
 	public void addListener(InvalidationListener arg0) {
