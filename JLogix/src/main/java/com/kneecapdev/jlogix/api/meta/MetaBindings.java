@@ -1,47 +1,47 @@
 package com.kneecapdev.jlogix.api.meta;
 
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 public class MetaBindings {
 
-	public static void bind(SimpleBooleanProperty property, MetaValue<Boolean> meta) {
+	public static void bind(BooleanProperty property, MetaValue<Boolean> meta) {
 		BidirectionalBinding.bindBidirectional(property, meta,
 				((observable,  oldValue, newValue) -> meta.setValue(newValue)),
 				((observable,  oldValue, newValue) -> property.set(newValue)));
 	}
 	
-	public static void bind(SimpleIntegerProperty property, MetaValue<Integer> meta) {
+	public static void bind(IntegerProperty property, MetaValue<Integer> meta) {
 		BidirectionalBinding.bindBidirectional(property, meta,
 				((observable,  oldValue, newValue) -> meta.setValue(newValue.intValue())),
 				((observable,  oldValue, newValue) -> property.set(newValue)));
 	}
 	
-	public static void bind(SimpleLongProperty property, MetaValue<Long> meta) {
+	public static void bind(LongProperty property, MetaValue<Long> meta) {
 		BidirectionalBinding.bindBidirectional(property, meta,
 				((observable,  oldValue, newValue) -> meta.setValue(newValue.longValue())),
 				((observable,  oldValue, newValue) -> property.set(newValue)));
 	}
 	
-	static void bind(SimpleFloatProperty property, MetaValue<Float> meta) {
+	public static void bind(FloatProperty property, MetaValue<Float> meta) {
 		BidirectionalBinding.bindBidirectional(property, meta,
 				((observable,  oldValue, newValue) -> meta.setValue(newValue.floatValue())),
 				((observable,  oldValue, newValue) -> property.set(newValue)));
 	}
 	
-	static void bind(SimpleDoubleProperty property, MetaValue<Double> meta) {
+	public static void bind(DoubleProperty property, MetaValue<Double> meta) {
 		BidirectionalBinding.bindBidirectional(property, meta,
 				((observable,  oldValue, newValue) -> meta.setValue(newValue.doubleValue())),
 				((observable,  oldValue, newValue) -> property.set(newValue)));
 	}
 	
-	static void bind(SimpleStringProperty property, MetaValue<String> meta) {
+	public static void bind(StringProperty property, MetaValue<String> meta) {
 		BidirectionalBinding.bindBidirectional(property, meta,
 				((observable,  oldValue, newValue) -> meta.setValue(newValue)),
 				((observable,  oldValue, newValue) -> property.set(newValue)));
