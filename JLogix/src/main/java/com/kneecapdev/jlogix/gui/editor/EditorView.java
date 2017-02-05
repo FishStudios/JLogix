@@ -4,6 +4,7 @@ import com.kneecapdev.jlogix.gui.StyleManager;
 import com.kneecapdev.jlogix.gui.controls.edtiorcanvas.EditorCanvas;
 import com.kneecapdev.jlogix.gui.controls.menubar.JLogixMenuBar;
 import com.kneecapdev.jlogix.gui.view.GUIView;
+
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
@@ -34,7 +35,7 @@ public class EditorView extends GUIView {
         VBox root = new VBox();
         scene = new Scene(root);
         root.setPrefSize(1000, 600);
-
+        
         StyleManager.instance.applyCss(scene);
 
         JLogixMenuBar menuBar = new JLogixMenuBar();

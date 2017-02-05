@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import com.kneecapdev.jlogix.api.events.EventListener;
 import com.kneecapdev.jlogix.api.events.EventManager;
+import com.kneecapdev.jlogix.console.commands.CommandRegistry;
 
 public class Module {
 
 	public final ModuleInfo moduleInfo = null;
 
 	private ArrayList<EventListener> listeners = new ArrayList<>();
+	private ArrayList<Object> commandObjects = new ArrayList<>();
 	
 	/**
 	 * This method got automatically called from the ModuleLoader immediately after it's been loaded.
@@ -35,6 +37,14 @@ public class Module {
 	}
 	
 	/**
+	 * Returns an ArrayList containing all objects that contains a registered command.
+	 * @return registered command objects of the module
+	 */
+	public ArrayList<Object> getRegisteredCommandObjects() {
+		return this.commandObjects;
+	}
+	
+	/**
 	 * Registers a new EventListener from this module
 	 * @param listener listener to be registered
 	 */
@@ -50,6 +60,16 @@ public class Module {
 	public void unregisterListener(EventListener listener) {
 		this.listeners.remove(listener);
 		EventManager.getInstance().unregisterListener(listener);
+	}
+	
+	public void registerCommands(Object obj) {
+		this.commandObjects.add(obj);
+		CommandRegistry.getInstance().register(obj, CommandRegistry.getInstance().getCommandRecognizer().recognize(obj));
+	}
+	
+	public void unregisterCommands(Object obj) {
+		this.commandObjects.remove(obj);
+		CommandRegistry.getInstance().unregister(obj);
 	}
 	
 }
