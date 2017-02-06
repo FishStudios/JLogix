@@ -5,6 +5,7 @@ import com.kneecapdev.jlogix.api.events.EventManager;
 import com.kneecapdev.jlogix.api.events.EventState;
 import com.kneecapdev.jlogix.api.log.LogixLogger;
 import com.kneecapdev.jlogix.api.module.loader.ModuleManager;
+import com.kneecapdev.jlogix.console.LogixConsole;
 import com.kneecapdev.jlogix.gui.editor.EditorView;
 import com.kneecapdev.jlogix.gui.events.GUICloseEvent;
 import com.kneecapdev.jlogix.gui.events.GUICreateEvent;
@@ -44,7 +45,10 @@ public class LogixGUI extends Application {
 		
 		primaryStage.show();
 		
-		primaryStage.setOnCloseRequest((event) -> EventManager.getInstance().fire(new GUICloseEvent(LogixGUI.this)));
+		primaryStage.setOnCloseRequest((event) -> {
+			LogixConsole.getInstance().terminate();
+			EventManager.getInstance().fire(new GUICloseEvent(LogixGUI.this));
+		});
 		
 		loadViews();
 		

@@ -64,7 +64,7 @@ public class Module {
 	
 	public void registerCommands(Object obj) {
 		this.commandObjects.add(obj);
-		CommandRegistry.getInstance().register(obj, CommandRegistry.getInstance().getCommandRecognizer().recognize(obj));
+		CommandRegistry.getInstance().register(obj);
 	}
 	
 	public void unregisterCommands(Object obj) {

@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 public class LogixLogger {	
+	
 	private static HashMap<Class<?>, Logger> loggers = new HashMap<>();
 	private static boolean debug = true;
 	private static Level standard;

@@ -23,7 +23,6 @@ public class JLogixModule extends Module {
 		ElementRegistry.getInstance().register(GateOR.class);
 		
 		this.registerListener(new LogixGUIListener());
-		
 	}
 	
 	@Override

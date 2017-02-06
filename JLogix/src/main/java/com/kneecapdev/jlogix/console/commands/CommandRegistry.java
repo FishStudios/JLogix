@@ -21,13 +21,20 @@ public class CommandRegistry {
 		return this.recognizer;
 	}
 	
-	public void register(Object obj, ArrayList<WrappedCommand> command) {
+	public void register(Object obj) {
+		register(obj, recognizer.recognize(obj));
+	}
+	
+	private void register(Object obj, ArrayList<WrappedCommand> command) {
 		ArrayList<WrappedCommand> validCommands = new ArrayList<>();
 		for(WrappedCommand cmd: command) {
 			if(getCommand(cmd.getCmdInfo().cmd()) != null) {
 				LogixLogger.warn(this, "Unable to register command '" + cmd.getCmdInfo().cmd() + "' from '" + obj.getClass().getSimpleName() + "'. Theres already a registered command with this name!");
 				continue;
-			} else validCommands.add(cmd);
+			} else {
+				LogixLogger.info(this, "Command '" + cmd.getCmdInfo().cmd() + "' registered!");
+				validCommands.add(cmd);
+			}
 		}
 		commands.put(obj, validCommands);
 	}
