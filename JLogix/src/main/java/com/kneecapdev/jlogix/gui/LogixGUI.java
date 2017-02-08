@@ -41,6 +41,7 @@ public class LogixGUI extends Application {
 		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.PRE));
 		ConfigManager.getInstance();
 		
+		
 		primaryStage.setTitle(TITLE + "-" + VERSION + "-" + COPYRIGHT_YEAR);
 		
 		primaryStage.show();
@@ -53,6 +54,7 @@ public class LogixGUI extends Application {
 		loadViews();
 		
 		LogixLogger.debug(this, "[GUI] POST load");
+		
 		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.POST));
 		
 		/*boolean save = true;

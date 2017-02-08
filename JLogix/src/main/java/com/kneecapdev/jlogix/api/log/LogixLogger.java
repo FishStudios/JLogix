@@ -1,8 +1,8 @@
 package com.kneecapdev.jlogix.api.log;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Properties;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -22,26 +22,20 @@ public class LogixLogger {
 	
 	public static Logger getLogger(Object o) {
 		return getLogger(o.getClass());
-		
 	}
 	
 	public static Logger getLogger(Class<?> c) {
 		Logger logger = loggers.get(c);
-		
 		if(logger == null) {
-			loggers.put(c, Logger.getLogger(c.getClass()));
-			return loggers.get(c);
-			
-		} else {
-			return loggers.get(c);
-		
+			loggers.put(c, logger = Logger.getLogger(c));
+			logger.setLevel(debug ? Level.DEBUG : standard);
 		}
+		return logger;
 	}
 	
 	public static void info(Object o, String msg) {
 		getLogger(o).info(msg);
 		setDebug(debug);
-		
 	}
 	
 	public static void debug(Object o, String msg) {
@@ -66,18 +60,6 @@ public class LogixLogger {
 	
 	public static void setDebug(boolean b) {
 		debug = b;
-
-		for (Object o : loggers.entrySet()) {
-			Entry<?, ?> thisEntry = (Entry<?, ?>) o;
-			Logger logger = (Logger) thisEntry.getValue();
-
-			if (b) {
-				logger.setLevel(Level.DEBUG);
-
-			} else {
-				logger.setLevel(standard);
-
-			}
-		}
+		loggers.entrySet().forEach((e) -> e.getValue().setLevel(debug ? Level.DEBUG : standard));
 	}
 }

@@ -13,7 +13,7 @@ public class LogixConsole {
 	}
 	
 	public void append(String str) {
-		gui.getTextArea().appendText("\n" + str);
+		gui.getTextArea().appendText(str + "\n");
 	}
 	
 	public void toggle() {
