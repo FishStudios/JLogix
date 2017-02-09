@@ -1,9 +1,7 @@
-package com.kneecapdev.jlogix.api.log;
+package com.kneecapdev.jlogix.console;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
-
-import com.kneecapdev.jlogix.console.LogixConsole;
 
 public class LogixConsoleAppender extends AppenderSkeleton {
 

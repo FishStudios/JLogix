@@ -1,12 +1,14 @@
 package com.kneecapdev.jlogix.console.gui;
 
 import com.kneecapdev.jlogix.console.commands.CommandParser;
+import com.kneecapdev.jlogix.gui.LogixGUI;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,6 +26,7 @@ public class LogixConsoleGUI {
 	
 	public LogixConsoleGUI() {
 		stage = new Stage();
+		stage.getIcons().add(new Image(LogixGUI.class.getResourceAsStream("/images/logix_logo.png")));
 		stage.setTitle("JLogix Console");
 		
 		stage.setOnCloseRequest((e) -> {
