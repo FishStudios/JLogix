@@ -2,6 +2,7 @@ package com.kneecapdev.jlogix.console;
 
 import com.kneecapdev.jlogix.console.gui.LogixConsoleGUI;
 
+import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 
 public class LogixConsole {
@@ -28,7 +29,12 @@ public class LogixConsole {
 	}
 	
 	private void init() {
-		Platform.runLater(() -> gui = new LogixConsoleGUI());
+		try {
+			Platform.runLater(() -> gui = new LogixConsoleGUI());
+		} catch (IllegalStateException e) {
+			PlatformImpl.startup(() -> {});
+			init();
+		}
 	}
 	
 	public static LogixConsole getInstance() {

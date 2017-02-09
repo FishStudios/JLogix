@@ -41,7 +41,7 @@ public class LogixGUI extends Application {
 		instance = this;
 		stage = primaryStage;
 		
-		stage.getIcons().add(new Image(LogixGUI.class.getResourceAsStream("images/logix_logo.png")));
+		stage.getIcons().add(new Image(LogixGUI.class.getResourceAsStream("/images/logix_logo.png")));
 		
 		LogixLogger.debug(this, "[GUI] PRE load");
 		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.PRE));
