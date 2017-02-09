@@ -2,6 +2,8 @@ package com.kneecapdev.jlogix.console.gui;
 
 import com.kneecapdev.jlogix.console.commands.CommandParser;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -35,6 +37,13 @@ public class LogixConsoleGUI {
 		
 		area = new TextArea();
 		area.setEditable(false);
+		area.textProperty().addListener(new ChangeListener<Object>() {
+		    @Override
+		    public void changed(ObservableValue<?> observable, Object oldValue,
+		            Object newValue) {
+		    	area.setScrollTop(Double.MAX_VALUE);
+		    }
+		});
 		VBox.setVgrow(area, Priority.ALWAYS);
 		
 		field = new TextField();

@@ -3,6 +3,7 @@ package com.kneecapdev.jlogix.gui;
 import com.kneecapdev.jlogix.api.config.ConfigManager;
 import com.kneecapdev.jlogix.api.events.EventManager;
 import com.kneecapdev.jlogix.api.events.EventState;
+import com.kneecapdev.jlogix.api.lang.LanguageManager;
 import com.kneecapdev.jlogix.api.log.LogixLogger;
 import com.kneecapdev.jlogix.api.module.loader.ModuleManager;
 import com.kneecapdev.jlogix.console.LogixConsole;
@@ -26,6 +27,8 @@ public class LogixGUI extends Application {
 	public Stage stage;
 	
 	public static void main(String[] args) {
+		LanguageManager.getInstance();
+		
 		ModuleManager.getInstance().moduleLoader.loadAll();
 		ModuleManager.getInstance().enableAll();
 		

@@ -49,7 +49,7 @@ public class CommandParser {
 				e.printStackTrace();
 			}
 		}
-		
+		LogixLogger.info(this, " >> Executing command: '" + input + "'");
 		cmd.invoke(arguments);
 	}
 	

@@ -1,5 +1,6 @@
 package com.kneecapdev.jlogix.gui.controls.menubar;
 
+import com.kneecapdev.jlogix.api.lang.LanguageBindings;
 import com.kneecapdev.jlogix.console.LogixConsole;
 
 import javafx.scene.control.Menu;
@@ -15,12 +16,19 @@ public class JLogixMenuBar extends MenuBar {
 
     public JLogixMenuBar() {
         Menu file = new Menu("File");
+        	LanguageBindings.bind("menu_file", file);
         Menu edit = new Menu("Edit");
+    		LanguageBindings.bind("menu_edit", edit);
         Menu project = new Menu("Project");
+    		LanguageBindings.bind("menu_project", project);
         Menu simulation = new Menu("Simulation");
+    		LanguageBindings.bind("menu_simulation", simulation);
         Menu help = new Menu("Help");
+    		LanguageBindings.bind("menu_help", help);
         Menu tools = new Menu("Tools");
+    		LanguageBindings.bind("menu_tools", tools);
         	MenuItem console = new MenuItem("Console");
+        		LanguageBindings.bind("menuitem_console", console);
         	console.setOnAction((e) -> {
         		LogixConsole.getInstance().toggle();
         	});
