@@ -40,7 +40,6 @@ public class LogixConsoleGUI {
 		field = new TextField();
 		field.setOnAction((e) -> {
 			if(field.getText() != null && !field.getText().equalsIgnoreCase("")) {
-				area.appendText(">> " + field.getText() + "\n");
 				CommandParser.getInstance().parse(field.getText());
 				field.setText("");
 			}

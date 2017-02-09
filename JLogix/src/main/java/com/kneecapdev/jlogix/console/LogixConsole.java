@@ -2,6 +2,8 @@ package com.kneecapdev.jlogix.console;
 
 import com.kneecapdev.jlogix.console.gui.LogixConsoleGUI;
 
+import javafx.application.Platform;
+
 public class LogixConsole {
 
 	private static LogixConsole instance;
@@ -13,7 +15,7 @@ public class LogixConsole {
 	}
 	
 	public void append(String str) {
-		gui.getTextArea().appendText(str + "\n");
+		Platform.runLater(() -> gui.getTextArea().appendText(str));
 	}
 	
 	public void toggle() {
@@ -26,7 +28,7 @@ public class LogixConsole {
 	}
 	
 	private void init() {
-		gui = new LogixConsoleGUI();
+		Platform.runLater(() -> gui = new LogixConsoleGUI());
 	}
 	
 	public static LogixConsole getInstance() {
