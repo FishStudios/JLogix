@@ -2,10 +2,10 @@ package com.kneecapdev.jlogix.api.forms;
 
 public class Line {
 
-    private double x1;
-    private double y1;
-    private double x2;
-    private double y2;
+    private final double x1;
+    private final double y1;
+    private final double x2;
+    private final double y2;
 
     /**
      * Creates a new line instance with the specified coordinates
