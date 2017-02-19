@@ -2,6 +2,7 @@ package com.kneecapdev.jlogix.gui.controls.menubar;
 
 import com.kneecapdev.jlogix.api.lang.LanguageBindings;
 import com.kneecapdev.jlogix.console.LogixConsole;
+import com.kneecapdev.jlogix.gui.credits.AboutGUI;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -25,6 +26,12 @@ public class JLogixMenuBar extends MenuBar {
     		LanguageBindings.bind("menu_simulation", simulation);
         Menu help = new Menu("Help");
     		LanguageBindings.bind("menu_help", help);
+    		MenuItem about = new MenuItem("About");
+    			LanguageBindings.bind("menuitem_about", about);
+    		about.setOnAction((e) -> {
+    			new AboutGUI();
+    		});
+    	help.getItems().add(about);
         Menu tools = new Menu("Tools");
     		LanguageBindings.bind("menu_tools", tools);
         	MenuItem console = new MenuItem("Console");

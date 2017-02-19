@@ -28,6 +28,7 @@ public class LanguageManager {
 	private String defaultLanguage = "en_US";
 	
 	private LanguageManager() {
+		
 		if(!langDir.exists()) langDir.mkdir();
 		this.copyDefaults();
 		this.load();
