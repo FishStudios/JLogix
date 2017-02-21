@@ -1,4 +1,4 @@
 package com.kneecapdev.jlogix.api.forms;
 
-public class Ellipse {
+public class Ellipse implements ModularDrawable {
 }

@@ -1,6 +1,6 @@
 package com.kneecapdev.jlogix.api.forms;
 
-public class Line {
+public class Line implements ModularDrawable {
 
     private final double x1;
     private final double y1;
