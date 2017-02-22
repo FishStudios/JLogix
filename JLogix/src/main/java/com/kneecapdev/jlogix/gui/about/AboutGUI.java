@@ -1,12 +1,12 @@
-package com.kneecapdev.jlogix.gui.credits;
+package com.kneecapdev.jlogix.gui.about;
 
 import java.util.ArrayList;
 
 import com.kneecapdev.jlogix.gui.LogixGUI;
+import com.kneecapdev.jlogix.utils.AssetManager;
 
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -25,7 +25,7 @@ public class AboutGUI extends Alert {
 	public AboutGUI() {
 		super(AlertType.INFORMATION);
 		
-		ImageView icon = new ImageView(new Image(LogixGUI.class.getResourceAsStream("/images/logix_logo.png")));
+		ImageView icon = new ImageView(AssetManager.getInstance().getImage("logix_logo.png"));
 		icon.setFitHeight(64);
 		icon.setFitWidth(64);
 		this.setGraphic(icon);
@@ -81,16 +81,16 @@ public class AboutGUI extends Alert {
 	    
 		this.getDialogPane().setContent(tf);
 		
-		this.showAndWait();
+		this.show();
 	}
 	
 	private void init() {
 		libraries.add(new LibraryCopyrightAttribution("(Apache License 2.0)", "Guava", "https://github.com/google/guava"));
 		libraries.add(new LibraryCopyrightAttribution("(Apache License 2.0)", "Json-Simple", "https://github.com/fangyidong/json-simple"));
 		libraries.add(new LibraryCopyrightAttribution("(Apache License 2.0)", "Apache Log4J", "https://logging.apache.org/log4j/2.x/"));
-		libraries.add(new LibraryCopyrightAttribution("(Apache License 2.0)", "Apache Commons Configuration", "https://logging.apache.org/log4j/2.x/"));
+		libraries.add(new LibraryCopyrightAttribution("(Apache License 2.0)", "Apache Commons Configuration", "https://commons.apache.org/proper/commons-configuration/"));
 		
-		images.add(new ImageCopyrightAttribution("TutsPlus", "https://tutsplus.com/", "Flaticon", "www.flaticon.com "));
+		images.add(new ImageCopyrightAttribution("TutsPlus", "https://tutsplus.com/", "Flaticon", "http://flaticon.com "));
 	}
 	
 }

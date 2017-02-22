@@ -1,4 +1,4 @@
-package com.kneecapdev.jlogix.gui.credits;
+package com.kneecapdev.jlogix.gui.about;
 
 import java.awt.Desktop;
 import java.net.URL;
@@ -26,7 +26,7 @@ public class LibraryCopyrightAttribution extends CopyrightAttribution {
 
 	@Override
 	public Node getNode() {
-		VBox vbox = new VBox();
+		VBox vbox = new VBox(0);
 		
 		Text license = new Text(this.license);
 		license.setFont(AboutGUI.fontSmall);
@@ -38,7 +38,7 @@ public class LibraryCopyrightAttribution extends CopyrightAttribution {
 				Desktop.getDesktop().browse(new URL(libraryURL).toURI());
 			} catch (Exception ignored) {}
 		});
-
+		
 		vbox.getChildren().addAll(license, hl);
 
 		return vbox;

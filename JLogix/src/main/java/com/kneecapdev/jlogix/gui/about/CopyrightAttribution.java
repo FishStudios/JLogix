@@ -1,4 +1,4 @@
-package com.kneecapdev.jlogix.gui.credits;
+package com.kneecapdev.jlogix.gui.about;
 
 import javafx.scene.Node;
 

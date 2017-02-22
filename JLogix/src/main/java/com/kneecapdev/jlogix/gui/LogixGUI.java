@@ -12,9 +12,9 @@ import com.kneecapdev.jlogix.gui.events.GUICloseEvent;
 import com.kneecapdev.jlogix.gui.events.GUICreateEvent;
 import com.kneecapdev.jlogix.gui.project.selector.ProjectSelectorView;
 import com.kneecapdev.jlogix.gui.view.GUIManager;
+import com.kneecapdev.jlogix.utils.AssetManager;
 
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class LogixGUI extends Application {
@@ -41,7 +41,7 @@ public class LogixGUI extends Application {
 		instance = this;
 		stage = primaryStage;
 		
-		stage.getIcons().add(new Image(LogixGUI.class.getResourceAsStream("/images/logix_logo.png")));
+		stage.getIcons().add(AssetManager.getInstance().getImage("logix_logo.png"));
 		
 		LogixLogger.debug(this, "[GUI] PRE load");
 		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.PRE));

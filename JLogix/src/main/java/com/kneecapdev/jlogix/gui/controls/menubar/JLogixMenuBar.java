@@ -2,7 +2,7 @@ package com.kneecapdev.jlogix.gui.controls.menubar;
 
 import com.kneecapdev.jlogix.api.lang.LanguageBindings;
 import com.kneecapdev.jlogix.console.LogixConsole;
-import com.kneecapdev.jlogix.gui.credits.AboutGUI;
+import com.kneecapdev.jlogix.gui.about.AboutGUI;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;

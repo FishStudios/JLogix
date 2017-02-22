@@ -1,4 +1,4 @@
-package com.kneecapdev.jlogix.gui.credits;
+package com.kneecapdev.jlogix.gui.about;
 
 import java.awt.Desktop;
 import java.net.URL;
