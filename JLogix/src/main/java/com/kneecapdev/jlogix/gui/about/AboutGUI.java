@@ -91,6 +91,8 @@ public class AboutGUI extends Alert {
 		libraries.add(new LibraryCopyrightAttribution("(Apache License 2.0)", "Apache Commons Configuration", "https://commons.apache.org/proper/commons-configuration/"));
 		
 		images.add(new ImageCopyrightAttribution("TutsPlus", "https://tutsplus.com/", "Flaticon", "http://flaticon.com "));
+		images.add(new ImageCopyrightAttribution("Freepik", "http://www.freepik.com", "Flaticon", "http://flaticon.com "));
+		images.add(new ImageCopyrightAttribution("Google", "http://www.google.com", "Flaticon", "http://flaticon.com "));
 	}
 	
 }

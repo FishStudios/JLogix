@@ -3,6 +3,8 @@ package com.kneecapdev.jlogix.gui.controls.menubar;
 import com.kneecapdev.jlogix.api.lang.LanguageBindings;
 import com.kneecapdev.jlogix.console.LogixConsole;
 import com.kneecapdev.jlogix.gui.about.AboutGUI;
+import com.kneecapdev.jlogix.options.LogixOptions;
+import com.kneecapdev.jlogix.options.gui.LogixOptionsGUI;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -20,6 +22,12 @@ public class JLogixMenuBar extends MenuBar {
         	LanguageBindings.bind("menu_file", file);
         Menu edit = new Menu("Edit");
     		LanguageBindings.bind("menu_edit", edit);
+    		MenuItem options = new MenuItem("Options");
+			LanguageBindings.bind("menuitem_options", options);
+			options.setOnAction((e) -> {
+				LogixOptions.getInstance().toggle();
+			});
+			edit.getItems().add(options);
         Menu project = new Menu("Project");
     		LanguageBindings.bind("menu_project", project);
         Menu simulation = new Menu("Simulation");

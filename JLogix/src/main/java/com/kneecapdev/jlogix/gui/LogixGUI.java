@@ -12,6 +12,7 @@ import com.kneecapdev.jlogix.gui.events.GUICloseEvent;
 import com.kneecapdev.jlogix.gui.events.GUICreateEvent;
 import com.kneecapdev.jlogix.gui.project.selector.ProjectSelectorView;
 import com.kneecapdev.jlogix.gui.view.GUIManager;
+import com.kneecapdev.jlogix.options.LogixOptions;
 import com.kneecapdev.jlogix.utils.AssetManager;
 
 import javafx.application.Application;
@@ -42,6 +43,7 @@ public class LogixGUI extends Application {
 		stage = primaryStage;
 		
 		stage.getIcons().add(AssetManager.getInstance().getImage("logix_logo.png"));
+		stage.setMinWidth(175);
 		
 		LogixLogger.debug(this, "[GUI] PRE load");
 		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.PRE));
@@ -54,6 +56,7 @@ public class LogixGUI extends Application {
 		
 		primaryStage.setOnCloseRequest((event) -> {
 			LogixConsole.getInstance().terminate();
+			LogixOptions.getInstance().terminate();
 			EventManager.getInstance().fire(new GUICloseEvent(LogixGUI.this));
 		});
 		
