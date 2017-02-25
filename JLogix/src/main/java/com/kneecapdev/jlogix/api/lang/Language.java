@@ -31,4 +31,10 @@ public class Language {
 		return local;
 	}
 	
+	@Override
+	public String toString(){
+		return getLocal().getDisplayName(this.getLocal());
+		
+	}
+	
 }

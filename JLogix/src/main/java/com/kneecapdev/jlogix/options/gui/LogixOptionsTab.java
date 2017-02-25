@@ -6,17 +6,22 @@ import com.kneecapdev.jlogix.utils.AssetManager;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -38,16 +43,16 @@ public class LogixOptionsTab extends Tab{
 		stp.setRotate(90);
 		this.setGraphic(stp);
 		
-		Label label = new Label("name");
-		LanguageBindings.bind("label_options_"+name.toLowerCase(), label);
-		label.setStyle("-fx-font-size: 20pt; -fx-font-family:'Segoe UI Semibold'; fx-text-fill: black;  ");
+		Label title = new Label("name");
+		title.setId("title");
+		LanguageBindings.bind("label_options_"+name.toLowerCase(), title);
 		
 		content = new VBox();
-		content.setPadding(new Insets(25,50,50,25));
-		content.setSpacing(10);
-		content.getChildren().add(label);
-		this.setContent(content);
+		content.setId("content");
+		content.getChildren().add(title);
 		
+		this.setContent(content);
+		addSeparator();
 	}	
 	
 	public void addContent(Node n){
@@ -55,17 +60,29 @@ public class LogixOptionsTab extends Tab{
 		
 	}
 	
-	public CheckBox addCheckbox(String configName, String configKey, String caption){
-		LanguageBindings.bind("caption", content);
-		CheckBox cbox = new CheckBox(caption);
+	public void addLabeledContent(Node n, String captionKey) {
+		Label l = new Label(captionKey);
+		LanguageBindings.bind(captionKey, l);
 		
+		AnchorPane row = new AnchorPane();
+		row.getChildren().addAll(l,n);
 		
+		AnchorPane.setLeftAnchor(l, 10.0);
+		AnchorPane.setRightAnchor(n, 10.0);
+		
+		addContent(row);
+	}
+	
+	public CheckBox addCheckbox(String configName, String configKey, String captionKey){
+		CheckBox cbox = new CheckBox();
+		
+		cbox.setSelected(ConfigManager.getInstance().getBoolean(configKey,configName));
 		cbox.setOnAction((e) -> {
 			ConfigManager.getInstance().set(configKey, String.valueOf(cbox.isSelected()), configName);
 			
 		});
 		
-		addContent(cbox);
+		addLabeledContent(cbox, captionKey);
 		return cbox;
 	}
 	
@@ -82,9 +99,8 @@ public class LogixOptionsTab extends Tab{
 		return cbox;
 	}
 	
-	public TextField addTextField(String configName, String configKey, String caption){
-		LanguageBindings.bind("caption", content);
-		TextField txt = new TextField(caption);
+	public TextField addTextField(String configName, String configKey, String captionKey){
+		TextField txt = new TextField();
 		
 		txt.setText(ConfigManager.getInstance().getString(configKey, configName));
 		txt.setOnAction((e) -> {
@@ -92,7 +108,7 @@ public class LogixOptionsTab extends Tab{
 			
 		});
 		
-		addContent(txt);
+		addLabeledContent(txt, captionKey);
 		return txt;
 	}
 	
@@ -108,47 +124,8 @@ public class LogixOptionsTab extends Tab{
 		addContent(txt);
 		return txt;
 	}
-	
-	public ListView<String> addList(String configName, String configKey, String[] values, String caption){
-		LanguageBindings.bind("caption", content);
-		ListView<String> list = new ListView<>(FXCollections.observableArrayList(values));
-		
-		//TODO changing config Values
-		
-		content.getChildren().addAll(new Label(caption),list);
-		return list;
-	}
-	
-	public ListView<String> addList(String configName, String configKey, String[] values){
-		ListView<String> list = new ListView<>(FXCollections.observableArrayList(values));
-		
-		//TODO changing config Values
-		
-		addContent(list);
-		return list;
-	}
-	
-	public ListView<int[]> addList(String configName, String configKey, int[] values, String caption){
-		LanguageBindings.bind("caption", content);
-		ListView<int[]> list = new ListView<>(FXCollections.observableArrayList(values));
-		
-		//TODO changing config Values
-		
-		content.getChildren().addAll(new Label(caption), list);
-		return list;
-	}
-	
-	public ListView<int[]> addList(String configName, String configKey, int[] values){
-		ListView<int[]> list = new ListView<>(FXCollections.observableArrayList(values));
-		
-		//TODO changing config Values
-		
-		addContent(list);
-		return list;
-	}
-	
-	public ComboBox<String> addCombobox(String configName, String configKey, String[] values, String caption){
-		LanguageBindings.bind("caption", content);
+
+	public ComboBox<String> addCombobox(String configName, String configKey, String[] values, String captionKey){
 		ComboBox<String> cmbBox = new ComboBox<>(FXCollections.observableArrayList(values));
 		
 		cmbBox.setValue(ConfigManager.getInstance().getString(configKey, configName));
@@ -157,7 +134,7 @@ public class LogixOptionsTab extends Tab{
 			
 		});
 		
-		content.getChildren().addAll(new Label(caption), cmbBox);
+		addLabeledContent(cmbBox, captionKey);
 		return cmbBox;
 	}
 	
@@ -175,8 +152,7 @@ public class LogixOptionsTab extends Tab{
 		
 	}
 	
-	public ComboBox<Integer> addCombobox(String configName, String configKey, Integer[] values, String caption){
-		LanguageBindings.bind("caption", content);
+	public ComboBox<Integer> addCombobox(String configName, String configKey, Integer[] values, String captionKey){
 		ComboBox<Integer> cmbBox = new ComboBox<>(FXCollections.observableArrayList(values));
 		
 		cmbBox.setValue(ConfigManager.getInstance().getInt(configKey, configName));
@@ -185,7 +161,7 @@ public class LogixOptionsTab extends Tab{
 			
 		});
 		
-		content.getChildren().addAll(new Label(caption), cmbBox);
+		addLabeledContent(cmbBox, captionKey);
 		return cmbBox;
 	}
 	
@@ -203,14 +179,14 @@ public class LogixOptionsTab extends Tab{
 		
 	}
 	
-	public ColorPicker addColorpicker(String configName, String configKey, String caption){
+	public ColorPicker addColorpicker(String configName, String configKey, String captionKey){
 		ColorPicker picker = new ColorPicker(Color.web(ConfigManager.getInstance().getString(configKey, configName)));
 		picker.setOnAction((e) -> {
-			ConfigManager.getInstance().set(configKey, "#" + picker.getValue().hashCode(), configName);
+			ConfigManager.getInstance().set(configKey, ConfigManager.toHashColor(picker.getValue()), configName);
 			
 		});
 		
-		content.getChildren().addAll(new Label(caption), picker);
+		addLabeledContent(picker, captionKey);
 		return picker;
 		
 	}
@@ -218,11 +194,47 @@ public class LogixOptionsTab extends Tab{
 	public ColorPicker addColorpicker(String configName, String configKey){
 		ColorPicker picker = new ColorPicker(Color.web(ConfigManager.getInstance().getString(configKey, configName)));
 		picker.setOnAction((e) -> {
-			ConfigManager.getInstance().set(configKey, "#" + picker.getValue().hashCode(), configName);
+			ConfigManager.getInstance().set(configKey, ConfigManager.toHashColor(picker.getValue()), configName);
 			
 		});
 		
 		addContent(picker);
 		return picker;
+	}
+	
+	public Separator addSeparator(){
+		Separator sep = new Separator(Orientation.HORIZONTAL);
+		
+		addContent(sep);
+		return sep;
+	}
+	
+	public HBox addSeparator(String captionKey) {
+		HBox labeledSeparator = new HBox();
+		labeledSeparator.setSpacing(3);		
+		
+		Label l = new Label(captionKey);
+		l.setId("h1");
+		LanguageBindings.bind(captionKey, l);
+		
+		Separator leftSeparator = new Separator();
+		HBox.setHgrow(leftSeparator, Priority.ALWAYS);
+		Separator rightSeparator = new Separator();
+		HBox.setHgrow(rightSeparator, Priority.ALWAYS);
+		
+		labeledSeparator.getChildren().addAll(leftSeparator,l,rightSeparator);
+		labeledSeparator.setAlignment(Pos.CENTER);
+		
+		addContent(labeledSeparator);
+		return labeledSeparator;
+	}
+	
+	public Label addTitle(String captionKey){
+		Label l = new Label(captionKey);
+		l.setId("1");
+		LanguageBindings.bind(captionKey, l);
+		
+		addContent(l);
+		return l;
 	}
 }

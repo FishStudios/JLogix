@@ -1,5 +1,6 @@
 package com.kneecapdev.jlogix.utils;
 
+import java.io.File;
 import java.util.HashMap;
 
 import com.kneecapdev.jlogix.gui.LogixGUI;
@@ -25,7 +26,7 @@ public class AssetManager {
 			return img;
 		}
 	}
-	
+
 	public void clear() {
 		images.clear();
 	}

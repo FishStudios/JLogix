@@ -1,6 +1,5 @@
 package com.kneecapdev.jlogix.api.config;
 
-import java.awt.Color;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +8,8 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import com.kneecapdev.jlogix.api.log.LogixLogger;
+
+import javafx.scene.paint.Color;
 
 public class ConfigManager {
 	
@@ -133,4 +134,12 @@ public class ConfigManager {
 			}  
 		}
 	}
+	
+	public static String toHashColor( Color color )
+    {
+        return String.format( "#%02X%02X%02X",
+            (int)( color.getRed() * 255 ),
+            (int)( color.getGreen() * 255 ),
+            (int)( color.getBlue() * 255 ) );
+    }
 }

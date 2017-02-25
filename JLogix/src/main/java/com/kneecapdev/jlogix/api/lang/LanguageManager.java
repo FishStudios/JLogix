@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import com.kneecapdev.jlogix.api.config.ConfigManager;
 import com.kneecapdev.jlogix.api.log.LogixLogger;
 import com.kneecapdev.jlogix.console.commands.CommandRegistry;
 import com.kneecapdev.jlogix.utils.FileUtils;
@@ -25,15 +26,12 @@ public class LanguageManager {
 	
 	private ArrayList<Language> languages = new ArrayList<>();
 	
-	private String defaultLanguage = "en_US";
-	
 	private LanguageManager() {
-		
 		if(!langDir.exists()) langDir.mkdir();
 		this.copyDefaults();
 		this.load();
 		
-		changeLanguage(defaultLanguage);
+		changeLanguage(ConfigManager.getInstance().getString("lang.current", "main"));
 		
 		CommandRegistry.getInstance().register(new LanguageCommands());
 	}
@@ -53,6 +51,7 @@ public class LanguageManager {
 			return;
 		}
 		currentLanguage = newLanguage;
+		ConfigManager.getInstance().set("lang.current", newLanguage.getID(), "main");
 		ResourceBundle.clearCache();
 		try {
 			URL[] urls = {langDir.toURI().toURL()};
@@ -62,7 +61,6 @@ public class LanguageManager {
 		} catch (MalformedURLException e) {
 			LogixLogger.error(this, e.getMessage());
 		}
-		
 		LanguageBindings.update();
 	}
 	
@@ -73,10 +71,14 @@ public class LanguageManager {
 		return null;
 	}
 	
+	public Language getCurrentLanguage(){
+		return currentLanguage;
+	}
+	
 	public ArrayList<Language> listLanguages() {
 		return this.languages;
 	}
-	
+			
 	private void copyDefaults() {
 		File internalDir = new File("resources/lang/");
 		for(File f: internalDir.listFiles()) {
@@ -119,7 +121,7 @@ public class LanguageManager {
 		this.copyDefaults();
 		this.load();
 		
-		changeLanguage(defaultLanguage);
+		changeLanguage(ConfigManager.getInstance().getString("lang.current", "main"));
 	}
 	
 	public static LanguageManager getInstance() {

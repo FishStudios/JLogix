@@ -15,9 +15,8 @@ public class LogixOptionsHeader extends AnchorPane{
 	public LogixOptionsHeader(){
 		Label headerLabel = new Label("Options");
 		LanguageBindings.bind("label_options", headerLabel);
-		headerLabel.setFont(Font.font("Segoe UI", FontWeight.NORMAL, 30));
-		headerLabel.setTextFill(Paint.valueOf("#8EC536"));
-
+		headerLabel.setId("header");
+		
 		this.setMinSize(500, 64);
 		this.setStyle(
 			      "-fx-background-color: #232D31;"
@@ -39,6 +38,7 @@ public class LogixOptionsHeader extends AnchorPane{
 		AnchorPane.setBottomAnchor(icon, 8.0);
 		AnchorPane.setTopAnchor(icon, 8.0);
 		AnchorPane.setRightAnchor(icon, 8.0);
+
 		
 	}	
 }

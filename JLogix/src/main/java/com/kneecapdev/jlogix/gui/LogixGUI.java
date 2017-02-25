@@ -29,6 +29,7 @@ public class LogixGUI extends Application {
 	public Stage stage;
 	
 	public static void main(String[] args) {
+		ConfigManager.getInstance();
 		LanguageManager.getInstance();
 		
 		ModuleManager.getInstance().moduleLoader.loadAll();
@@ -44,11 +45,9 @@ public class LogixGUI extends Application {
 		
 		stage.getIcons().add(AssetManager.getInstance().getImage("logix_logo.png"));
 		stage.setMinWidth(175);
-		
+				
 		LogixLogger.debug(this, "[GUI] PRE load");
-		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.PRE));
-		ConfigManager.getInstance();
-		
+		EventManager.getInstance().fire(new GUICreateEvent(this, EventState.PRE));		
 		
 		primaryStage.setTitle(TITLE + "-" + VERSION + "-" + COPYRIGHT_YEAR);
 		

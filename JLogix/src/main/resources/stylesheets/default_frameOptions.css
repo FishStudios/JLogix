@@ -1,0 +1,51 @@
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #D8D8D8;
+}
+
+
+.tab-pane .tab-header-area{
+	-fx-focus-color: #8EC536; 
+	
+}
+
+.tab-pane {
+	-fx-tab-min-height: 100;
+	-fx-tab-max-height: 100; 
+
+}
+
+.tab {
+	-fx-background-color: #D8D8D8; 
+
+}
+
+.tab:selected {
+	-fx-background-color: #8EC536;
+	
+}
+
+.label {
+	-fx-font-family:'Segoe UI';
+	-fx-text-fill: black;
+}
+
+#header {
+	-fx-text-fill: #8EC536;
+	-fx-font-size: 20pt;
+}
+
+#title {
+	-fx-font-size: 20pt;
+	
+}
+
+#content {
+	-fx-padding: 25 50 50 25;
+	-fx-spacing: 10;
+	
+}
+
+#h1 {
+	-fx-font-size: 12pt;
+	
+}
