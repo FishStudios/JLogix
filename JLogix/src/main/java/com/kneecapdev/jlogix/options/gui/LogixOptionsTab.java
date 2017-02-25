@@ -40,17 +40,17 @@ public class LogixOptionsTab extends Tab{
 		title.setId("title");
 
 		ImageView iconView = new ImageView(icon);
-		iconView.setFitHeight(48);
-		iconView.setFitWidth(48);
+		iconView.setFitHeight(32);
+		iconView.setFitWidth(32);
 				
+		StackPane stp = new StackPane(new Group(iconView));
+		stp.setRotate(90);
+		this.setGraphic(stp);
+		
 		Tooltip tp = new Tooltip();
 		tp.setText(name);
 		LanguageBindings.bind("label_options_"+name.toLowerCase(), tp);
 		this.setTooltip(tp);
-		
-		StackPane stp = new StackPane(new Group(iconView));
-		stp.setRotate(90);
-		this.setGraphic(stp);
 		
 		content = new VBox();
 		content.setId("content");

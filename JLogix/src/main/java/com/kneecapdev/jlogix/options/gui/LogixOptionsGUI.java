@@ -1,14 +1,10 @@
 package com.kneecapdev.jlogix.options.gui;
 
-import java.io.File;
-
 import com.kneecapdev.jlogix.api.lang.Language;
 import com.kneecapdev.jlogix.api.lang.LanguageBindings;
 import com.kneecapdev.jlogix.api.lang.LanguageManager;
 import com.kneecapdev.jlogix.gui.LogixGUI;
 import com.kneecapdev.jlogix.utils.AssetManager;
-import com.kneecapdev.jlogix.utils.FileUtils;
-
 import javafx.collections.FXCollections;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
@@ -87,15 +83,6 @@ private Stage stage;
 				
 		//Development
 		LogixOptionsTab tabDev = new LogixOptionsTab("Dev", AssetManager.getInstance().getImage("option-dev.png"));
-		
-		Button btnDelLocal = new Button("del_local");
-		LanguageBindings.bind("del_local", btnDelLocal);
-		btnDelLocal.setOnAction((e) -> {
-			FileUtils.deleteDirectory(new File(System.getenv("APPDATA") + "\\Logix"));
-			
-		});
-		
-		tabDev.addContent(btnDelLocal);
 				
 		//Simulation
 		LogixOptionsTab tabSim = new LogixOptionsTab("Sim",AssetManager.getInstance().getImage("option-sim.png"));

@@ -1,16 +1,13 @@
 .tab-pane .tab-header-area .tab-header-background {
     -fx-background-color: #D8D8D8;
 }
-
-
 .tab-pane .tab-header-area{
 	-fx-focus-color: #8EC536; 
-	
 }
 
 .tab-pane {
-	-fx-tab-min-height: 100;
-	-fx-tab-max-height: 100; 
+	-fx-tab-min-height: 50;
+	-fx-tab-max-height: 50; 
 
 }
 
