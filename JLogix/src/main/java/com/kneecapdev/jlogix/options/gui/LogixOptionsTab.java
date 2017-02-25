@@ -5,7 +5,6 @@ import com.kneecapdev.jlogix.api.lang.LanguageBindings;
 import com.kneecapdev.jlogix.utils.AssetManager;
 
 import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -17,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -35,17 +35,22 @@ public class LogixOptionsTab extends Tab{
 	}
 	
 	public LogixOptionsTab(String name, Image icon) {
+		Label title = new Label(name);
+		LanguageBindings.bind("label_options_"+name.toLowerCase(), title);
+		title.setId("title");
+
 		ImageView iconView = new ImageView(icon);
 		iconView.setFitHeight(48);
 		iconView.setFitWidth(48);
+				
+		Tooltip tp = new Tooltip();
+		tp.setText(name);
+		LanguageBindings.bind("label_options_"+name.toLowerCase(), tp);
+		this.setTooltip(tp);
 		
 		StackPane stp = new StackPane(new Group(iconView));
 		stp.setRotate(90);
 		this.setGraphic(stp);
-		
-		Label title = new Label("name");
-		title.setId("title");
-		LanguageBindings.bind("label_options_"+name.toLowerCase(), title);
 		
 		content = new VBox();
 		content.setId("content");
