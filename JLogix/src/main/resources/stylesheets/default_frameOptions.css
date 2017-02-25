@@ -16,9 +16,15 @@
 
 }
 
+.tab:hover {
+	-fx-background-color: #8EC536;
+	-fx-opacity: 0.4;
+	
+}
+
 .tab:selected {
 	-fx-background-color: #8EC536;
-	
+	-fx-opacity: 1.0;
 }
 
 .label {
