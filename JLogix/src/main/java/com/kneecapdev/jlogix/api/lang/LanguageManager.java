@@ -2,9 +2,6 @@ package com.kneecapdev.jlogix.api.lang;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -13,6 +10,7 @@ import com.kneecapdev.jlogix.api.config.ConfigManager;
 import com.kneecapdev.jlogix.api.log.LogixLogger;
 import com.kneecapdev.jlogix.console.commands.CommandRegistry;
 import com.kneecapdev.jlogix.utils.FileUtils;
+import com.kneecapdev.jlogix.utils.LanguageUtils;
 
 public class LanguageManager {
 
@@ -21,7 +19,7 @@ public class LanguageManager {
 	private Language currentLanguage;
 	private ResourceBundle resource;
 	
-	private File langDir = new File(System.getenv("APPDATA") + "\\Logix\\lang");
+	public static File langDir = new File(System.getenv("APPDATA") + "\\Logix\\lang");
 	private LanguageFileFilter fileFilter = new LanguageFileFilter();
 	
 	private ArrayList<Language> languages = new ArrayList<>();
@@ -53,14 +51,7 @@ public class LanguageManager {
 		currentLanguage = newLanguage;
 		ConfigManager.getInstance().set("lang.current", newLanguage.getID(), "main");
 		ResourceBundle.clearCache();
-		try {
-			URL[] urls = {langDir.toURI().toURL()};
-			ClassLoader loader = new URLClassLoader(urls);
-			resource = ResourceBundle.getBundle("lang", currentLanguage.getLocal(), loader);
-			LogixLogger.info(this, "Language changed to '" + id + "'.");
-		} catch (MalformedURLException e) {
-			LogixLogger.error(this, e.getMessage());
-		}
+		this.resource = currentLanguage.getResourceBundle();
 		LanguageBindings.update();
 	}
 	
@@ -90,6 +81,8 @@ public class LanguageManager {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			} else {
+				LanguageUtils.checkFile(f, file);
 			}
 		}
 	}

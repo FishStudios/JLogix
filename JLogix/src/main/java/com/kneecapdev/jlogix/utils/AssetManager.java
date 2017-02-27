@@ -1,6 +1,5 @@
 package com.kneecapdev.jlogix.utils;
 
-import java.io.File;
 import java.util.HashMap;
 
 import com.kneecapdev.jlogix.gui.LogixGUI;

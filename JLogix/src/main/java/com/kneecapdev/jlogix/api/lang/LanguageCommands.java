@@ -34,6 +34,5 @@ public class LanguageCommands {
 	@CommandInfo(cmd="lang_current", usage="lang_current")
 	public void langCurrent(){
 		LogixLogger.info(this, LanguageManager.getInstance().getCurrentLanguage().getID());
-		
 	}
 }
