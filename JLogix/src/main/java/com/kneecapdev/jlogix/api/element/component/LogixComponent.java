@@ -15,7 +15,7 @@ import com.kneecapdev.jlogix.api.meta.MetaValue.MetaType;
 /**
  * Components are all things, that interact with the Logix-Simulation, such as Gates, Clocks, I/O-Devices etc.
  */
-public class LogixComponent extends Element implements Placeable {
+public class LogixComponent extends Element implements Placeable, Cloneable {
 
 	public Location location; 
 	public BitWidth bitWidth;
@@ -88,6 +88,13 @@ public class LogixComponent extends Element implements Placeable {
 		}
 	}
 	
+	public LogixConnector getConnector(String id) {
+		for(LogixConnector c: allCons) {
+			if(c.getID().equalsIgnoreCase(id)) return c;
+		}
+		return null;
+	}
+	
 	public boolean hasConnector(LogixConnector c) {
 		return allCons.contains(c);
 	}
@@ -110,6 +117,18 @@ public class LogixComponent extends Element implements Placeable {
 	
 	public void setConnectorsUnkown() {
 		allCons.forEach(LogixConnector::setUnknown);
+	}
+	
+	@Override
+	public LogixComponent clone() {
+		LogixComponent comp = new LogixComponent();
+		comp.meta = this.meta.clone();
+		this.inputCons.forEach((i) -> comp.addConnector(i.clone()));
+		this.outputCons.forEach((i) -> comp.addConnector(i.clone()));
+		comp.connectorMeta = this.connectorMeta.clone();
+		comp.location = (Location) this.location.clone();
+		comp.bitWidth = (BitWidth) this.bitWidth.clone();
+		return comp;
 	}
 	
 }

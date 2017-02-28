@@ -7,7 +7,7 @@ import com.kneecapdev.jlogix.api.meta.Meta;
 import com.kneecapdev.jlogix.api.meta.MetaValue;
 import com.kneecapdev.jlogix.api.meta.MetaValue.MetaAccess;
 
-public class LogixConnector extends Data{
+public class LogixConnector extends Data implements Cloneable {
 	
 	public MetaValue<String> id;
 	public MetaValue<Boolean> isNegated;
@@ -42,6 +42,10 @@ public class LogixConnector extends Data{
 		typeMeta = new MetaValue<>("type", typeIO.getBooleanValue(), MetaAccess.READ_WRITE).addTo(dataValue.getValue());
 	}
 
+	public String getID() {
+		return id.getValue();
+	}
+	
 	public Type getIOType() {
 		return Type.typeFromBoolean(typeMeta.getValue());
 	}
@@ -91,6 +95,12 @@ public class LogixConnector extends Data{
 		connector.dataValue.getValue().moveMeta(meta);
 		
 		return connector;
+	}
+	
+	@Override
+	public LogixConnector clone() {
+		LogixConnector con = new LogixConnector(this.id.getValue(), this.getIOType());
+		return con;
 	}
 	
 }

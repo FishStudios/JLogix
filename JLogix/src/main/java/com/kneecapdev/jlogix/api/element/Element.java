@@ -19,8 +19,7 @@ import com.kneecapdev.jlogix.utils.ReflectionUtils;
  * @author Dominik
  *
  */
-public abstract class Element {
-	
+public abstract class Element implements Cloneable {
 	
 	//Main Meta object all MetaValues of this Element should be stored in there
 	public Meta meta;
@@ -32,7 +31,7 @@ public abstract class Element {
 		this.uuid = new MetaValue<>("UUID", "", MetaAccess.READ_ONLY).addTo(meta);
 		this.onCreate();
 	}
-
+	
 	public Meta getMeta(){
 		return this.meta;
 	}
@@ -103,5 +102,8 @@ public abstract class Element {
     	}
     	return false;
 	}
+	
+	@Override
+	public abstract Element clone();
 	
 }

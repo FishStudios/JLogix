@@ -18,9 +18,10 @@ import com.kneecapdev.jlogix.api.element.ElementRegistry.ElementRegistryRecord;
 import com.kneecapdev.jlogix.api.events.EventManager;
 import com.kneecapdev.jlogix.api.events.element.ElementDeleteEvent;
 import com.kneecapdev.jlogix.api.events.element.ElementPlaceEvent;
+import com.kneecapdev.jlogix.api.sim.Simulateable;
 import com.kneecapdev.jlogix.utils.JsonFormatter;
 
-public class LogixCanvas {
+public class LogixCanvas implements Simulateable {
 
 	public ArrayList<Element> elements;
 	
@@ -184,6 +185,11 @@ public class LogixCanvas {
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void simulate() {
+		
 	}
 	
 }

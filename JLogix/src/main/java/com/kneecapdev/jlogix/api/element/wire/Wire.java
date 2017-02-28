@@ -7,7 +7,7 @@ import com.kneecapdev.jlogix.api.element.component.LogixConnector;
 import com.kneecapdev.jlogix.api.element.data.LogixState;
 import com.kneecapdev.jlogix.api.sim.Processable;
 
-public class Wire extends Element implements Processable{
+public class Wire extends Element implements Processable {
 	
 	private ArrayList<LogixConnector> allCons, inputCons, outputCons;
 	private LogixState wireState;
@@ -117,5 +117,12 @@ public class Wire extends Element implements Processable{
 
 			}
 		}
+	}
+
+	@Override
+	public Element clone() {
+		//TODO figure out how to make this shit working
+		
+		return null;
 	}
 }
