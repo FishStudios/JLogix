@@ -23,7 +23,7 @@ public class EditorCanvas extends Canvas {
                 .withObject(new Rectangle(.1, .1, .8, .8))
                 .build();
         FormsCanvas fc2 = new FormsCanvas.FormsCanvasBuilder()
-                .withObject(new Rectangle( .4, .4, .2, .2, 45))
+                .withObject(new Rectangle( .5, .5, .25, .25, 45))
                 .build();
 
         registerForm(fc);
@@ -53,7 +53,7 @@ public class EditorCanvas extends Canvas {
     }
 
     private void sizeChanged() {
-        scaleFactor = Math.min(getWidth() / 100D, getHeight() / 60D);
+        scaleFactor = Math.min(getWidth() / 10D, getHeight() / 6D);
 
         reDraw();
     }
@@ -64,7 +64,7 @@ public class EditorCanvas extends Canvas {
      */
     public void registerForm(FormsCanvas fc) {
         lock.tryLock();
-
+        forms.add(fc);
         lock.unlock();
     }
 
@@ -74,7 +74,7 @@ public class EditorCanvas extends Canvas {
      */
     public void unregisterForm(FormsCanvas fc) {
         lock.tryLock();
-
+        forms.remove(fc);
         lock.unlock();
     }
 

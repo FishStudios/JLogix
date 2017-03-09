@@ -32,6 +32,7 @@ public class Rectangle extends ImmutableLineSet {
      * @param rotation rotation of the rectangle in degrees
      */
     public Rectangle(double x, double y, double width, double height, double rotation) {
+        rotation = Math.toRadians(rotation);
         lines = new Line[4];
         double[] ul = {x + (width / 2) * cos(rotation) - (height / 2) * sin(rotation), y + (height / 2) * cos(rotation) + (width / 2) * sin(rotation)};
         double[] ur = {x - (width / 2) * cos(rotation) - (height / 2) * sin(rotation), y + (height / 2) * cos(rotation) - (width / 2) * sin(rotation)};
