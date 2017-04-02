@@ -1,6 +1,8 @@
-package com.kneecapdev.jlogix.gui.controls.edtiorcanvas;
+package com.kneecapdev.jlogix.gui.controls.editorcanvas;
 
+import com.kneecapdev.jlogix.api.forms.color.FColor;
 import com.kneecapdev.jlogix.api.forms.FormsCanvas;
+import com.kneecapdev.jlogix.api.forms.color.FColors;
 import com.kneecapdev.jlogix.api.forms.geoforms.Rectangle;
 import com.kneecapdev.jlogix.api.forms.util.Forms2JavaFX;
 import javafx.scene.canvas.Canvas;
@@ -20,10 +22,11 @@ public class EditorCanvas extends Canvas {
         super();
 
         FormsCanvas fc = new FormsCanvas.FormsCanvasBuilder()
-                .withObject(new Rectangle(.1, .1, .8, .8))
+                .withObject(new Rectangle(.1, .1, .8, .8, FColors.BLUE))
                 .build();
+
         FormsCanvas fc2 = new FormsCanvas.FormsCanvasBuilder()
-                .withObject(new Rectangle( .5, .5, .25, .25, 45))
+                .withObject(new Rectangle( .5, .5, .25, .25, 45, new FColor(200, 50, 100, 1)))
                 .build();
 
         registerForm(fc);

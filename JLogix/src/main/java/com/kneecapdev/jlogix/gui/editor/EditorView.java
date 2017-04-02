@@ -1,7 +1,7 @@
 package com.kneecapdev.jlogix.gui.editor;
 
 import com.kneecapdev.jlogix.gui.StyleManager;
-import com.kneecapdev.jlogix.gui.controls.edtiorcanvas.EditorCanvas;
+import com.kneecapdev.jlogix.gui.controls.editorcanvas.EditorCanvas;
 import com.kneecapdev.jlogix.gui.controls.menubar.JLogixMenuBar;
 import com.kneecapdev.jlogix.gui.view.GUIView;
 
