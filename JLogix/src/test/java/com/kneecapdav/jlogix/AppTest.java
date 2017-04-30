@@ -1,4 +1,4 @@
-package com.kneecapdav.JLogix;
+package com.kneecapdav.jlogix;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

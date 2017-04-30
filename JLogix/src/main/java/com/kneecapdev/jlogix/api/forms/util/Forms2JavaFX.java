@@ -15,12 +15,12 @@ public class Forms2JavaFX {
      * @param scaleFactor scale factor (usually computed by EditorCanvas instance)
      */
     public static void formsCanvasToCanvas(FormsCanvas fc, GraphicsContext gc, double scaleFactor) {
-        int xOff = fc.getX();
-        int yOff = fc.getY();
+        double xOff = fc.getX();
+        double yOff = fc.getY();
         for(Line l : fc.getLines()) {
             gc.setStroke(colorProviderToFX(l.getColor()));
-            gc.strokeLine(xOff + l.getStart()[0] * scaleFactor, yOff + l.getStart()[1] * scaleFactor,
-                    xOff + l.getEnd()[0] * scaleFactor, yOff + l.getEnd()[1] * scaleFactor);
+            gc.strokeLine((xOff + l.getStart()[0]) * scaleFactor, (yOff + l.getStart()[1]) * scaleFactor,
+                    (xOff + l.getEnd()[0]) * scaleFactor, (yOff + l.getEnd()[1]) * scaleFactor);
         }
     }
 

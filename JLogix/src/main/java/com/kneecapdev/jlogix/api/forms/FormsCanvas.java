@@ -13,10 +13,10 @@ public class FormsCanvas {
 
     private final Line[] lines;
     private final Ellipse[] ellipses;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 
-    private FormsCanvas(Line[] lines, Ellipse[] ellipses, int x, int y) {
+    private FormsCanvas(Line[] lines, Ellipse[] ellipses, double x, double y) {
         this.lines = lines;
         this.ellipses = ellipses;
         this.x = x;
@@ -31,12 +31,25 @@ public class FormsCanvas {
         return this.ellipses;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
+    }
+
+    public void move(double deltaX, double deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 
     /**
@@ -46,12 +59,8 @@ public class FormsCanvas {
 
         private final ArrayList<Line> lines = new ArrayList<>();
         private final ArrayList<Ellipse> ellipses = new ArrayList<>();
-        private int x;
-        private int y;
 
         public FormsCanvasBuilder() {
-            this.x = 0;
-            this.y = 0;
         }
 
         public void addObject(Line l) {
@@ -94,17 +103,7 @@ public class FormsCanvas {
             lines.toArray(lineBuild);
             ellipses.toArray(ellipseBuild);
 
-            return new FormsCanvas(lineBuild, ellipseBuild, x, y);
-        }
-
-        /**
-         * Sets the x/y coordinates for the whole canvas
-         * @param x x coordinate
-         * @param y y coordinate
-         */
-        public void setCoords(int x, int y) {
-            this.x = x;
-            this.y = y;
+            return new FormsCanvas(lineBuild, ellipseBuild, 0, 0);
         }
 
     }

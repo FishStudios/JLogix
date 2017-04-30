@@ -8,7 +8,8 @@ public enum FColors implements ColorProvider {
     WHITE(255, 255, 255, 1),
     RED(255, 0, 0, 1),
     GREEN(0, 255, 0, 1),
-    BLUE(0, 0, 255, 1);
+    BLUE(0, 0, 255, 1),
+    FUCHSIA(255, 0, 255, 1);
 
     private final double a;
     private final double r;

@@ -2,6 +2,7 @@ package com.kneecapdev.jlogix.gui.editor;
 
 import com.kneecapdev.jlogix.gui.StyleManager;
 import com.kneecapdev.jlogix.gui.controls.editorcanvas.EditorCanvas;
+import com.kneecapdev.jlogix.gui.controls.editorcanvas.EditorTest;
 import com.kneecapdev.jlogix.gui.controls.menubar.JLogixMenuBar;
 import com.kneecapdev.jlogix.gui.view.GUIView;
 
@@ -22,7 +23,7 @@ public class EditorView extends GUIView {
 
     @Override
     public void onShow() {
-
+        EditorTest.addTestStuff(canvas);
     }
 
     @Override

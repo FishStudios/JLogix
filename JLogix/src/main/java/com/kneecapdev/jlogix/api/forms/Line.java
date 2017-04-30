@@ -16,12 +16,30 @@ public class Line implements ModularDrawable {
      * @param y1 y-axis of the start coordinate
      * @param x2 x-axis of the end coordinate
      * @param y2 y-axis of the end coordinate
+     * @param color desired color of the line
      */
     public Line(double x1, double y1, double x2, double y2, ColorProvider color) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        this.color = color;
+    }
+
+    /**
+     * Creates a new line instance with the specified coordinates
+     * @param x1 x-axis of the start coordinate
+     * @param y1 y-axis of the start coordinate
+     * @param x2 x-axis of the end coordinate
+     * @param y2 y-axis of the end coordinate
+     * @param color desired color of the line
+     * @param scale scaling factor calculated into start and end coordinates
+     */
+    public Line(double x1, double y1, double x2, double y2, ColorProvider color, double scale) {
+        this.x1 = x1 * scale;
+        this.y1 = y1 * scale;
+        this.x2 = x2 * scale;
+        this.y2 = y2 * scale;
         this.color = color;
     }
 
